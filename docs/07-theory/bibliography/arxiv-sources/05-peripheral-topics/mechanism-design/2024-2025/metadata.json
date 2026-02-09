@@ -1,0 +1,207 @@
+{
+  "topic": "mechanism-design",
+  "time_period": "2024-2025",
+  "last_updated": "2026-02-09T19:30:00Z",
+  "total_papers": 7,
+  "curation_status": "Phase 1 - Complete",
+  "priority": "P3 - Peripheral topics",
+  "papers": [
+    {
+      "arxiv_id": "2510.11866v1",
+      "title": "Rationally Analyzing Shelby: Proving Incentive Compatibility in a Decentralized Storage Network",
+      "authors": [
+        "Michael Crystal",
+        "Guy Goren",
+        "Scott Duke Kominers"
+      ],
+      "submitted_date": "2025-10-13",
+      "categories": [
+        "cs.GT",
+        "cs.DC",
+        "cs.MA"
+      ],
+      "abstract": "Decentralized storage is one of the most natural applications built on blockchains and a central component of the Web3 ecosystem. Yet despite a decade of active development -- from IPFS and Filecoin to more recent entrants -- most of these storage protocols have received limited formal analysis of their incentive properties. Claims of incentive compatibility are sometimes made, but rarely proven. This gap matters: without well-designed incentives, a system may distribute storage but fail to truly decentralize it.   We analyze Shelby -- a storage network protocol recently proposed by Aptos Labs and Jump Crypto -- and provide the first formal proof of its incentive properties. Our game-theoretic model shows that while off-chain audits alone collapse to universal shirking, Shelby's combination of peer audits with occasional on-chain verification yields incentive compatibility under natural parameter settings. We also examine coalition behavior and outline a simple modification that strengthens the protocol's collusion-resilience.",
+      "pdf_url": "https://arxiv.org/pdf/2510.11866v1",
+      "relevance_score": 7,
+      "scoring_breakdown": {
+        "topic_match": 1,
+        "methodology_rigor": 3,
+        "citation_potential": 1,
+        "recency": 2
+      },
+      "notes": "MEDIUM - Rigorous methodology.",
+      "tags": [],
+      "citation_count": 0,
+      "integration_status": "pending_review",
+      "pdf_stored_locally": false
+    },
+    {
+      "arxiv_id": "2510.05504v2",
+      "title": "Mechanism design and equilibrium analysis of smart contract mediated resource allocation",
+      "authors": [
+        "Jinho Cha",
+        "Justin Yu",
+        "Eunchan Daniel Cha",
+        "Emily Yoo",
+        "Caedon Geoffrey",
+        "Hyoshin Song"
+      ],
+      "submitted_date": "2025-10-07",
+      "categories": [
+        "cs.GT",
+        "q-fin.GN"
+      ],
+      "abstract": "Decentralized coordination and digital contracting are becoming critical in complex industrial ecosystems, yet existing approaches often rely on ad hoc heuristics or purely technical blockchain implementations without a rigorous economic foundation. This study develops a mechanism design framework for smart contract-based resource allocation that explicitly embeds efficiency and fairness in decentralized coordination. We establish the existence and uniqueness of contract equilibria, extending classical results in mechanism design, and introduce a decentralized price adjustment algorithm with provable convergence guarantees that can be implemented in real time. To evaluate performance, we combine extensive synthetic benchmarks with a proof-of-concept real-world dataset (MovieLens). The synthetic tests probe robustness under fee volatility, participation shocks, and dynamic demand, while the MovieLens case study illustrates how the mechanism can balance efficiency and fairness in realistic allocation environments. Results demonstrate that the proposed mechanism achieves substantial improvements in both efficiency and equity while remaining resilient to abrupt perturbations, confirming its stability beyond steady state analysis. The findings highlight broad managerial and policy relevance for supply chains, logistics, energy markets, healthcare resource allocation, and public infrastructure, where transparent and auditable coordination is increasingly critical. By combining theoretical rigor with empirical validation, the study shows how digital contracts can serve not only as technical artifacts but also as institutional instruments for transparency, accountability, and resilience in high-stakes resource allocation.",
+      "pdf_url": "https://arxiv.org/pdf/2510.05504v2",
+      "relevance_score": 8,
+      "scoring_breakdown": {
+        "topic_match": 2,
+        "methodology_rigor": 3,
+        "citation_potential": 1,
+        "recency": 2
+      },
+      "notes": "MEDIUM - Rigorous methodology.",
+      "tags": [],
+      "citation_count": 0,
+      "integration_status": "pending_review",
+      "pdf_stored_locally": false
+    },
+    {
+      "arxiv_id": "2505.17885v2",
+      "title": "Transaction Fee Mechanism Design for Leaderless Blockchain Protocols",
+      "authors": [
+        "Pranav Garimidi",
+        "Lioba Heimbach",
+        "Tim Roughgarden"
+      ],
+      "submitted_date": "2025-05-23",
+      "categories": [
+        "cs.GT"
+      ],
+      "abstract": "We initiate the study of transaction fee mechanism design for blockchain protocols in which multiple block producers contribute to the production of each block. Our contributions include:   - We propose an extensive-form (multi-stage) game model to reason about the game theory of multi-proposer transaction fee mechanisms.   - We define the strongly BPIC property to capture the idea that all block producers should be motivated to behave as intended: for every user bid profile, following the intended allocation rule is a Nash equilibrium for block producers that Pareto dominates all other Nash equilibria.   - We propose the first-price auction with equal sharing (FPA-EQ) mechanism as an attractive solution to the multi-proposer transaction fee mechanism design problem. We prove that the mechanism is strongly BPIC and guarantees at least a 63.2% fraction of the maximum-possible expected welfare at equilibrium.   - We prove that the compromises made by the FPA-EQ mechanism are qualitatively necessary: no strongly BPIC mechanism with non-trivial welfare guarantees can be DSIC, and no strongly BPIC mechanism can guarantee optimal welfare at equilibrium.",
+      "pdf_url": "https://arxiv.org/pdf/2505.17885v2",
+      "relevance_score": 7,
+      "scoring_breakdown": {
+        "topic_match": 3,
+        "methodology_rigor": 1,
+        "citation_potential": 1,
+        "recency": 2
+      },
+      "notes": "MEDIUM - Strong topic alignment.",
+      "tags": [],
+      "citation_count": 0,
+      "integration_status": "pending_review",
+      "pdf_stored_locally": false
+    },
+    {
+      "arxiv_id": "2410.07566v1",
+      "title": "Revisiting the Primitives of Transaction Fee Mechanism Design",
+      "authors": [
+        "Aadityan Ganesh",
+        "Clayton Thomas",
+        "S. Matthew Weinberg"
+      ],
+      "submitted_date": "2024-10-10",
+      "categories": [
+        "cs.GT",
+        "econ.TH"
+      ],
+      "abstract": "Transaction Fee Mechanism Design studies auctions run by untrusted miners for transaction inclusion in a blockchain. Under previously-considered desiderata, an auction is considered `good' if, informally-speaking, each party (i.e., the miner, the users, and coalitions of both miners and users) has no incentive to deviate from the fixed and pre-determined protocol.   In this paper, we propose a novel desideratum for transaction fee mechanisms. We say that a TFM is off-chain influence proof when the miner cannot achieve additional revenue by running a separate auction off-chain. While the previously-highlighted EIP-1559 is the gold-standard according to prior desiderata, we show that it does not satisfy off-chain influence proofness. Intuitively, this holds because a Bayesian revenue-maximizing miner can strictly increase profits by persuasively threatening to censor any bids that do not transfer a tip directly to the miner off-chain.   On the other hand, we reconsider the Cryptographic (multi-party computation assisted) Second Price Auction mechanism, which is technically not `simple for miners' according to previous desiderata (since miners may wish to set a reserve by fabricating bids). We show that, in a slightly different model where the miner is allowed to set the reserve directly, this auction satisfies simplicity for users and miners, and off-chain influence proofness.   Finally, we prove a strong impossibility result: no mechanism satisfies all previously-considered properties along with off-chain influence proofness, even with unlimited supply, and even after soliciting input from the miner.",
+      "pdf_url": "https://arxiv.org/pdf/2410.07566v1",
+      "relevance_score": 8,
+      "scoring_breakdown": {
+        "topic_match": 2,
+        "methodology_rigor": 2,
+        "citation_potential": 2,
+        "recency": 2
+      },
+      "notes": "MEDIUM - High citation potential.",
+      "tags": [],
+      "citation_count": 0,
+      "integration_status": "pending_review",
+      "pdf_stored_locally": false
+    },
+    {
+      "arxiv_id": "2402.09321v3",
+      "title": "Collusion-Resilience in Transaction Fee Mechanism Design",
+      "authors": [
+        "Hao Chung",
+        "Tim Roughgarden",
+        "Elaine Shi"
+      ],
+      "submitted_date": "2024-02-14",
+      "categories": [
+        "cs.GT",
+        "econ.TH"
+      ],
+      "abstract": "Users bid in a transaction fee mechanism (TFM) to get their transactions included and confirmed by a blockchain protocol. Roughgarden (EC'21) initiated the formal treatment of TFMs and proposed three requirements: user incentive compatibility (UIC), miner incentive compatibility (MIC), and a form of collusion-resilience called OCA-proofness. Ethereum's EIP-1559 mechanism satisfies all three properties simultaneously when there is no contention between transactions, but loses the UIC property when there are too many eligible transactions to fit in a single block. Chung and Shi (SODA'23) considered an alternative notion of collusion-resilience, called $c$-side-contract-proofness ($c$-SCP), and showed that, when there is contention between transactions, no TFM can satisfy UIC, MIC, and $c$-SCP for any $c\\geq 1$. OCA-proofness asserts that the users and a miner should not be able to \"steal from the protocol.\" On the other hand, the $c$-SCP condition requires that a coalition of a miner and a subset of users should not be able to profit through strategic deviations (whether at the expense of the protocol or of the users outside the coalition).   Our main result is the first proof that, when there is contention between transactions, no (possibly randomized) TFM in which users are expected to bid truthfully satisfies UIC, MIC, and OCA-proofness.This result resolves the main open question in Roughgarden (EC'21). We also suggest several relaxations of the basic model that allow our impossibility result to be circumvented.",
+      "pdf_url": "https://arxiv.org/pdf/2402.09321v3",
+      "relevance_score": 7,
+      "scoring_breakdown": {
+        "topic_match": 2,
+        "methodology_rigor": 2,
+        "citation_potential": 1,
+        "recency": 2
+      },
+      "notes": "MEDIUM -",
+      "tags": [],
+      "citation_count": 0,
+      "integration_status": "pending_review",
+      "pdf_stored_locally": false
+    },
+    {
+      "arxiv_id": "2402.04634v1",
+      "title": "No Transaction Fees? No Problem! Achieving Fairness in Transaction Fee Mechanism Design",
+      "authors": [
+        "Sankarshan Damle",
+        "Varul Srivastava",
+        "Sujit Gujar"
+      ],
+      "submitted_date": "2024-02-07",
+      "categories": [
+        "cs.GT"
+      ],
+      "abstract": "The recently proposed Transaction Fee Mechanism (TFM) literature studies the strategic interaction between the miner of a block and the transaction creators (or users) in a blockchain. In a TFM, the miner includes transactions that maximize its utility while users submit fees for a slot in the block. The existing TFM literature focuses on satisfying standard incentive properties -- which may limit widespread adoption. We argue that a TFM is \"fair\" to the transaction creators if it satisfies specific notions, namely Zero-fee Transaction Inclusion and Monotonicity. First, we prove that one generally cannot ensure both these properties and prevent a miner's strategic manipulation. We also show that existing TFMs either do not satisfy these notions or do so at a high cost to the miners' utility. As such, we introduce a novel TFM using on-chain randomness -- rTFM. We prove that rTFM guarantees incentive compatibility for miners and users while satisfying our novel fairness constraints.",
+      "pdf_url": "https://arxiv.org/pdf/2402.04634v1",
+      "relevance_score": 7,
+      "scoring_breakdown": {
+        "topic_match": 2,
+        "methodology_rigor": 1,
+        "citation_potential": 2,
+        "recency": 2
+      },
+      "notes": "MEDIUM - High citation potential.",
+      "tags": [],
+      "citation_count": 0,
+      "integration_status": "pending_review",
+      "pdf_stored_locally": false
+    },
+    {
+      "arxiv_id": "2302.11178v1",
+      "title": "IRS: An Incentive-compatible Reward Scheme for Algorand",
+      "authors": [
+        "Maizi Liao",
+        "Wojciech Golab",
+        "Seyed Majid Zahedi"
+      ],
+      "submitted_date": "2023-02-22",
+      "categories": [
+        "cs.GT"
+      ],
+      "abstract": "Founded in 2017, Algorand is one of the world's first carbon-negative, public blockchains inspired by proof of stake. Algorand uses a Byzantine agreement protocol to add new blocks to the blockchain. The protocol can tolerate malicious users as long as a supermajority of the stake is controlled by non-malicious users. The protocol achieves about 100x more throughput compared to Bitcoin and can be easily scaled to millions of nodes. Despite its impressive features, Algorand lacks a reward-distribution scheme that can effectively incentivize nodes to participate in the protocol. In this work, we study the incentive issue in Algorand through the lens of game theory. We model the Algorand protocol as a Bayesian game and propose a novel reward scheme to address the incentive issue in Algorand. We derive necessary conditions to ensure that participation in the protocol is a Bayesian Nash equilibrium under our proposed reward scheme even in the presence of a malicious adversary. We also present quantitative analysis of our proposed reward scheme by applying it to two real-world deployment scenarios. We estimate the costs of running an Algorand node and simulate the protocol to measure the overheads in terms of computation, storage, and networking.",
+      "pdf_url": "https://arxiv.org/pdf/2302.11178v1",
+      "relevance_score": 7,
+      "scoring_breakdown": {
+        "topic_match": 2,
+        "methodology_rigor": 2,
+        "citation_potential": 2,
+        "recency": 1
+      },
+      "notes": "MEDIUM - High citation potential.",
+      "tags": [],
+      "citation_count": 0,
+      "integration_status": "pending_review",
+      "pdf_stored_locally": false
+    }
+  ]
+}

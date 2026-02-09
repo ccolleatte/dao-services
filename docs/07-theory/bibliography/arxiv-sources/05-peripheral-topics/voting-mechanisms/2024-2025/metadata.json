@@ -1,0 +1,41 @@
+{
+  "topic": "voting-mechanisms",
+  "time_period": "2024-2025",
+  "last_updated": "2026-02-09T19:30:00Z",
+  "total_papers": 1,
+  "curation_status": "Phase 1 - Complete",
+  "priority": "P3 - Peripheral topics",
+  "papers": [
+    {
+      "arxiv_id": "2602.05324v1",
+      "title": "A Data Driven Structural Decomposition of Dynamic Games via Best Response Maps",
+      "authors": [
+        "Mahdis Rabbani",
+        "Navid Mojahed",
+        "Shima Nazari"
+      ],
+      "submitted_date": "2026-02-05",
+      "categories": [
+        "cs.GT",
+        "cs.MA",
+        "cs.RO",
+        "eess.SY",
+        "math.OC"
+      ],
+      "abstract": "Dynamic games are powerful tools to model multi-agent decision-making, yet computing Nash (generalized Nash) equilibria remains a central challenge in such settings. Complexity arises from tightly coupled optimality conditions, nested optimization structures, and poor numerical conditioning. Existing game-theoretic solvers address these challenges by directly solving the joint game, typically requiring explicit modeling of all agents' objective functions and constraints, while learning-based approaches often decouple interaction through prediction or policy approximation, sacrificing equilibrium consistency. This paper introduces a conceptually novel formulation for dynamic games by restructuring the equilibrium computation. Rather than solving a fully coupled game or decoupling agents through prediction or policy approximation, a data-driven structural reduction of the game is proposed that removes nested optimization layers and derivative coupling by embedding an offline-compiled best-response map as a feasibility constraint. Under standard regularity conditions, when the best-response operator is exact, any converged solution of the reduced problem corresponds to a local open-loop Nash (GNE) equilibrium of the original game; with a learned surrogate, the solution is approximately equilibrium-consistent up to the best-response approximation error. The proposed formulation is supported by mathematical proofs, accompanying a large-scale Monte Carlo study in a two-player open-loop dynamic game motivated by the autonomous racing problem. Comparisons are made against state-of-the-art joint game solvers, and results are reported on solution quality, computational cost, and constraint satisfaction.",
+      "pdf_url": "https://arxiv.org/pdf/2602.05324v1",
+      "relevance_score": 7,
+      "scoring_breakdown": {
+        "topic_match": 1,
+        "methodology_rigor": 2,
+        "citation_potential": 2,
+        "recency": 2
+      },
+      "notes": "MEDIUM - High citation potential.",
+      "tags": [],
+      "citation_count": 0,
+      "integration_status": "pending_review",
+      "pdf_stored_locally": false
+    }
+  ]
+}
