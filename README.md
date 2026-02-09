@@ -18,6 +18,17 @@
 
 ---
 
+## 🛠️ Stack Technique
+
+- **Blockchain** : Polkadot 2.0 (Async Backing, Agile Coretime, Elastic Scaling)
+- **Smart Contracts** : Solidity 0.8.20 (EVM-compatible, Polkadot Hub)
+- **Future Runtime** : Substrate pallets (native Polkadot, evaluation en cours)
+- **Development** : Foundry (contracts), Cargo (runtime future)
+- **Testnet** : Paseo (public testnet)
+- **Mainnet Target** : Q2 2026
+
+---
+
 ## 🎯 Vision
 
 Réviser complètement la **théorie de la firme** en exploitant les protocoles blockchain et smart contracts pour créer une organisation décentralisée de services de conseil stratégique.
@@ -205,14 +216,16 @@ See [governance-architecture.md](./docs/07-implementation/governance-architectur
 
 ### Blockchain
 
-- **Polkadot Hub** (testnet Paseo) : Smart contracts Solidity
-- **PolkaVM** : Machine virtuelle RISC-V (compile Solidity → RISC-V)
-- **Solidity 0.8.20** : Smart contract language
-- **OpenZeppelin 4.9.3** : Battle-tested libraries (Governor, AccessControl)
+- **Polkadot Hub** (testnet Paseo) : Smart contracts Solidity EVM-compatible
+- **Polkadot 2.0** : Async Backing (6s blocks), Agile Coretime (on-demand blockspace), Elastic Scaling
+- **Solidity 0.8.20** : Smart contract language (current MVP)
+- **OpenZeppelin 4.9.3** : Battle-tested libraries (Governor, AccessControl, ReentrancyGuard)
+- **Substrate Runtime** : Evaluation en cours pour migration future (performance native, XCM intégré)
 
 ### Development
 
-- **Foundry** : Compilation, testing, deployment
+- **Foundry** : Compilation, testing, deployment (Solidity)
+- **Cargo** : Build toolchain (Substrate runtime - future)
 - **Pop CLI** : Polkadot scaffolding
 - **Foundry Devtools** : Gas profiling, coverage
 
@@ -309,6 +322,16 @@ See [governance-architecture.md](./docs/07-implementation/governance-architectur
 - [DAO Design](./docs/04-design/polkadot-dao-design.md) - Core DAO architecture
 - [Governance Architecture](./docs/07-implementation/governance-architecture.md) - Complete governance system
 - [Implementation Summary](./docs/07-implementation/IMPLEMENTATION-SUMMARY.md) - Phase 3 progress, metrics, next steps
+
+### Polkadot 2.0 Development Guides (NEW)
+
+- **[Polkadot 2.0 Architecture](./_docs/guides/polkadot-2.0-architecture.md)** - Async Backing, Agile Coretime, Elastic Scaling, XCM v3/v4
+- **[ink! vs Substrate Decision](./_docs/guides/ink-vs-substrate-decision.md)** - Décision stratégique critique : abandon ink!, focus Substrate POC
+- **[Substrate Pallet Patterns](./_docs/guides/substrate-pallet-patterns.md)** - Development patterns, weight calculation, testing
+- **[XCM Integration Patterns](./_docs/guides/xcm-integration-patterns.md)** - Cross-chain transfers, bridges Ethereum, XCM security
+- **[Polkadot Deployment Guide](./_docs/guides/polkadot-deployment-guide.md)** - Testnet Paseo, mainnet, parachain path
+- **[Polkadot Project Management](./_docs/guides/polkadot-project-management.md)** - Treasury proposals, security audits, community
+- **[Polkadot Best Practices](./_docs/guides/polkadot-best-practices.md)** - Security, performance, governance, testing strategies
 
 ### Smart Contracts
 
