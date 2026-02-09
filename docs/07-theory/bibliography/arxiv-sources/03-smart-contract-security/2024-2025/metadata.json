@@ -1,0 +1,26 @@
+{
+  "topic": "smart-contract-security",
+  "time_period": "2024-2025",
+  "last_updated": "2026-02-09T12:00:00Z",
+  "total_papers": 0,
+  "curation_status": "Phase 1 - Discovery in progress",
+  "target_papers": 30,
+  "priority": "P0 - Critical for Phase 3 Governor.sol audits",
+  "arxiv_queries": [
+    {
+      "query_id": "3A",
+      "description": "Smart contract security analysis",
+      "query_string": "cat:cs.CR AND ti:\"smart contract\" AND (ti:security OR ti:verification) AND submittedDate:[2023 TO 2025]",
+      "expected_results": "30-40 papers",
+      "status": "pending"
+    },
+    {
+      "query_id": "3B",
+      "description": "SoK papers (Systematization of Knowledge)",
+      "query_string": "cat:cs.CR AND ti:SoK AND abs:\"smart contract\" AND submittedDate:[2020 TO 2025]",
+      "expected_results": "5-10 comprehensive surveys",
+      "status": "pending"
+    }
+  ],
+  "papers": []
+}

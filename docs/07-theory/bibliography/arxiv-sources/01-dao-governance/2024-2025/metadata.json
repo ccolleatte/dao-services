@@ -1,0 +1,33 @@
+{
+  "topic": "dao-governance",
+  "time_period": "2024-2025",
+  "last_updated": "2026-02-09T12:00:00Z",
+  "total_papers": 0,
+  "curation_status": "Phase 1 - Discovery in progress",
+  "target_papers": 30,
+  "priority": "P0 - Critical for Q2 2026 ACM AFT publication",
+  "arxiv_queries": [
+    {
+      "query_id": "1A",
+      "description": "Core DAO papers",
+      "query_string": "cat:cs.CR OR cat:cs.CY AND (ti:DAO OR ti:\"decentralized autonomous organization\") AND submittedDate:[2024 TO 2025]",
+      "expected_results": "15-20 papers",
+      "status": "pending"
+    },
+    {
+      "query_id": "1B",
+      "description": "Governance mechanisms",
+      "query_string": "cat:cs.CR AND (ti:\"on-chain governance\" OR ti:\"blockchain governance\") AND (abs:voting OR abs:proposal) AND submittedDate:[2023 TO 2025]",
+      "expected_results": "20-30 papers",
+      "status": "pending"
+    },
+    {
+      "query_id": "1C",
+      "description": "Voting theory",
+      "query_string": "cat:cs.CY OR cat:econ.GN AND (ti:\"quadratic voting\" OR ti:\"conviction voting\") AND submittedDate:[2020 TO 2025]",
+      "expected_results": "10-15 papers",
+      "status": "pending"
+    }
+  ],
+  "papers": []
+}
