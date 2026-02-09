@@ -1,0 +1,666 @@
+---
+title: Cartographie de l'ecosysteme DAO et outils de developpement Polkadot
+date: 2026-02-08
+version: 1.0.0
+author: Recherche technique
+purpose: Reference pour la construction d'un DAO de coordination technique sur Polkadot
+audience: Developpeur experimente, debutant blockchain
+---
+
+# Cartographie de l'ecosysteme DAO et outils de developpement Polkadot
+
+## Contexte et objectif
+
+Ce document cartographie l'ecosysteme Polkadot sous l'angle precis de la construction d'un **DAO de coordination technique** -- une structure on-chain permettant a un collectif de developpeurs de gerer des rangs, voter sur des decisions techniques, et piloter un tresor commun.
+
+Le lecteur cible est un developpeur experimente (TypeScript/Rust) mais debutant en blockchain. Chaque section inclut un **verdict de pertinence** pour guider les choix concrets.
+
+---
+
+## 1. Solutions DAO existantes sur Polkadot
+
+### 1.1 Polkadot Technical Fellowship
+
+**Description** : Corps autogouvernant d'experts du protocole Polkadot/Kusama, operant on-chain via la system chain "Collectives" (ParaId 1001). Cree en 2022 en remplacement du Technical Committee de Governance V1.
+
+**Fonctionnalites cles** :
+- Systeme de rangs (0-9) avec promotion/demotion par vote interne
+- Votes ponderes par le rang du membre
+- Multiples tracks de vote avec parametres d'approbation specifiques
+- Capacite de "whitelister" des propositions OpenGov (reduire les delais de vote)
+- Gouvernance via le meme code (pallet) que les referenda Polkadot
+
+**Implementation technique** :
+- `pallet_ranked_collectives` : gestion des membres et rangs
+- `pallet_referenda` (instance dediee) : systeme de vote interne
+- Deploye sur la Collectives system chain
+- Le manifeste definit les criteres pour chaque rang
+
+**Limites** : La Fellowship n'a aucun pouvoir dur sur le reseau -- elle ne peut pas modifier de parametres, executer des sauvetages de fonds ni deplacer des actifs. Son seul pouvoir concret est de raccourcir les delais des referenda via le whitelisting.
+
+**Statut** : Actif, operationnel, utilise en production sur Polkadot.
+
+**Verdict** : **Reference directe pour le prototype.** C'est exactement le modele a etudier et adapter. Le systeme de rangs ponderes, les tracks de vote multiples, et l'architecture on-chain via pallets constituent le blueprint ideal pour un DAO de coordination technique. La principale question est : faut-il deployer son propre collectif (parachain custom) ou reutiliser la Collectives chain existante ?
+
+---
+
+### 1.2 Polkadot Alliance
+
+**Description** : Collectif on-chain heberge sur la Collectives parachain, dont la mission est d'etablir et maintenir un code d'ethique pour l'ecosysteme Polkadot. Fondee par Acala, Astar, Interlay, KILT Protocol, Moonbeam, Subscan et Phala.
+
+**Fonctionnalites cles** :
+- Deux niveaux de membres : Fellow (droit de vote) et Ally
+- Curation d'une "Unscrupulous List" (comptes/sites problematiques)
+- Pas de pouvoir de gouvernance sur le protocole Polkadot lui-meme
+- Gestion des membres via motions internes
+
+**Implementation technique** : Utilise `pallet_alliance` sur la Collectives system chain.
+
+**Statut** : Actif, mais perimetre volontairement limite a l'ethique et la reputation.
+
+**Verdict** : **Interet moyen.** Le modele deux tiers (Fellow/Ally) est elegant mais trop simple pour un DAO technique necessitant des rangs granulaires. L'architecture sous-jacente (pallet sur Collectives chain) est en revanche pertinente a comprendre pour le deploiement.
+
+---
+
+### 1.3 Dora Factory
+
+**Description** : Infrastructure DAO multi-chain avec mecanismes de vote avances. Opere sa propre chain (Dora Vota, basee Cosmos) et propose des outils pour Polkadot via pallets.
+
+**Fonctionnalites cles** :
+- Quadratic voting (cout = 1+2+3+...+n votes) : reduit la domination des gros detenteurs
+- Quadratic fundraising pour financement de biens publics
+- Resolution de litiges on-chain
+- Pallets deploiables pour voting, fundraising, incentives
+- 10 000+ propositions DAO traitees
+
+**Developpements recents (2025)** : Reduction des frais gas de 10x sur testnet, partenariats Ethereum Foundation et BNB Chain.
+
+**Statut** : Actif, en croissance multi-chain.
+
+**Verdict** : **Pertinent pour les mecanismes de vote.** Le quadratic voting est interessant pour un DAO technique ou les decisions ne devraient pas etre purement proportionnelles aux tokens detenus. Cependant, Dora Factory est principalement orientee Cosmos, pas nativement Polkadot. A considerer comme source d'inspiration pour les mecanismes de vote plutot que comme infrastructure a adopter directement.
+
+---
+
+### 1.4 SubDAO
+
+**Description** : Plateforme de gestion DAO construite sur Substrate, concue comme infrastructure DAO pour Polkadot.
+
+**Fonctionnalites cles** :
+- Creation de DAOs avec templates
+- Gestion de pools de financement
+- Systeme de vote personnalisable
+- Deploiement de smart contracts pour la gouvernance
+
+**Statut** : **Probablement abandonne.** Le dernier contenu substantiel date de 2021-2022. Le projet a suspendu sa participation aux encheres de slots parachains et s'est reoriente vers un deploiement sur Moonriver. Aucune activite recente detectable.
+
+**Verdict** : **A eviter.** Le projet semble inactif depuis plusieurs annees. Aucune garantie de maintenance ou d'evolution.
+
+---
+
+### 1.5 InvArch
+
+**Description** : Parachain Polkadot specialisee dans l'infrastructure DAO et la gestion de propriete intellectuelle. Propose Saturn, une solution multisig dynamique pour l'ensemble de l'ecosysteme.
+
+**Fonctionnalites cles** :
+- Saturn Multisig : regles et permissions personnalisables, gestion d'actifs multi-chain sans bridge
+- SmartIP : smart contracts pour la propriete intellectuelle (royalties, contribution tracking)
+- DAO Staking pour organisations
+- Compatibilite Ethereum
+- Flux de revenus automatises pour tresoreries
+
+**Statut** : Actif, en developpement. Parachain operationnelle.
+
+**Verdict** : **Pertinence moyenne-haute.** Le multisig Saturn et la gestion de tresorerie sont directement applicables. La partie IP est moins pertinente pour un DAO de coordination technique. A surveiller comme option d'infrastructure si le prototype evolue vers une gestion de fonds complexe.
+
+---
+
+### 1.6 Polimec
+
+**Description** : Protocole de fundraising decentralise et conforme aux regulations, deploye comme parachain Polkadot.
+
+**Fonctionnalites cles** :
+- Levees de fonds en rounds multiples
+- KYC via credential Deloitte
+- Gouvernance par token PLMC
+- Integration XCMv5 (cross-chain, mai 2025)
+- Integration fiat via Banxa
+
+**Statut** : Actif. Premiers projets finances (Apillon, Mandala Chain).
+
+**Verdict** : **Non pertinent pour le prototype.** Polimec adresse le fundraising reglemente, pas la coordination technique. Utile uniquement si le DAO doit lever des fonds de maniere conforme dans un second temps.
+
+---
+
+### Tableau recapitulatif -- solutions DAO
+
+| Solution | Pertinence DAO tech | Statut | Modele de rangs | Mecanisme de vote | Tresorerie |
+|----------|---------------------|--------|-----------------|-------------------|------------|
+| **Technical Fellowship** | Tres haute | Actif (production) | 0-9 ponderes | Referenda multi-tracks | Non (indirecte via OpenGov) |
+| **Alliance** | Moyenne | Actif | 2 niveaux (Fellow/Ally) | Motions internes | Non |
+| **Dora Factory** | Haute (mecanismes) | Actif | Non applicable | Quadratic voting | Oui (grants) |
+| **SubDAO** | Basse | Inactif | Templates | Personnalisable | Oui |
+| **InvArch** | Moyenne-haute | Actif | Via Saturn multisig | DAO Staking | Oui (automatisee) |
+| **Polimec** | Basse | Actif | Non applicable | Token PLMC | Fundraising uniquement |
+
+---
+
+## 2. Outils de developpement
+
+### 2.1 Pop CLI
+
+**Description** : Outil tout-en-un pour le developpement Polkadot, finance par le programme Decentralized Futures de la Web3 Foundation. Quatre milestones de grant livres dont le dernier en avril 2025.
+
+**Usage principal** :
+- Scaffolding de projets (parachains, smart contracts ink!, appchains)
+- Lancement de reseaux locaux Polkadot (relay chain + parachains + XCM) en quelques secondes
+- Interaction avec smart contracts depuis le terminal
+- Deploiement, tests, signature, benchmarking
+
+**Installation** :
+```bash
+# Via cargo (Rust)
+cargo install pop-cli
+
+# Verification
+pop --version
+```
+
+**Commandes essentielles** :
+```bash
+# Creer un nouveau projet parachain
+pop new parachain my-dao-chain
+
+# Creer un smart contract
+pop new contract my-dao-contract
+
+# Lancer un reseau local
+pop up parachain -f network.toml
+
+# Deployer un contrat
+pop call contract --contract-address <addr> --message <msg>
+```
+
+**Roadmap 2025** : Focus interoperabilite, starter kits multi-chain, amelioration outillage.
+
+**Maturite** : Elevee. 4 milestones completes, documentation officielle Polkadot, support actif.
+
+**Verdict** : **Indispensable. Point d'entree numero un.** Pop CLI simplifie drastiquement le demarrage d'un projet Polkadot. C'est l'equivalent de `create-react-app` pour l'ecosysteme. A installer en premier.
+
+---
+
+### 2.2 Polkadot SDK (ex-Substrate + FRAME)
+
+**Description** : Framework complet pour construire des blockchains souveraines et des parachains Polkadot. Compose de Substrate (primitives blockchain), FRAME (modules "pallets" composables) et Cumulus (integration parachain).
+
+**Usage principal** :
+- Construire une blockchain complete avec logique custom
+- Composer un runtime a partir de pallets (modules) pre-existants
+- Deployer comme parachain Polkadot ou chain souveraine
+
+**Pallets pertinents pour un DAO** :
+- `pallet_ranked_collectives` : membres avec rangs et votes ponderes
+- `pallet_referenda` : systeme de referendum configurable
+- `pallet_collective` : gouvernance de comite
+- `pallet_treasury` : gestion de tresorerie on-chain
+- `pallet_alliance` : collectif ethique (inspiration)
+- `pallet_membership` : gestion simple de membres
+
+**Installation** :
+```bash
+# Prerequis : Rust toolchain
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+rustup default stable
+rustup update nightly
+rustup target add wasm32-unknown-unknown --toolchain nightly
+
+# Cloner le SDK
+git clone https://github.com/paritytech/polkadot-sdk.git
+cd polkadot-sdk
+```
+
+**Maturite** : Tres elevee. Framework de reference de l'ecosysteme, maintenu par Parity.
+
+**Verdict** : **Fondamental mais complexe.** C'est le framework sur lequel tout repose. Pour le prototype, on n'a pas besoin de le maitriser entierement -- Pop CLI abstrait la majorite de la complexite. A comprendre conceptuellement (pallets, runtime, extrinsics) sans necessairement coder directement dedans au debut.
+
+---
+
+### 2.3 Smart contracts : ink! vs Solidity (Revive/PolkaVM)
+
+#### ink! (Rust)
+
+**Description** : Framework de smart contracts en Rust, compile vers WebAssembly pour execution sur Substrate.
+
+**Statut** : **ATTENTION -- Maintenance arretee depuis janvier 2026** faute de financement. Le depot GitHub est verrouille (pas de nouvelles issues ni PR). Le code existant reste utilisable mais n'evoluera plus.
+
+**Installation** (pour reference) :
+```bash
+cargo install cargo-contract --force
+cargo contract new my_contract
+cargo contract build
+```
+
+**Verdict** : **A eviter pour un nouveau projet en 2026.** Malgre la qualite technique (typage Rust, securite), l'arret de maintenance rend ink! risque pour un projet qui demarre.
+
+#### Solidity via Revive / PolkaVM
+
+**Description** : Polkadot Hub (ex-Asset Hub) supporte desormais les smart contracts Solidity via deux backends :
+1. **REVM** : compatibilite EVM 100%, avec outils Ethereum standards (Hardhat, Foundry, Remix)
+2. **PolkaVM** : execution native haute performance via jeu d'instructions RISC-V, compilation Solidity vers PVM bytecode via le compilateur `resolc`
+
+**Avantages** :
+- Acces direct a l'ecosysteme d'outils Ethereum (le plus large au monde)
+- Precompiles natifs Polkadot (governance, XCM) accessibles depuis Solidity
+- Performance superieure en mode PolkaVM vs EVM standard
+- Blocs 500ms prevus pour 2026
+
+**Roadmap 2026** : Vitesse de bloc x10, integration PolkaVM complete, ecart de performance croissant entre mode compatibilite et mode natif.
+
+**Verdict** : **Voie recommandee pour les smart contracts.** La compatibilite Solidity ouvre l'acces aux outils Hardhat/Foundry/Remix et a une base de developpeurs beaucoup plus large. Pour un prototype de DAO, Solidity sur Asset Hub est le choix pragmatique.
+
+---
+
+### 2.4 Zombienet
+
+**Description** : Framework de test Parity pour deployer des reseaux blockchain ephemeres (relay chain + parachains) en local.
+
+**Usage principal** :
+- Valider le comportement d'une parachain avant deploiement
+- Tester des scenarios multi-nodes et cross-chain (XCM)
+- Executer des scenarios de test automatises
+- Supporter Kubernetes, Podman et mode natif
+
+**Installation** :
+```bash
+# Option 1 : Binaire pre-compile (Linux/macOS)
+# Telecharger depuis https://github.com/paritytech/zombienet/releases
+
+# Option 2 : Docker
+docker run -it --rm \
+  -v $(pwd):/home/nonroot/zombie-net/host-current-files \
+  paritytech/zombienet
+
+# Option 3 : Via Pop CLI (recommande)
+pop up parachain -f network.toml
+```
+
+**Configuration exemple** (`network.toml`) :
+```toml
+[relaychain]
+default_command = "polkadot"
+
+[[relaychain.nodes]]
+name = "alice"
+validator = true
+
+[[relaychain.nodes]]
+name = "bob"
+validator = true
+
+[[parachains]]
+id = 1000
+cumulus_based = true
+```
+
+**Maturite** : Elevee. Outil officiel Parity, documente dans la documentation Polkadot.
+
+**Verdict** : **Essentiel pour les tests.** Indispensable des que l'on travaille avec des parachains ou du XCM. Pour un smart contract simple sur Asset Hub, Chopsticks peut suffire au debut.
+
+---
+
+### 2.5 Chopsticks
+
+**Description** : Outil de fork de chains live developpe par Acala. Cree des copies locales de reseaux Polkadot en production pour tester sans risque.
+
+**Usage principal** :
+- Fork de chains en production (Polkadot, Kusama, parachains) en local
+- Replay de blocs pour analyser des extrinsics
+- Simulation de scenarios XCM multi-chains
+- Modification du storage pour tester des cas limites
+- Test de propositions de gouvernance sans deploiement reel
+
+**Installation** :
+```bash
+npx @acala-network/chopsticks \
+  --config=polkadot.yml
+```
+
+**Configuration exemple** (`polkadot.yml`) :
+```yaml
+endpoint: wss://rpc.polkadot.io
+mock-signature-host: true
+db: ./db.sqlite
+```
+
+**Maturite** : Elevee. Derniere mise a jour juillet 2025, utilise en production par plusieurs equipes.
+
+**Verdict** : **Tres pertinent pour tester la gouvernance.** La capacite a forker un reseau live et simuler des votes/propositions est directement applicable au prototypage d'un DAO. Permet de tester contre l'etat reel de la Collectives chain.
+
+---
+
+### 2.6 Polkadot-API (PAPI)
+
+**Description** : Bibliotheque JavaScript/TypeScript de nouvelle generation pour interagir avec les chains Polkadot. Approche "light-client first" avec generation de types TypeScript depuis les metadonnees on-chain.
+
+**PAPI remplace progressivement @polkadot/api** (l'ancienne librairie, toujours fonctionnelle mais plus recommandee pour les nouveaux projets).
+
+**Usage principal** :
+- Soumettre des transactions (extrinsics)
+- Lire l'etat de la chain (storage queries)
+- S'abonner aux evenements en temps reel
+- Interagir avec les pallets de gouvernance
+
+**Installation** :
+```bash
+npm install polkadot-api
+# ou
+pnpm add polkadot-api
+```
+
+**Avantages sur @polkadot/api** :
+- Types TypeScript generes automatiquement depuis les metadonnees on-chain
+- Support natif BigInt
+- Bundles legers (tree-shakable)
+- Support light client natif (smoldot)
+- Imports dynamiques et subpaths modulaires
+
+**Alternative** : **Dedot** -- client next-gen plus leger, style familier polkadot.js avec modernisations. Recommande si les bundles les plus petits sont prioritaires.
+
+**Maturite** : Bonne. Recommande par la documentation officielle Polkadot pour les nouveaux projets.
+
+**Verdict** : **Choix recommande pour le frontend/backend JS/TS.** PAPI est le standard actuel pour les nouveaux projets. La generation automatique de types TypeScript est un gain de productivite majeur quand on interagit avec des pallets de gouvernance.
+
+---
+
+### 2.7 Subxt
+
+**Description** : Client Rust leger pour interagir avec les chains Substrate/Polkadot. Maintenu par Parity.
+
+**Usage principal** :
+- Soumettre des extrinsics depuis du code Rust
+- Lire le storage et les constantes on-chain
+- S'abonner aux blocs et evenements
+- Appeler des Runtime APIs et Pallet View Functions (V16 metadata)
+- Compile en WebAssembly pour usage navigateur
+- Support `#[no_std]` pour environnements contraints
+
+**Installation** :
+```bash
+# Ajouter au Cargo.toml
+[dependencies]
+subxt = "0.38"    # Verifier la derniere version
+```
+
+**Maturite** : Tres elevee. Maintenu par Parity, support des derniers standards metadata V16.
+
+**Verdict** : **Pertinent si le backend est en Rust.** Ideal pour des outils CLI, indexeurs, ou bots de gouvernance ecrits en Rust. Moins pertinent si l'equipe est principalement TypeScript.
+
+---
+
+## 3. Interfaces de gouvernance existantes
+
+### 3.1 Subsquare
+
+**URL** : https://polkadot.subsquare.io/
+
+**Description** : Plateforme de gouvernance pour chains Substrate. Agregation des referenda, discussions, delegations, et statistiques de vote.
+
+**Points forts** :
+- Support de dizaines de chains (Polkadot, Kusama, Acala, HydraDX, Interlay, Phala...)
+- Statistiques OpenGov detaillees par track
+- Visualisation des votes imbriques (delegations resolues)
+- Interface de delegation par track
+- Notifications et tableau de bord
+
+**Verdict** : **Interface de reference pour la gouvernance.** A etudier comme modele d'UX pour un dashboard de DAO technique. L'interface de vote par track et les statistiques de delegation sont directement transposables.
+
+---
+
+### 3.2 Polkassembly
+
+**URL** : https://polkadot.polkassembly.io/
+
+**Description** : Forum de gouvernance qui lie discussions off-chain et votes on-chain. Focus Polkadot/Kusama.
+
+**Points forts** :
+- Forum de discussion structure par proposal/referendum
+- Delegation au niveau des tracks avec statistiques
+- Batch voting (voter sur plusieurs referenda en une transaction)
+- Preimages et profils de delegues
+
+**Verdict** : **Complementaire a Subsquare.** Plus oriente discussions/deliberation, Subsquare plus oriente donnees/analytics. Les deux sont des references UX pour construire l'interface de gouvernance du DAO.
+
+---
+
+### 3.3 Polkadot.js Apps
+
+**URL** : https://polkadot.js.org/apps/
+
+**Description** : Interface generique pour interagir directement avec n'importe quelle chain Substrate -- soumission d'extrinsics, lecture du storage, gestion de comptes.
+
+**Verdict** : **Outil de debug et d'exploration indispensable**, mais pas adapte comme interface utilisateur finale. A utiliser pour tester manuellement les pallets de gouvernance pendant le developpement.
+
+---
+
+### 3.4 Wallets avec gouvernance
+
+| Wallet | Plateforme | Gouvernance | Notes |
+|--------|-----------|-------------|-------|
+| **Nova Wallet** | Mobile (iOS/Android) | Oui : OpenGov, delegations agiles, crowdloans | Le plus complet en mobile |
+| **Talisman** | Extension navigateur | Limitee : alertes et mecanismes simplifies | Meilleur pour gestion multi-chain |
+| **SubWallet** | Extension + Mobile | Oui : vote OpenGov | Bonne couverture multi-chain |
+
+**Verdict** : Nova Wallet est la reference pour le vote on-chain mobile. Talisman est l'extension navigateur de reference pour la gestion de comptes, mais son support gouvernance est plus basique.
+
+---
+
+## 4. Testnets disponibles
+
+### 4.1 Westend
+
+**Role** : Testnet permanent pour le protocole Polkadot (test de features du relay chain).
+
+**Token** : WND (Westend Network Denomination)
+
+**Faucet** : https://faucet.polkadot.io/westend -- 100 WND par requete, 1 requete par 24h, sans authentification.
+
+**Alternative** : Commande `!drip <WESTEND_ADDRESS>` dans le chatroom Matrix.
+
+**Usage recommande** : Test des fonctionnalites protocole (consensus, staking, governance pallets).
+
+---
+
+### 4.2 Paseo
+
+**Role** : Testnet communautaire pour le developpement de parachains et dApps. **Remplace Rococo** (deprecie en octobre 2024). Miroir du runtime Polkadot.
+
+**Token** : PAS
+
+**Faucet** : https://paritytech.github.io/polkadot-testnet-faucet/ ou `!drip <PASEO_ADDRESS>` dans le chatroom Matrix.
+
+**Usage recommande** : Test de parachains, smart contracts, XCM. C'est le testnet principal pour le developpement applicatif.
+
+---
+
+### 4.3 Passet Hub (temporaire)
+
+**Role** : Instance temporaire pour tester les smart contracts sur Asset Hub.
+
+**Usage recommande** : Test de smart contracts Solidity via Revive/PolkaVM.
+
+---
+
+### 4.4 Rococo
+
+**Statut** : **Deprecie depuis le 14 octobre 2024** (bloc 12625076). Remplace par Paseo.
+
+**Verdict** : Ne plus utiliser. Toute documentation faisant reference a Rococo est obsolete.
+
+---
+
+### Tableau recapitulatif -- testnets
+
+| Testnet | Statut | Token | Faucet | Usage principal |
+|---------|--------|-------|--------|-----------------|
+| **Westend** | Actif | WND | faucet.polkadot.io/westend | Protocole, governance |
+| **Paseo** | Actif | PAS | paritytech.github.io/polkadot-testnet-faucet | Parachains, dApps, XCM |
+| **Passet Hub** | Actif (temporaire) | - | Via Paseo | Smart contracts |
+| **Rococo** | Deprecie | - | - | Ne plus utiliser |
+
+---
+
+## 5. Polkadot OpenGov : comprendre le systeme de gouvernance natif
+
+Un DAO de coordination technique s'inscrit dans l'ecosysteme de gouvernance Polkadot. Voici les concepts fondamentaux.
+
+### 5.1 Origins et tracks
+
+Chaque proposition de referendum est associee a une **Origin** (niveau d'autorite : Root, Treasury, SmallTipper...) qui determine le **Track** (parametres proceduraux : duree de vote, seuils d'approbation, delai d'enactment).
+
+Il existe **15 origins** sur Polkadot, chacune avec un track configure differemment.
+
+### 5.2 Cycle de vie d'un referendum
+
+1. **Lead-in** : Periode minimum pour la participation communautaire et le depat du "decision deposit"
+2. **Decision** : Vote ouvert, comptabilisation continue de l'approbation et du support
+3. **Confirmation** : Le referendum doit maintenir les seuils pendant toute la periode
+4. **Enactment** : Execution des changements approuves
+
+### 5.3 Delegation multi-track
+
+Les detenteurs de tokens peuvent deleguer leur pouvoir de vote par track a des experts specifiques. Ce mecanisme est directement transposable a un DAO technique ou les membres deleguent sur des sujets (securite, performance, architecture...).
+
+### 5.4 Conviction voting
+
+Le pouvoir de vote est multiplie par un facteur de "conviction" (1x a 6x) en echange d'un verrouillage plus long des tokens. Ce mecanisme recompense l'engagement a long terme.
+
+---
+
+## 6. Kit de demarrage recommande
+
+### Phase 1 : Exploration (Semaine 1-2)
+
+**Objectif** : Comprendre l'ecosysteme et tester les outils de base.
+
+| Outil | Action | Commande |
+|-------|--------|----------|
+| **Pop CLI** | Installer et creer un projet de test | `cargo install pop-cli && pop new parachain my-dao` |
+| **Polkadot.js Apps** | Explorer la Collectives chain | Naviguer sur polkadot.js.org/apps > Collectives |
+| **Subsquare** | Etudier l'UX de governance | Analyser polkadot.subsquare.io |
+| **Chopsticks** | Forker la Collectives chain | `npx @acala-network/chopsticks --config=collectives.yml` |
+| **Faucet Westend** | Obtenir des tokens de test | faucet.polkadot.io/westend |
+
+### Phase 2 : Prototype smart contract (Semaine 3-4)
+
+**Objectif** : Deployer un DAO minimal sur testnet.
+
+| Outil | Action | Justification |
+|-------|--------|---------------|
+| **Solidity + Hardhat/Foundry** | Ecrire le contrat DAO | Ecosysteme d'outils le plus mature |
+| **Revive (resolc)** | Compiler pour PolkaVM | Backend haute performance Polkadot |
+| **Paseo testnet** | Deployer et tester | Testnet principal pour dApps |
+| **PAPI** | Frontend TypeScript | Types generes, light-client natif |
+
+### Phase 3 : Architecture parachain (Optionnel, Semaine 5+)
+
+**Objectif** : Si les smart contracts ne suffisent pas, explorer l'approche parachain custom.
+
+| Outil | Action | Justification |
+|-------|--------|---------------|
+| **Polkadot SDK** | Construire un runtime custom | Controle total sur la logique |
+| **pallet_ranked_collectives** | Integrer le systeme de rangs | Meme pallet que la Technical Fellowship |
+| **pallet_referenda** | Ajouter le systeme de vote | Multi-tracks configurable |
+| **Zombienet** | Tester le reseau complet | Multi-nodes, scenarios automatises |
+
+---
+
+## 7. Recommandation strategique
+
+### Smart contract vs parachain custom
+
+| Critere | Smart contract (Solidity) | Parachain custom (Polkadot SDK) |
+|---------|---------------------------|----------------------------------|
+| **Temps au prototype** | 2-4 semaines | 2-3 mois |
+| **Complexite** | Moyenne | Haute |
+| **Flexibilite gouvernance** | Limitee (logique dans le contrat) | Totale (pallets natifs) |
+| **Cout de deploiement** | Frais de transaction sur Asset Hub | Slot parachain (ou coretime) |
+| **Outils disponibles** | Hardhat, Foundry, Remix (matures) | Pop CLI, Zombienet (bons mais specifiques) |
+| **Acces aux pallets natifs** | Via precompiles (limite) | Direct et complet |
+
+**Recommandation** : Demarrer par un **smart contract Solidity sur Paseo/Asset Hub** pour valider les mecanismes fondamentaux (membership, voting, treasury). Si les limites du smart contract sont atteintes (besoin de rangs ponderes sophistiques, integration deep avec OpenGov), migrer vers une **parachain custom utilisant `pallet_ranked_collectives`**.
+
+### Choix technologiques cles
+
+| Domaine | Choix recommande | Alternative |
+|---------|------------------|-------------|
+| **Smart contracts** | Solidity via Revive | -- (ink! est abandonne) |
+| **API JavaScript** | PAPI (polkadot-api) | Dedot (bundles plus legers) |
+| **API Rust** | Subxt | -- |
+| **Test local** | Pop CLI + Chopsticks | Zombienet (si multi-nodes) |
+| **Testnet** | Paseo (dApps) + Westend (protocole) | -- |
+| **Interface governance ref.** | Subsquare + Polkassembly | -- |
+| **Modele DAO** | Technical Fellowship (reference) | InvArch (si gestion tresorerie avancee) |
+
+---
+
+## 8. Points de vigilance
+
+1. **ink! est mort.** Ne pas investir de temps dans l'apprentissage d'ink! ou cargo-contract pour un nouveau projet. La communaute Polkadot migre vers Solidity.
+
+2. **L'ecosysteme est en transition.** Polkadot Hub (ex-Asset Hub), PolkaVM, blocs 500ms -- beaucoup de changements sont en cours en 2025-2026. Certaines documentations referent a des architectures obsoletes.
+
+3. **Rococo n'existe plus.** Toute documentation mentionnant Rococo est obsolete. Utiliser Paseo a la place.
+
+4. **La Technical Fellowship est le modele de reference**, mais elle n'a volontairement aucun pouvoir executif sur le reseau. Un DAO de coordination technique devra decider de son propre perimetre de pouvoir.
+
+5. **La compatibilite EVM n'est pas totale.** Polkadot n'implemente pas l'EVM directement -- Revive compile vers PolkaVM (RISC-V). Certaines operations EVM peuvent se comporter differemment. Tester rigoureusement.
+
+---
+
+## Sources
+
+### Documentation officielle
+- [Polkadot Developer Docs - Smart Contracts](https://docs.polkadot.com/develop/smart-contracts/overview/)
+- [Polkadot Developer Docs - API Libraries](https://docs.polkadot.com/develop/toolkit/api-libraries/)
+- [Polkadot Developer Docs - Parachains Toolkit](https://docs.polkadot.com/develop/toolkit/parachains/)
+- [Polkadot Developer Docs - Zombienet](https://docs.polkadot.com/develop/toolkit/parachains/spawn-chains/zombienet/)
+- [Polkadot Developer Docs - Chopsticks](https://docs.polkadot.com/develop/toolkit/parachains/fork-chains/chopsticks/)
+- [Polkadot Developer Docs - Pop CLI Quickstart](https://docs.polkadot.com/develop/toolkit/parachains/quickstart/pop-cli/)
+- [Polkadot Wiki - Technical Fellowship](https://wiki.polkadot.network/docs/learn-polkadot-technical-fellowship)
+- [Polkadot Wiki - Collectives](https://wiki.polkadot.com/learn/learn-collectives/)
+- [Polkadot Wiki - OpenGov](https://wiki.polkadot.com/learn/learn-polkadot-opengov/)
+- [Polkadot-API (PAPI)](https://papi.how/)
+- [ink! Documentation](https://use.ink/)
+- [Subxt Documentation](https://docs.rs/subxt)
+- [Polkadot Networks](https://docs.polkadot.com/polkadot-protocol/parachain-basics/networks/)
+
+### Outils et repositories
+- [Pop CLI GitHub](https://github.com/r0gue-io/pop-cli)
+- [Polkadot SDK GitHub](https://github.com/paritytech/polkadot-sdk)
+- [Zombienet GitHub](https://github.com/paritytech/zombienet)
+- [Chopsticks GitHub](https://github.com/AcalaNetwork/chopsticks)
+- [ink! GitHub](https://github.com/use-ink/ink)
+- [Revive (resolc) GitHub](https://github.com/paritytech/revive)
+- [Subxt GitHub](https://github.com/paritytech/subxt)
+- [InvArch GitHub](https://github.com/AbstractedCo/InvArch)
+
+### Analyses et articles
+- [Q3 2025 Polkadot DAO Recap](https://polkadot.com/blog/q3-2025-polkadot-dao-recap/)
+- [Polkadot Roundup 2025](https://medium.com/polkadot-network/polkadot-roundup-2025-3c3c71c7e9c4)
+- [Pop's 2025 Roadmap](https://r0gue.medium.com/pops-2025-roadmap-year-of-interoperability-2227fa4e0bfc)
+- [Polkadot Upgrade 2025](https://www.parity.io/blog/polkadot-upgrade-2025-what-you-need-to-know)
+- [Polkadot Alliance Formation](https://medium.com/acalanetwork/on-chain-polkadot-alliance-formed-to-recognize-ecosystem-contributors-and-establish-community-480d83eab136)
+- [Dora Factory DAO-as-a-Service](https://dorafactory.medium.com/dora-factory-1-0-dao-as-a-service-infrastructure-for-on-chain-governance-and-open-source-ventures-6ad53688758f)
+- [Polimec Case Study](https://polkadot.com/case-studies/polimec-disrupts-fundraising/)
+- [Polkadot DAO Tools Ecosystem](https://polkadotecosystem.com/tools/dao-tools)
+- [Paseo Testnet Annonce](https://forum.polkadot.network/t/testnets-paseo-officially-becomes-the-polkadot-testnet-temporary-passet-hub-chain-for-smart-contracts-testing/13209)
+- [Rococo Deprecation](https://forum.polkadot.network/t/rococo-to-be-deprecated-in-october/8702)
+- [EVM vs PolkaVM](https://docs.polkadot.com/polkadot-protocol/smart-contract-basics/evm-vs-polkavm/)
+
+### Interfaces de gouvernance
+- [Subsquare](https://polkadot.subsquare.io/)
+- [Polkassembly](https://polkadot.polkassembly.io/)
+- [Polkadot.js Apps](https://polkadot.js.org/apps/)
+
+### Faucets
+- [Westend Faucet](https://faucet.polkadot.io/westend)
+- [Paseo Faucet](https://paritytech.github.io/polkadot-testnet-faucet/)

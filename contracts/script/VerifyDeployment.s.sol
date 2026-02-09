@@ -24,7 +24,7 @@ contract VerifyDeployment is Script {
     DAOTreasury public treasury;
     TimelockController public timelock;
 
-    function run() public view {
+    function run() public {
         require(MEMBERSHIP_ADDR != address(0), "Update MEMBERSHIP_ADDR first");
         require(GOVERNOR_ADDR != address(0), "Update GOVERNOR_ADDR first");
         require(TREASURY_ADDR != address(0), "Update TREASURY_ADDR first");
@@ -54,7 +54,7 @@ contract VerifyDeployment is Script {
         console.log("1. DAOMembership Verification");
         console.log("   Address:", address(membership));
 
-        uint256 totalMembers = membership.totalMembers();
+        uint256 totalMembers = membership.getMemberCount();
         console.log("   Total Members:", totalMembers);
 
         if (totalMembers == 0) {
@@ -64,19 +64,19 @@ contract VerifyDeployment is Script {
         }
 
         // Verify ranks configuration
-        (uint8 rank0Weight, uint256 rank0Duration) = membership.ranks(0);
-        (uint8 rank1Weight, uint256 rank1Duration) = membership.ranks(1);
-        (uint8 rank4Weight, uint256 rank4Duration) = membership.ranks(4);
+        uint256 rank0Duration = membership.minRankDuration(0);
+        uint256 rank1Duration = membership.minRankDuration(1);
+        uint256 rank4Duration = membership.minRankDuration(4);
 
-        console.log("   Rank 0 (Observer):", rank0Weight, "weight,", rank0Duration, "duration");
-        console.log("   Rank 1 (Active):", rank1Weight, "weight,", rank1Duration, "duration");
-        console.log("   Rank 4 (Founder):", rank4Weight, "weight,", rank4Duration, "duration");
+        console.log("   Rank 0 (Observer): duration", rank0Duration);
+        console.log("   Rank 1 (Active): duration", rank1Duration);
+        console.log("   Rank 4 (Founder): duration", rank4Duration);
 
-        require(rank0Weight == 0, "Rank 0 weight should be 0");
-        require(rank1Weight == 1, "Rank 1 weight should be 1");
-        require(rank4Weight == 10, "Rank 4 weight should be 10");
+        require(rank0Duration == 0, "Rank 0 duration should be 0");
+        require(rank1Duration == 90 days, "Rank 1 duration should be 90 days");
+        require(rank4Duration == 547 days, "Rank 4 duration should be 547 days");
 
-        console.log("   [OK] Rank configuration correct");
+        console.log("   [OK] Rank duration configuration correct");
         console.log("");
     }
 
@@ -84,23 +84,29 @@ contract VerifyDeployment is Script {
         console.log("2. DAOGovernor Verification");
         console.log("   Address:", address(governor));
 
-        // Verify tracks
-        (uint8 techMinRank, uint256 techPeriod, uint256 techQuorum) = governor.getTrackConfig(
+        // Verify tracks (accessing public mapping directly)
+        (uint8 techMinRank, uint256 techDelay, uint256 techPeriod, uint256 techQuorum) = governor.trackConfigs(
             DAOGovernor.Track.Technical
         );
-        (uint8 treasMinRank, uint256 treasPeriod, uint256 treasQuorum) = governor.getTrackConfig(
+        (uint8 treasMinRank, uint256 treasDelay, uint256 treasPeriod, uint256 treasQuorum) = governor.trackConfigs(
             DAOGovernor.Track.Treasury
         );
-        (uint8 membMinRank, uint256 membPeriod, uint256 membQuorum) = governor.getTrackConfig(
+        (uint8 membMinRank, uint256 membDelay, uint256 membPeriod, uint256 membQuorum) = governor.trackConfigs(
             DAOGovernor.Track.Membership
         );
 
         console.log("   Technical Track:");
-        console.log("     Min Rank:", techMinRank, "Period:", techPeriod, "Quorum:", techQuorum, "%");
+        console.log("     Min Rank:", techMinRank);
+        console.log("     Period:", techPeriod);
+        console.log("     Quorum:", techQuorum, "%");
         console.log("   Treasury Track:");
-        console.log("     Min Rank:", treasMinRank, "Period:", treasPeriod, "Quorum:", treasQuorum, "%");
+        console.log("     Min Rank:", treasMinRank);
+        console.log("     Period:", treasPeriod);
+        console.log("     Quorum:", treasQuorum, "%");
         console.log("   Membership Track:");
-        console.log("     Min Rank:", membMinRank, "Period:", membPeriod, "Quorum:", membQuorum, "%");
+        console.log("     Min Rank:", membMinRank);
+        console.log("     Period:", membPeriod);
+        console.log("     Quorum:", membQuorum, "%");
 
         require(techMinRank == 2, "Technical track should require Rank 2");
         require(treasMinRank == 1, "Treasury track should require Rank 1");
@@ -172,7 +178,8 @@ contract VerifyDeployment is Script {
         console.log("   Address:", address(timelock));
 
         uint256 minDelay = timelock.getMinDelay();
-        console.log("   Min Delay:", minDelay, "seconds (", minDelay / 3600, "hours)");
+        console.log("   Min Delay:", minDelay, "seconds");
+        console.log("   (", minDelay / 3600, "hours)");
 
         require(minDelay == 1 days, "Min delay should be 1 day");
 

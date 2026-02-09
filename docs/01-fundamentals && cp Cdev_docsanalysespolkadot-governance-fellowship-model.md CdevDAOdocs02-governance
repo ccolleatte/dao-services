@@ -1,0 +1,523 @@
+# Fondamentaux de l'architecture Polkadot pour la construction d'un DAO
+
+---
+date: 2026-02-08
+version: 1.0.0
+author: Recherche technique assistée (Claude)
+audience: Développeur expérimenté, débutant blockchain
+scope: Architecture Polkadot orientée DAO de coordination technique
+sources: docs.polkadot.com, wiki.polkadot.com, use.ink, parity.io, forum.polkadot.network
+---
+
+## Table des matières
+
+1. [Introduction : pourquoi Polkadot pour un DAO](#1-introduction--pourquoi-polkadot-pour-un-dao)
+2. [Architecture Polkadot essentielle](#2-architecture-polkadot-essentielle)
+3. [FRAME et les pallets : le système modulaire](#3-frame-et-les-pallets--le-système-modulaire)
+4. [Smart contracts sur Polkadot](#4-smart-contracts-sur-polkadot)
+5. [XCM : communication cross-chain](#5-xcm--communication-cross-chain)
+6. [Décision smart contract vs parachain](#6-décision-smart-contract-vs-parachain)
+7. [Glossaire orienté DAO](#7-glossaire-orienté-dao)
+8. [Prochaines étapes recommandées](#8-prochaines-étapes-recommandées)
+9. [Sources](#9-sources)
+
+---
+
+## 1. Introduction : pourquoi Polkadot pour un DAO
+
+Un DAO (Decentralized Autonomous Organization) est une organisation dont les règles de fonctionnement sont encodées sous forme de programme exécuté sur une blockchain. Les membres interagissent via des transactions on-chain : propositions, votes, allocation de fonds, délégation de responsabilités.
+
+Polkadot présente plusieurs caractéristiques qui en font un candidat pertinent pour héberger un DAO de coordination technique :
+
+- **Gouvernance native** : Polkadot a lui-même été conçu comme un réseau gouverné on-chain. Son système OpenGov est le DAO le plus avancé en production, avec un trésor de plusieurs centaines de millions de dollars géré par vote décentralisé. Les outils et pallets de gouvernance sont donc battle-tested.
+- **Modularité** : Le système FRAME permet de composer un runtime blockchain à partir de modules (pallets) pré-construits -- y compris des pallets dédiés au vote, aux collectifs, au trésor, et aux référendums.
+- **Sécurité partagée** : Toute application déployée dans l'écosystème Polkadot hérite de la sécurité du réseau principal sans devoir recruter ses propres validateurs.
+- **Smart contracts Solidity** : Depuis janvier 2026, Polkadot Hub supporte nativement les smart contracts écrits en Solidity, abaissant la barrière d'entrée pour les développeurs issus de l'écosystème Ethereum.
+
+Ce document couvre exclusivement les aspects de l'architecture Polkadot pertinents pour la construction d'un DAO. Ce n'est pas un cours général blockchain.
+
+---
+
+## 2. Architecture Polkadot essentielle
+
+### 2.1. Vue d'ensemble
+
+Polkadot est un protocole de couche 0 (Layer-0) conçu pour interconnecter des blockchains spécialisées. Son architecture repose sur trois composants principaux :
+
+```
+                    ┌──────────────────────────────────────────┐
+                    │              RELAY CHAIN                 │
+                    │  (coordination, consensus, sécurité)     │
+                    └────┬──────────┬──────────┬───────────────┘
+                         │          │          │
+                    ┌────▼───┐ ┌────▼───┐ ┌────▼───┐
+                    │Para-   │ │Para-   │ │System  │
+                    │chain A │ │chain B │ │Chains  │
+                    │(DeFi)  │ │(Gaming)│ │(Hub,   │
+                    │        │ │        │ │ Bridge)│
+                    └────────┘ └────────┘ └────────┘
+                         ▲          ▲          ▲
+                         └──────────┼──────────┘
+                              XCM (messages cross-chain)
+```
+
+**Analogie** : la Relay Chain est comparable à un notaire central qui authentifie les transactions de toutes les entités (parachains) connectées, sans exécuter lui-même les opérations métier. Chaque parachain est une entreprise autonome qui bénéficie de la garantie du notaire.
+
+### 2.2. Relay Chain : le coeur du réseau
+
+La Relay Chain est la blockchain centrale de Polkadot. Elle a délibérément une fonctionnalité minimale. Son rôle se limite à :
+
+| Fonction | Description | Pertinence DAO |
+|----------|-------------|----------------|
+| **Consensus** | Coordonne le mécanisme de preuve d'enjeu (NPoS) entre ~300 validateurs | Garantit l'intégrité des votes et transactions |
+| **Sécurité partagée** | Valide les blocs de toutes les parachains connectées | Le DAO hérite de cette sécurité sans effort |
+| **Scheduling** | Attribue les slots de calcul (coretime) aux parachains | Détermine quand les transactions du DAO sont traitées |
+| **Data availability** | Garantit que les données des parachains restent accessibles | Les décisions du DAO sont vérifiables par tous |
+
+La Relay Chain n'exécute **pas** de logique applicative (pas de smart contracts, pas de gestion de tokens complexe). Toute cette logique vit dans les parachains ou les smart contracts déployés dessus.
+
+**Chiffres clés (février 2026)** :
+- ~300 validateurs actifs
+- Blocs toutes les 6 secondes (après upgrade 2025)
+- Finalité via GRANDPA en quelques secondes
+
+### 2.3. Parachains : blockchains spécialisées
+
+Une parachain est une blockchain indépendante (Layer-1) qui se connecte à la Relay Chain pour bénéficier de sa sécurité. Chaque parachain :
+
+- **Possède son propre runtime** : sa logique métier est définie en Rust via le framework FRAME (cf. section 3).
+- **Peut avoir ses propres tokens, règles de gouvernance, et mécanismes de frais**.
+- **Hérite de la sécurité de la Relay Chain** : les validateurs de Polkadot vérifient que les blocs produits par la parachain respectent ses règles.
+- **Communique avec les autres parachains** via XCM (cf. section 5).
+
+#### Comment une parachain hérite de la sécurité
+
+Le mécanisme fonctionne en trois étapes :
+
+1. **Collateurs** : des noeuds spécifiques à la parachain produisent des blocs candidats et les soumettent à la Relay Chain. Ils n'ont pas besoin de fournir des garanties de sécurité eux-mêmes.
+
+2. **Paravalidateurs** : un sous-ensemble de validateurs de la Relay Chain est assigné à chaque parachain. Ils téléchargent le code Wasm de la parachain et vérifient que chaque bloc respecte les règles de transition d'état. Plus de la moitié doivent signer une attestation positive.
+
+3. **Finalité partagée** : une fois qu'un bloc parachain est validé et inclus dans la Relay Chain, le reverser nécessiterait de reverser l'ensemble de Polkadot -- ce qui est économiquement prohibitif.
+
+**Analogie** : un collateur est un greffier qui prépare des dossiers, tandis que les paravalidateurs sont des juges qui vérifient la conformité. La Relay Chain est le sceau de l'institution judiciaire.
+
+#### System Chains
+
+Polkadot distingue des "system chains" (parachains d'infrastructure) qui assurent des fonctions essentielles du réseau :
+
+| System Chain | Fonction | Pertinence DAO |
+|-------------|----------|----------------|
+| **Polkadot Hub (ex Asset Hub)** | Gestion d'actifs + **smart contracts Solidity** (depuis janvier 2026) | Lieu probable de déploiement d'un DAO via smart contract |
+| **Bridge Hub** | Ponts vers Ethereum, Kusama | Interopérabilité avec d'autres écosystèmes |
+| **Coretime Chain** | Marché de blockspace (Agile Coretime) | Achat de temps de calcul si parachain dédiée |
+
+### 2.4. Agile Coretime : accéder à la sécurité
+
+Depuis 2025, l'ancien système d'enchères pour les slots parachains a été remplacé par **Agile Coretime** : un marché flexible de ressources de calcul.
+
+| Mode | Description | Usage typique |
+|------|-------------|---------------|
+| **On-demand** | Achat ponctuel de blockspace, paiement par bloc | Prototypage, applications à faible trafic |
+| **Bulk** | Achat en volume pour une durée définie | Applications en production avec trafic régulier |
+
+Pour un DAO débutant, le mode on-demand ou le déploiement via smart contract sur Polkadot Hub évite toute complexité d'acquisition de coretime.
+
+---
+
+## 3. FRAME et les pallets : le système modulaire
+
+### 3.1. Qu'est-ce que FRAME
+
+FRAME (Framework for Runtime Aggregation of Modularized Entities) est le framework de développement fourni par le Polkadot SDK pour construire le runtime d'une blockchain. Un runtime, c'est la "constitution" programmable de la blockchain : il définit quelles transactions sont valides, comment l'état évolue, quelles règles de gouvernance s'appliquent.
+
+**Analogie** : si la blockchain est un système d'exploitation, le runtime est le noyau (kernel), et chaque pallet est un module noyau spécialisé (réseau, système de fichiers, gestion mémoire...).
+
+### 3.2. Pallets : modules composables
+
+Un pallet est un module Rust qui encapsule une fonctionnalité spécifique. On assemble des pallets pour construire un runtime complet. Chaque pallet définit :
+
+- **Storage** : les données qu'il persiste on-chain (ex: solde des comptes, résultats de votes).
+- **Extrinsics** (fonctions appelables) : les transactions que les utilisateurs peuvent soumettre (ex: voter, proposer, transférer).
+- **Events** : les notifications émises quand un état change (ex: "ProposalApproved", "FundsAllocated").
+- **Errors** : les conditions d'erreur typées (ex: "InsufficientBalance", "VotingPeriodEnded").
+- **Config** : les paramètres configurables (ex: durée d'une période de vote, quorum minimum).
+
+### 3.3. Pallets de gouvernance pertinents pour un DAO
+
+Voici les pallets FRAME pré-construits directement utilisables pour un DAO :
+
+| Pallet | Fonction | Usage DAO |
+|--------|----------|-----------|
+| **pallet-democracy** | Référendums avec vote pondéré par le stake | Décisions majeures : budget annuel, changement de règles, admission de nouveaux membres |
+| **pallet-collective** | Gestion de groupes décisionnels (conseils) | Comité technique, comité de pilotage, groupes de travail |
+| **pallet-treasury** | Trésor on-chain avec propositions de dépenses | Financement de projets, rémunération de contributeurs |
+| **pallet-referenda** (OpenGov) | Système de référendums multi-tracks avec origins | Gouvernance avancée : différents niveaux de privilège selon l'impact de la décision |
+| **pallet-conviction-voting** | Vote avec conviction (verrouillage temporel = poids de vote accru) | Encourager l'engagement long terme des membres |
+| **pallet-ranked-collective** | Collectif avec rangs et expertise | Fellowship technique : membres gradués selon leurs contributions |
+| **pallet-multisig** | Comptes multi-signatures (M-of-N) | Gestion sécurisée de fonds par un comité (ex: 3 signatures sur 5 requises) |
+| **pallet-proxy** | Délégation de droits | Un membre peut déléguer son vote à un expert de confiance |
+| **pallet-scheduler** | Planification d'actions futures | Exécution automatique après adoption d'une proposition |
+| **pallet-preimage** | Stockage de contenu de propositions (hors-chain link) | Stocker les descriptions détaillées des propositions |
+| **pallet-bounties** | Primes pour travaux | Récompenser des contributions techniques spécifiques |
+| **pallet-tips** | Pourboires communautaires | Reconnaissance informelle de contributions |
+| **pallet-identity** | Identité on-chain vérifiable | Identifier les membres du DAO avec des attestations |
+
+### 3.4. OpenGov : le modèle de référence
+
+Polkadot lui-même fonctionne comme un DAO via **OpenGov**, déployé depuis juin 2023. Ce système utilise :
+
+- **15 origins** (niveaux de pouvoir) avec chacun son propre track de vote.
+- **Tracks** : chaque track définit ses paramètres de gouvernance (durée de vote, quorum, période d'adoption). Les propositions à fort impact (ex: dépense de 10M DOT) suivent un track plus strict que les propositions mineures.
+- **Vote simultané** : plusieurs référendums peuvent progresser en parallèle, accélérant la prise de décision.
+- **Conviction voting** : un membre peut multiplier son poids de vote (jusqu'a 6x) en acceptant de verrouiller ses tokens plus longtemps (de 1 a 896 jours).
+
+**Impact pour un DAO de coordination technique** : OpenGov démontre qu'un DAO à grande échelle (trésor de centaines de millions, centaines de propositions par mois) peut fonctionner sur Polkadot. Les mêmes pallets sont disponibles pour tout projet.
+
+---
+
+## 4. Smart contracts sur Polkadot
+
+### 4.1. Etat actuel (février 2026)
+
+L'écosystème des smart contracts sur Polkadot a connu une transition majeure récente :
+
+| Plateforme | Langage | Statut (fév. 2026) | VM |
+|------------|---------|---------------------|-----|
+| **ink!** | Rust (DSL) | Maintenance arrêtée depuis janvier 2026 (manque de financement) | Wasm (pallet-contracts) |
+| **pallet-revive** | Solidity | En production sur Polkadot Hub depuis janvier 2026 | PolkaVM (RISC-V) |
+| **EVM compatible (REVM)** | Solidity | En production | EVM via Rust |
+
+**Fait important** : ink!, le langage Rust natif de Polkadot pour les smart contracts, n'est plus activement maintenu depuis janvier 2026. La communauté a pivoté vers le support de **Solidity** via le compilateur **Revive**, qui compile le bytecode Solidity vers l'instruction set RISC-V de PolkaVM.
+
+### 4.2. Solidity sur Polkadot Hub
+
+Depuis le 20 janvier 2026, Polkadot Hub (anciennement Asset Hub) supporte nativement les smart contracts écrits en Solidity. Les développeurs peuvent :
+
+- Utiliser leurs outils Ethereum habituels : **Hardhat**, **Foundry**, **Remix**, **MetaMask**.
+- Déployer des contrats Solidity avec peu ou pas de modifications.
+- Bénéficier de la sécurité partagée de Polkadot et de l'interopérabilité via XCM.
+
+**Précision technique** : bien que les contrats soient écrits en Solidity, Polkadot n'exécute pas d'EVM au sens strict. Le bytecode est compilé (via Revive) vers RISC-V puis exécuté sur PolkaVM. Pour le développeur, la différence est quasi transparente -- les opcodes standards sont supportés.
+
+### 4.3. ink! (contexte historique)
+
+Bien qu'ink! ne soit plus maintenu activement, il reste pertinent de comprendre ce qu'il apportait car :
+- De nombreux tutoriels et exemples existants utilisent ink!.
+- L'Ink Alliance Bounty (261K DOT) a été proposée pour financer un maintien communautaire.
+- Des parachains comme Astar, Aleph Zero et Phala continuent de supporter ink! via pallet-contracts.
+
+ink! est un langage de programmation embarqué dans Rust qui compile vers Wasm. Un contrat ink! définit son stockage, ses messages (fonctions appelables), et ses events -- exactement comme un contrat Solidity définit ses variables d'état, ses fonctions, et ses events.
+
+---
+
+## 5. XCM : communication cross-chain
+
+### 5.1. Qu'est-ce que XCM
+
+XCM (Cross-Consensus Message Format) est le format standardisé permettant à différentes blockchains de l'écosystème Polkadot de communiquer entre elles. XCM n'est **pas** un protocole de transport -- c'est un format de message. Les messages sont transportés par des protocoles dédiés (HRMP/XCMP).
+
+**Analogie** : XCM est comparable à JSON dans le monde des API. C'est un format qui définit comment structurer un message, mais pas comment le transmettre (HTTP, WebSocket, etc.).
+
+### 5.2. Principes de conception
+
+| Principe | Description |
+|----------|-------------|
+| **Asynchrone** | Le message est envoyé sans attendre de réponse ("fire and forget") |
+| **Absolu** | Les messages sont garantis livrés dans l'ordre et sans altération |
+| **Universel** | Fonctionne entre parachains, mais aussi avec des systèmes externes (Ethereum via bridges) |
+
+### 5.3. Pertinence pour un DAO
+
+XCM permet des scénarios intéressants pour un DAO multi-chain :
+
+- **Trésor multi-actifs** : le DAO peut détenir et gérer des tokens de différentes parachains.
+- **Vote depuis une autre chain** : un membre pourrait voter sur une parachain A tout en ayant ses tokens stakés sur une parachain B.
+- **Exécution cross-chain** : une décision votée sur la chain de gouvernance peut déclencher une action sur une autre chain (ex: déployer un contrat, transférer des fonds).
+
+Pour un premier DAO, XCM est une fonctionnalité avancée à connaître mais pas à implémenter immédiatement. L'important est de savoir que cette capacité existe et que l'architecture du DAO peut être conçue pour en tirer parti ultérieurement.
+
+---
+
+## 6. Décision smart contract vs parachain
+
+C'est la décision architecturale fondamentale pour tout projet sur Polkadot. Voici une comparaison complète orientée DAO :
+
+### 6.1. Tableau comparatif
+
+| Critère | Smart contract (Solidity sur Hub) | Parachain (runtime FRAME) |
+|---------|----------------------------------|---------------------------|
+| **Langage** | Solidity (familier aux devs Ethereum) | Rust (courbe d'apprentissage significative) |
+| **Temps de dev MVP** | 2-4 semaines | 3-6 mois |
+| **Coût de déploiement** | Gas fees (quelques DOT) | Achat de coretime (bulk ou on-demand) |
+| **Gouvernance** | À implémenter dans le contrat (OpenZeppelin Governor, etc.) | Pallets natifs (democracy, collective, treasury...) |
+| **Personnalisation** | Limitée aux capacités de l'EVM/PolkaVM | Totale : accès au runtime, création de pallets custom |
+| **Upgradabilité** | Patterns proxy (complexe, fragile) | Upgrade runtime natif via gouvernance on-chain |
+| **Performance** | Limité par le gas metering | Pas de gas metering, performance native |
+| **Sécurité** | Sandbox EVM (protection contre boucles infinies) | Responsabilité du développeur (pas de gas metering = risque de boucle infinie) |
+| **Interopérabilité** | Via XCM precompile (limité) | XCM natif (complet) |
+| **Compétences requises** | Solidity + tooling Ethereum | Rust + Substrate + FRAME + DevOps node |
+| **Taille de l'équipe** | 1-2 développeurs | 3-5 développeurs minimum |
+| **Maintenance** | Smart contract + frontend | Node complet + runtime + monitoring + frontend |
+| **Migration vers parachain** | Possible mais refonte complète | Déjà en place |
+
+### 6.2. Critères de choix détaillés
+
+#### Choisir un smart contract si :
+
+- L'équipe est petite (1-3 personnes) et/ou débutante en blockchain.
+- Le DAO a des besoins de gouvernance "standard" (propositions, votes, trésor).
+- L'objectif est un MVP rapide pour valider le concept.
+- Le budget est limité (pas de coretime bulk à acheter).
+- L'équipe a de l'expérience Solidity ou Ethereum.
+
+#### Choisir une parachain si :
+
+- Le DAO a des besoins de gouvernance complexes et spécifiques (ex: système de réputation technique avec rangs, calculs de consensus spécialisés).
+- La performance est critique (milliers de votes par bloc).
+- Le DAO doit émettre son propre token avec une tokenomics complexe.
+- L'équipe dispose de développeurs Rust expérimentés.
+- Le projet a vocation à devenir une infrastructure à long terme.
+
+### 6.3. Recommandation pour un débutant blockchain
+
+**Recommandation : commencer par un smart contract Solidity sur Polkadot Hub.**
+
+Justification :
+
+1. **Barrière d'entrée minimale** : Solidity est le langage de smart contracts le plus documenté au monde. L'outillage (Hardhat, Foundry, OpenZeppelin) est mature et battle-tested.
+
+2. **Vitesse d'itération** : un contrat de gouvernance basique (propositions + votes + trésor) peut être déployé en quelques semaines avec les librairies OpenZeppelin adaptées.
+
+3. **Coût** : pas besoin d'acheter du coretime ni de gérer un noeud validateur. Le déploiement coûte quelques DOT en gas.
+
+4. **Sécurité** : l'environnement sandboxé de PolkaVM protège contre les erreurs critiques (boucles infinies, overflow). Les patterns de sécurité Solidity sont bien documentés (reentrancy guards, access control, etc.).
+
+5. **Migration possible** : si le DAO croît et nécessite des fonctionnalités plus avancées, la migration vers une parachain dédiée reste possible. Les pallets de gouvernance FRAME offrent des capacités bien supérieures à ce qu'un smart contract peut réaliser.
+
+### 6.4. Chemin de progression recommandé
+
+```
+Phase 1 (MVP)              Phase 2 (Croissance)        Phase 3 (Maturité)
+─────────────────────────   ─────────────────────────   ─────────────────────
+Smart contract Solidity     Smart contract enrichi      Parachain dédiée
+sur Polkadot Hub            + intégration XCM           avec pallets custom
+
+- Propositions/votes        - Multi-chain assets        - Governance OpenGov-like
+- Trésor basique            - Identité on-chain         - Token natif
+- Membership simple         - Délégation avancée        - Reputation system
+- Frontend web3             - Bridge Ethereum           - XCM complet
+
+Coût: ~0.1-1 DOT           Coût: ~10-100 DOT/mois      Coût: coretime bulk
+Équipe: 1-2 devs           Équipe: 2-3 devs            Équipe: 3-5+ devs
+Durée: 2-4 semaines        Durée: 1-3 mois             Durée: 3-6 mois
+```
+
+---
+
+## 7. Glossaire orienté DAO
+
+### 7.1. Consensus : BABE et GRANDPA
+
+Polkadot utilise un consensus hybride composé de deux protocoles complémentaires :
+
+**BABE (Blind Assignment for Blockchain Extension)**
+- **Rôle** : production de blocs.
+- **Fonctionnement** : les validateurs sont assignés à des slots de production par un système de loterie aléatoire. Chaque epoch (~4 heures) est divisée en slots de 6 secondes.
+- **Pertinence DAO** : garantit que les transactions de vote et de proposition sont incluses régulièrement dans les blocs (toutes les 6 secondes).
+
+**GRANDPA (GHOST-based Recursive ANcestor Deriving Prefix Agreement)**
+- **Rôle** : finalité des blocs.
+- **Fonctionnement** : protocole de finalité Byzantine Fault Tolerant. Fonctionne correctement tant que les 2/3 des noeuds sont honnêtes. Peut finaliser des chaînes entières de blocs en une seule ronde.
+- **Pertinence DAO** : une fois qu'un vote est finalisé par GRANDPA, il est **irréversible**. Contrairement à Bitcoin où la finalité est probabiliste (~60 minutes pour 6 confirmations), Polkadot offre une finalité déterministe en quelques secondes. Un résultat de vote est donc définitif très rapidement.
+
+**Analogie** : BABE est l'imprimerie qui publie le journal toutes les 6 secondes. GRANDPA est le sceau notarial qui certifie que les éditions publiées ne seront jamais modifiées.
+
+### 7.2. Extrinsics : comment un membre interagit
+
+Un **extrinsic** est toute information provenant de l'extérieur de la blockchain. C'est le mécanisme par lequel un utilisateur soumet une action au réseau. Il existe trois types :
+
+| Type | Description | Exemple DAO |
+|------|-------------|-------------|
+| **Signed transaction** | Transaction signée par un compte, avec frais | Un membre vote pour une proposition |
+| **Unsigned transaction** | Transaction sans signature (rare, cas spéciaux) | Heartbeat de validateur |
+| **Inherent** | Donnée injectée par le producteur de bloc | Timestamp du bloc |
+
+Pour un membre de DAO, l'interaction typique est :
+
+```
+1. Membre signe une transaction avec sa clé privée
+   (ex: vote("proposal-42", "aye"))
+       ↓
+2. La transaction est diffusée au réseau
+       ↓
+3. Un validateur l'inclut dans un bloc
+       ↓
+4. Le runtime exécute la logique du vote
+       ↓
+5. L'état on-chain est mis à jour (vote enregistré)
+       ↓
+6. Un event est émis (VoteCast { who: membre, proposal: 42, vote: aye })
+       ↓
+7. GRANDPA finalise le bloc (vote irréversible)
+```
+
+**Frais de transaction** : chaque signed transaction a un coût en DOT (ou le token natif de la parachain). Ce coût est calculé en fonction du poids computationnel de l'opération. Un vote coûte typiquement une fraction de centime.
+
+### 7.3. Storage/State : où sont stockées les données du DAO
+
+Le state (état) de la blockchain est un arbre de Merkle Patricia qui stocke toutes les données persistantes. Pour un DAO, cela inclut :
+
+| Donnée | Structure de stockage | Pallet concerné |
+|--------|----------------------|-----------------|
+| Liste des membres | `StorageMap<AccountId, MemberInfo>` | collective, identity |
+| Propositions actives | `StorageMap<ProposalId, Proposal>` | democracy, referenda |
+| Votes en cours | `StorageDoubleMap<ProposalId, AccountId, Vote>` | conviction-voting |
+| Solde du trésor | `StorageValue<Balance>` | treasury |
+| Résultats finalisés | `StorageMap<ProposalId, Outcome>` | democracy |
+
+**Principe clé** : toute donnée écrite on-chain coûte un **dépôt de stockage** (storage deposit). Ce dépôt est restitué quand la donnée est supprimée. Cela empêche le spam et incite au nettoyage des données obsolètes.
+
+**Analogie** : le state est le registre officiel du DAO. Chaque modification est horodatée, signée, et irréversible. C'est l'équivalent numérique d'un registre notarial avec historique complet.
+
+### 7.4. Events : notifications on-chain
+
+Les events sont des notifications émises par le runtime quand un état change. Ils sont écrits dans les logs du bloc mais ne sont **pas** stockés dans le state permanent (ils sont éphémères : disponibles dans le bloc courant, puis archivés).
+
+| Event | Signification | Usage technique |
+|-------|---------------|-----------------|
+| `Proposed { proposal_id, proposer }` | Nouvelle proposition soumise | Déclencher notification frontend |
+| `Voted { voter, proposal_id, vote, balance }` | Vote enregistré | Mettre à jour l'UI en temps réel |
+| `Approved { proposal_id }` | Proposition adoptée | Déclencher exécution automatique |
+| `Rejected { proposal_id }` | Proposition rejetée | Archiver et notifier |
+| `Awarded { proposal_id, beneficiary, amount }` | Fonds alloués depuis le trésor | Audit financier |
+| `MemberAdded { who }` | Nouveau membre dans un collectif | Mettre à jour registre |
+
+**Usage pratique** : le frontend du DAO s'abonne aux events via WebSocket (API Polkadot.js ou ethers.js pour les contrats Solidity) pour afficher les mises à jour en temps réel.
+
+### 7.5. Runtime : la "constitution" programmable
+
+Le runtime est le coeur logique de la blockchain. Il définit **toutes les règles** : quelles transactions sont valides, comment le state évolue, quels events sont émis, quelles erreurs sont possibles.
+
+| Concept | Analogie civique | Détail technique |
+|---------|-----------------|------------------|
+| Runtime | Constitution + Code civil | Code Rust/Wasm définissant toutes les règles |
+| Pallet | Article de loi | Module spécialisé (treasury, democracy...) |
+| Extrinsic | Acte juridique (contrat, vote) | Transaction signée par un citoyen |
+| Storage | Registres officiels | Base de données d'état |
+| Event | Journal officiel | Publication des décisions |
+
+**Upgradabilité** : un runtime Substrate peut être mis à jour **sans fork** via un vote de gouvernance. Le nouveau code Wasm est voté, adopté, puis automatiquement activé. C'est l'équivalent d'un amendement constitutionnel par référendum.
+
+Pour un smart contract, cette upgradabilité n'existe pas nativement -- il faut recourir à des patterns proxy (plus complexes et fragiles).
+
+### 7.6. Accounts, Balance, Staking
+
+**Accounts (comptes)**
+- Format d'adresse **SS58** : encodage spécifique à Polkadot basé sur la clé publique.
+- Les adresses Polkadot commencent par `1`, Kusama par une lettre majuscule, Substrate générique par `5`.
+- Chaque compte a un solde, un nonce (compteur de transactions), et peut détenir des données supplémentaires (identity, proxy...).
+
+**Balance (solde)**
+- Le DOT est divisible en 10 milliards de "planck" (plus petite unité).
+- Existential deposit : un compte doit maintenir un solde minimum (~1 DOT) pour exister on-chain. En dessous, le compte est nettoyé (reaped) pour économiser du stockage.
+- Pertinence DAO : les membres doivent avoir un solde minimum pour interagir. Les votes pondérés par le stake utilisent le solde du compte.
+
+**Staking (mise en jeu)**
+- Polkadot utilise le **Nominated Proof of Stake (NPoS)**.
+- Les token holders peuvent être **nominateurs** (ils sélectionnent des validateurs de confiance et stakent leurs DOT derrière eux) ou **validateurs** (ils opèrent un noeud et valident les blocs).
+- Les récompenses sont distribuées **également** entre validateurs (indépendamment du stake), ce qui décourage la centralisation.
+- Pertinence DAO : le staking peut servir de mécanisme d'engagement. Les membres qui stakent des tokens du DAO signalent un engagement à long terme. Le conviction voting de Polkadot formalise ce principe : plus longtemps vous verrouillez vos tokens, plus votre vote pèse.
+
+---
+
+## 8. Prochaines étapes recommandées
+
+Pour un développeur expérimenté qui souhaite construire un DAO de coordination technique sur Polkadot, voici un plan d'apprentissage concret :
+
+### Etape 1 : familiarisation (1-2 semaines)
+
+- [ ] Installer un wallet Polkadot (Talisman ou Polkadot.js extension)
+- [ ] Explorer le Polkadot Hub via [Polkadot.js Apps](https://polkadot.js.org/apps/)
+- [ ] Suivre le tutorial ink! ERC-20 (pour comprendre les concepts, même si ink! est en pause) : [use.ink Getting Started](https://use.ink/)
+- [ ] Lire la documentation Polkadot Hub Smart Contracts : [docs.polkadot.com](https://docs.polkadot.com/develop/smart-contracts/)
+- [ ] Examiner les contrats de gouvernance OpenZeppelin (Governor, TimelockController, Votes)
+
+### Etape 2 : prototype smart contract (2-4 semaines)
+
+- [ ] Déployer un contrat Solidity basique de vote sur Polkadot Hub testnet
+- [ ] Implémenter : membership (whitelist), propositions, votes, exécution
+- [ ] Tester via Hardhat/Foundry
+- [ ] Construire un frontend minimal (ethers.js + React)
+
+### Etape 3 : enrichissement (1-2 mois)
+
+- [ ] Ajouter un trésor (multisig ou contrat treasury)
+- [ ] Implémenter la délégation de vote
+- [ ] Explorer XCM precompile pour interactions cross-chain
+- [ ] Evaluer la pertinence d'une migration vers une parachain FRAME
+
+### Etape 4 : si migration parachain (3-6 mois)
+
+- [ ] Apprendre Rust et le Polkadot SDK
+- [ ] Suivre les tutoriels FRAME : [docs.polkadot.com/develop/parachains/](https://docs.polkadot.com/develop/parachains/)
+- [ ] Assembler un runtime avec pallets de gouvernance
+- [ ] Déployer sur un relay chain local (Zombienet)
+- [ ] Acquérir du coretime sur Kusama (réseau canary) pour tester en conditions réelles
+
+---
+
+## 9. Sources
+
+### Documentation officielle
+
+- [Architecture Polkadot - Developer Docs](https://docs.polkadot.com/polkadot-protocol/architecture/)
+- [Relay Chain Overview - Developer Docs](https://docs.polkadot.com/polkadot-protocol/architecture/polkadot-chain/overview/)
+- [System Chains Overview - Developer Docs](https://docs.polkadot.com/polkadot-protocol/architecture/system-chains/overview/)
+- [Parachains Overview - Developer Docs](https://docs.polkadot.com/polkadot-protocol/architecture/parachains/overview/)
+- [Parachain Consensus - Developer Docs](https://docs.polkadot.com/polkadot-protocol/architecture/parachains/consensus/)
+- [PoS Consensus (BABE/GRANDPA) - Developer Docs](https://docs.polkadot.com/polkadot-protocol/architecture/polkadot-chain/pos-consensus/)
+- [On-Chain Governance Overview - Developer Docs](https://docs.polkadot.com/polkadot-protocol/onchain-governance/overview/)
+- [Origins and Tracks - Developer Docs](https://docs.polkadot.com/polkadot-protocol/onchain-governance/origins-tracks/)
+- [Introduction to XCM - Developer Docs](https://docs.polkadot.com/develop/interoperability/intro-to-xcm/)
+- [Smart Contracts Overview - Developer Docs](https://docs.polkadot.com/develop/smart-contracts/overview/)
+- [Polkadot Hub Smart Contracts - Developer Docs](https://docs.polkadot.com/reference/polkadot-hub/smart-contracts/)
+- [Polkadot SDK Accounts - Developer Docs](https://docs.polkadot.com/polkadot-protocol/parachain-basics/accounts/)
+- [EVM vs PolkaVM - Developer Docs](https://docs.polkadot.com/polkadot-protocol/smart-contract-basics/evm-vs-polkavm/)
+- [PolkaVM Design - Developer Docs](https://docs.polkadot.com/polkadot-protocol/smart-contract-basics/polkavm-design/)
+- [Make a Custom Pallet - Developer Docs](https://docs.polkadot.com/develop/parachains/customize-parachain/make-custom-pallet/)
+- [Glossary - Developer Docs](https://docs.polkadot.com/reference/glossary/)
+
+### Wiki communautaire
+
+- [Architecture - Polkadot Wiki](https://wiki.polkadot.com/learn/learn-architecture/)
+- [Consensus Protocols - Polkadot Wiki](https://wiki.polkadot.com/learn/learn-consensus/)
+- [Parachains - Polkadot Wiki](https://wiki.polkadot.com/learn/learn-parachains/)
+- [Smart Contracts on Polkadot - Polkadot Wiki](https://wiki.polkadot.com/learn/learn-smart-contracts/)
+- [OpenGov - Polkadot Wiki](https://wiki.polkadot.com/learn/learn-polkadot-opengov/)
+- [Transactions (Extrinsics) - Polkadot Wiki](https://wiki.polkadot.com/learn/learn-transactions/)
+- [Validators - Polkadot Wiki](https://wiki.polkadot.com/learn/learn-validator/)
+- [Staking on Polkadot - Polkadot Wiki](https://wiki.polkadot.network/docs/learn-staking)
+- [XCM Introduction - Polkadot Wiki](https://wiki.polkadot.com/learn/learn-xcm/)
+
+### Smart contracts
+
+- [ink! Documentation](https://use.ink/)
+- [ink! Smart Contracts in Polkadot](https://use.ink/docs/v5/smart-contracts-polkadot/)
+- [Revive Compiler (Solidity to PolkaVM) - GitHub](https://github.com/paritytech/revive)
+- [pallet-revive API Reference](https://paritytech.github.io/polkadot-sdk/master/pallet_revive/)
+- [pallet-democracy source - GitHub](https://github.com/paritytech/polkadot-sdk/blob/master/substrate/frame/democracy/src/lib.rs)
+
+### Articles et analyses
+
+- [Polkadot Upgrade 2025 - Parity Technologies](https://www.parity.io/blog/polkadot-upgrade-2025-what-you-need-to-know)
+- [Polkadot Hub Smart Contracts FAQ - Parity Technologies](https://www.parity.io/blog/polkadot-hub-smart-contracts-faqs-for-ethereum-and-l2-developers)
+- [Smart Contracts vs Substrate Pallets - 0xbrainjar (Medium)](https://0xbrainjar.medium.com/smart-contracts-vs-substrate-pallets-important-building-blocks-and-their-differences-6c39b9e8d68d)
+- [OpenGov Part I - Polkadot Blog](https://polkadot.com/blog/lets-talk-polkadot-opengov-part-i/)
+- [Gov2: Next Generation Governance - Polkadot Blog](https://polkadot.com/blog/gov2-polkadots-next-generation-of-decentralised-governance/)
+- [Q3 2025 Polkadot DAO Recap - Polkadot Blog](https://polkadot.com/blog/q3-2025-polkadot-dao-recap/)
+- [Smart Contracts on Polkadot Hub: Progress Update - Polkadot Forum](https://forum.polkadot.network/t/smart-contracts-on-polkadot-hub-progress-update/14596)
+
+---
+
+*Document produit le 2026-02-08. Les informations reflètent l'état de l'écosystème Polkadot à cette date. L'écosystème évoluant rapidement (transition ink! vers Solidity/Revive, déploiement Agile Coretime, XCM v5), vérifier les sources officielles pour les mises à jour les plus récentes.*

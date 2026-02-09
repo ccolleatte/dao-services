@@ -2,7 +2,7 @@
 pragma solidity ^0.8.20;
 
 import "@openzeppelin/contracts/access/AccessControl.sol";
-import "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
+import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 import "./DAOMembership.sol";
 
 /**
@@ -114,8 +114,9 @@ contract DAOTreasury is AccessControl, ReentrancyGuard {
         string memory description,
         string memory category
     ) external returns (uint256) {
-        // Verify proposer is DAO member
-        if (membership.getMemberRank(msg.sender) == 0) {
+        // Verify proposer is active DAO member with rank > 0
+        (uint8 rank,,,, bool active) = membership.members(msg.sender);
+        if (!active || rank == 0) {
             revert Unauthorized();
         }
 

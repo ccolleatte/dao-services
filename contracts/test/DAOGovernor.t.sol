@@ -24,7 +24,7 @@ contract DAOGovernorTest is Test {
         vm.startPrank(admin);
 
         // Deploy DAOMembership
-        membership = new DAOMembership(admin);
+        membership = new DAOMembership();
 
         // Setup timelock
         address[] memory proposers = new address[](1);
@@ -49,11 +49,11 @@ contract DAOGovernorTest is Test {
         timelock.grantRole(EXECUTOR_ROLE, address(governor));
 
         // Add members with various ranks
-        membership.addMember(proposer1, 1); // Active Contributor
-        membership.addMember(proposer2, 2); // Mid-Level Contributor
-        membership.addMember(proposer3, 3); // Core Team
-        membership.addMember(voter1, 1);
-        membership.addMember(voter2, 2);
+        membership.addMember(proposer1, 1, "proposer1"); // Active Contributor
+        membership.addMember(proposer2, 2, "proposer2"); // Mid-Level Contributor
+        membership.addMember(proposer3, 3, "proposer3"); // Core Team
+        membership.addMember(voter1, 1, "voter1");
+        membership.addMember(voter2, 2, "voter2");
 
         vm.stopPrank();
     }
@@ -90,7 +90,7 @@ contract DAOGovernorTest is Test {
 
         targets[0] = address(membership);
         values[0] = 0;
-        calldatas[0] = abi.encodeWithSignature("addMember(address,uint8)", address(99), 1);
+        calldatas[0] = abi.encodeWithSignature("addMember(address,uint8,string)", address(99), 1, "newmember");
 
         uint256 proposalId = governor.proposeWithTrack(
             targets,
@@ -115,7 +115,7 @@ contract DAOGovernorTest is Test {
 
         targets[0] = address(membership);
         values[0] = 0;
-        calldatas[0] = abi.encodeWithSignature("addMember(address,uint8)", address(99), 1);
+        calldatas[0] = abi.encodeWithSignature("addMember(address,uint8,string)", address(99), 1, "newmember");
 
         vm.expectRevert(
             abi.encodeWithSelector(
@@ -236,8 +236,8 @@ contract DAOGovernorTest is Test {
         // Vote weights should reflect DAOMembership triangular numbers
         // Rank 1: weight = 1, Rank 2: weight = 3, Rank 3: weight = 6
 
-        // Voter with Rank 2 should have weight 3
-        uint256 voter2Weight = membership.calculateVoteWeight(voter2);
+        // Voter with Rank 2 should have weight 3 (Technical track requires Rank 2+)
+        uint256 voter2Weight = membership.calculateVoteWeight(voter2, 2);
         assertEq(voter2Weight, 3);
 
         // Voter with Rank 1 should have weight 0 (below minRank for Technical)

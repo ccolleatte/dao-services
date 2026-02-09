@@ -1,0 +1,30 @@
+{
+  "name": "dao-services-ai",
+  "version": "0.1.0-alpha",
+  "description": "Organisation décentralisée de services IA/humains sur Polkadot",
+  "private": true,
+  "scripts": {
+    "test": "forge test",
+    "test:coverage": "forge coverage",
+    "build": "forge build",
+    "deploy:testnet": "forge script contracts/script/Deploy.s.sol --rpc-url polkadot_hub_paseo --broadcast",
+    "lint": "solhint 'contracts/src/**/*.sol'",
+    "format": "forge fmt",
+    "frontend:dev": "cd frontend && npm run dev",
+    "frontend:build": "cd frontend && npm run build"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "solhint": "^4.1.1"
+  },
+  "keywords": [
+    "polkadot",
+    "dao",
+    "smart-contracts",
+    "solidity",
+    "opengov",
+    "ai-services"
+  ],
+  "author": "DAO Services AI Team",
+  "license": "MIT"
+}

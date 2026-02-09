@@ -20,7 +20,7 @@ contract DAOTreasuryTest is Test {
         vm.startPrank(admin);
 
         // Deploy contracts
-        membership = new DAOMembership(admin);
+        membership = new DAOMembership();
         treasury = new DAOTreasury(membership, admin);
 
         // Setup roles
@@ -28,8 +28,8 @@ contract DAOTreasuryTest is Test {
         treasury.grantRole(treasury.SPENDER_ROLE(), treasurer);
 
         // Add members
-        membership.addMember(member1, 1);
-        membership.addMember(member2, 2);
+        membership.addMember(member1, 1, "member1");
+        membership.addMember(member2, 2, "member2");
 
         // Fund treasury
         vm.deal(address(treasury), 1000 ether);

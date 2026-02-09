@@ -19,7 +19,7 @@ contract DeployGovernance is Script {
 
         // Step 1: Deploy DAOMembership
         console.log("\n1. Deploying DAOMembership...");
-        DAOMembership membership = new DAOMembership(deployer);
+        DAOMembership membership = new DAOMembership();
         console.log("   DAOMembership deployed at:", address(membership));
 
         // Step 2: Deploy TimelockController
@@ -61,7 +61,7 @@ contract DeployGovernance is Script {
 
         // Step 6: Setup initial members (deployer as founder)
         console.log("\n6. Adding initial members...");
-        membership.addMember(deployer, 4); // Founder rank
+        membership.addMember(deployer, 4, "deployer"); // Founder rank
         console.log("   Deployer added as Founder (Rank 4)");
 
         // Step 7: Grant treasury roles

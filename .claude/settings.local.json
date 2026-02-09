@@ -1,0 +1,31 @@
+{
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "Bash(powershell:*)",
+      "Bash(forge test:*)",
+      "Bash(git add:*)",
+      "Bash(git init:*)",
+      "Bash(git commit:*)",
+      "WebFetch(domain:export.arxiv.org)",
+      "Bash(git push:*)",
+      "Bash(gh:*)",
+      "Bash(forge:*)",
+      "Bash(curl:*)",
+      "Bash(bash:*)",
+      "Bash(source:*)",
+      "Bash(foundryup:*)",
+      "Bash(cast:*)",
+      "Bash(Test-Path:*)",
+      "Bash(if [ -d \"frontend\" ])",
+      "Bash(then echo \"exists\")",
+      "Bash(else echo \"not exists\")",
+      "Bash(fi)",
+      "Bash(npm install:*)",
+      "Bash(python:*)",
+      "Bash(tee:*)",
+      "Bash(git pull:*)",
+      "Bash(git fetch:*)"
+    ]
+  }
+}

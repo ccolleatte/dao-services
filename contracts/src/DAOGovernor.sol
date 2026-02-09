@@ -120,7 +120,8 @@ contract DAOGovernor is
         Track track
     ) public returns (uint256) {
         // Verify proposer rank
-        uint8 proposerRank = membership.getMemberRank(msg.sender);
+        (uint8 proposerRank,,,, bool active) = membership.members(msg.sender);
+        require(active, "Member not active");
         TrackConfig memory config = trackConfigs[track];
 
         if (proposerRank < config.minRank) {
@@ -161,14 +162,14 @@ contract DAOGovernor is
         TrackConfig memory config = trackConfigs[track];
 
         // Calculate vote weight based on DAOMembership
-        uint8 memberRank = membership.getMemberRank(account);
+        (uint8 memberRank,,,, bool active) = membership.members(account);
 
-        // Only count votes from members meeting minimum rank
-        if (memberRank < config.minRank) {
+        // Only count votes from active members meeting minimum rank
+        if (!active || memberRank < config.minRank) {
             return 0;
         }
 
-        return membership.calculateVoteWeight(account);
+        return membership.calculateVoteWeight(account, config.minRank);
     }
 
     /**
@@ -204,14 +205,14 @@ contract DAOGovernor is
     /**
      * @notice Get track-specific voting delay
      */
-    function votingDelay() public view override(Governor, GovernorSettings) returns (uint256) {
+    function votingDelay() public view override(IGovernor, GovernorSettings) returns (uint256) {
         return super.votingDelay();
     }
 
     /**
      * @notice Get track-specific voting period
      */
-    function votingPeriod() public view override(Governor, GovernorSettings) returns (uint256) {
+    function votingPeriod() public view override(IGovernor, GovernorSettings) returns (uint256) {
         return super.votingPeriod();
     }
 
@@ -222,7 +223,7 @@ contract DAOGovernor is
     function quorum(uint256 blockNumber)
         public
         view
-        override(Governor, GovernorVotesQuorumFraction)
+        override(IGovernor, GovernorVotesQuorumFraction)
         returns (uint256)
     {
         return super.quorum(blockNumber);
@@ -248,7 +249,7 @@ contract DAOGovernor is
         uint256[] memory values,
         bytes[] memory calldatas,
         string memory description
-    ) public override(Governor) returns (uint256) {
+    ) public override(IGovernor, Governor) returns (uint256) {
         return super.propose(targets, values, calldatas, description);
     }
 
