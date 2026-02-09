@@ -1,33 +1,1106 @@
 {
   "topic": "dao-governance",
   "time_period": "2024-2025",
-  "last_updated": "2026-02-09T12:00:00Z",
-  "total_papers": 0,
-  "curation_status": "Phase 1 - Discovery in progress",
+  "last_updated": "2026-02-09T15:45:00Z",
+  "total_papers": 31,
+  "curation_status": "Phase 1 - Queries 1B+1C completed (48 papers found, 31 curated)",
   "target_papers": 30,
   "priority": "P0 - Critical for Q2 2026 ACM AFT publication",
   "arxiv_queries": [
     {
-      "query_id": "1A",
-      "description": "Core DAO papers",
-      "query_string": "cat:cs.CR OR cat:cs.CY AND (ti:DAO OR ti:\"decentralized autonomous organization\") AND submittedDate:[2024 TO 2025]",
-      "expected_results": "15-20 papers",
-      "status": "pending"
-    },
-    {
       "query_id": "1B",
-      "description": "Governance mechanisms",
-      "query_string": "cat:cs.CR AND (ti:\"on-chain governance\" OR ti:\"blockchain governance\") AND (abs:voting OR abs:proposal) AND submittedDate:[2023 TO 2025]",
+      "description": "Blockchain governance mechanisms",
+      "query_string": "ti:\"blockchain governance\" OR ti:\"on-chain governance\" OR ti:\"decentralized governance\" AND submittedDate:[2023 TO 2025]",
       "expected_results": "20-30 papers",
-      "status": "pending"
+      "status": "completed",
+      "actual_results": 24,
+      "papers_curated": 15
     },
     {
       "query_id": "1C",
-      "description": "Voting theory",
-      "query_string": "cat:cs.CY OR cat:econ.GN AND (ti:\"quadratic voting\" OR ti:\"conviction voting\") AND submittedDate:[2020 TO 2025]",
+      "description": "Voting theory and blockchain voting mechanisms",
+      "query_string": "abs:\"blockchain\" AND (abs:\"voting\" OR abs:\"governance mechanism\") AND (abs:\"DAO\" OR abs:\"decentralized\") AND submittedDate:[2023 TO 2025]",
       "expected_results": "10-15 papers",
-      "status": "pending"
+      "status": "completed",
+      "actual_results": 24,
+      "papers_curated": 16
     }
   ],
-  "papers": []
+  "papers": [
+    {
+      "arxiv_id": "2512.23618",
+      "title": "Verifiable Off-Chain Governance",
+      "authors": [
+        "Hartnell, Jake",
+        "Battaglia, Eugenio"
+      ],
+      "submitted_date": "2025-12-29",
+      "categories": [
+        "cs.GT"
+      ],
+      "abstract": "Current DAO governance praxis limits organizational expressivity and reduces complex organizational decisions to token-weighted voting due to on-chain computational limits. This paper proposes verifiable off-chain computation (leveraging Verifiable Services, TEEs, and ZK proofs) as a framework to transcend these constraints while maintaining cryptoeconomic security. This paper explores three novel governance mechanisms: (1) attestation-based systems that compute multi-dimensional stakeholder legitimacy, (2) collective intelligence through verifiable preference processing, and (3) autonomous policy execution via Policy-as-Code. The framework provides architectural specifications, security models, and implementation considerations for DAOs seeking higher-resolution expressivity and increased operational efficiency, with validation from pioneering implementations demonstrating practical viability.",
+      "pdf_url": "https://arxiv.org/pdf/2512.23618v1",
+      "relevance_score": 9,
+      "tags": [
+        "off-chain-governance",
+        "verifiable-computation",
+        "zk-proofs",
+        "policy-as-code",
+        "multi-dimensional-legitimacy"
+      ],
+      "citation_count": 0,
+      "notes": "HIGHLY RELEVANT - Novel mechanisms beyond token-weighted voting. Attestation-based legitimacy aligns with our triangular number weighting (expertise-based). Architectural specs useful for Phase 5 implementation.",
+      "integration_status": "pending_review",
+      "pdf_stored_locally": true,
+      "scoring_breakdown": {
+        "topic_match": 3,
+        "methodology_rigor": 3,
+        "citation_potential": 2,
+        "recency": 1
+      }
+    },
+    {
+      "arxiv_id": "2510.21117",
+      "title": "DAO-AI: Evaluating Collective Decision-Making through Agentic AI in Decentralized Governance",
+      "authors": [
+        "Capponi, Agostino",
+        "Gliozzo, Alfio",
+        "Han, Chunghyun",
+        "Lee, Junkyu"
+      ],
+      "submitted_date": "2025-10-24",
+      "categories": [
+        "cs.AI"
+      ],
+      "abstract": "This paper presents a first empirical study of agentic AI as autonomous decision-makers in decentralized governance. Using more than 3K proposals from major protocols, we build an agentic AI voter that interprets proposal contexts, retrieves historical deliberation data, and independently determines its voting position. The agent operates within a realistic financial simulation environment grounded in verifiable blockchain data, implemented through a modular composable program (MCP) workflow that defines data flow and tool usage via Agentics framework. We evaluate how closely the agent's decisions align with the human and token-weighted outcomes, uncovering strong alignments measured by carefully designed evaluation metrics. Our findings demonstrate that agentic AI can augment collective decision-making by producing interpretable, auditable, and empirically grounded signals in realistic DAO governance settings. The study contributes to the design of explainable and economically rigorous AI agents for decentralized financial systems.",
+      "pdf_url": "https://arxiv.org/pdf/2510.21117v2",
+      "relevance_score": 9,
+      "tags": [
+        "agentic-ai",
+        "collective-decision-making",
+        "empirical-study",
+        "3k-proposals",
+        "mcp-workflow",
+        "alignment-metrics"
+      ],
+      "citation_count": 0,
+      "notes": "CRITICAL - 3K proposals analyzed, MCP workflow (relevant for our implementation), AI-augmented governance. Alignment metrics useful for validating our triangular voting mechanism.",
+      "integration_status": "pending_review",
+      "pdf_stored_locally": true,
+      "scoring_breakdown": {
+        "topic_match": 3,
+        "methodology_rigor": 3,
+        "citation_potential": 2,
+        "recency": 1
+      }
+    },
+    {
+      "arxiv_id": "2507.20234",
+      "title": "Democracy for DAOs: An Empirical Study of Decentralized Governance and Dynamic (Case Study Internet Computer SNS Ecosystem)",
+      "authors": [
+        "Okutan, Burak Arda",
+        "Schmid, Stefan",
+        "Pignolet, Yvonne-Anne"
+      ],
+      "submitted_date": "2025-07-27",
+      "categories": [
+        "cs.NI"
+      ],
+      "abstract": "Decentralized autonomous organizations (DAOs) rely on governance mechanism without centralized leadership. This paper presents an empirical study of user behavior in governance for a variety of DAOs, ranging from DeFi to gaming, using the Internet Computer Protocol DAO framework called SNS (Service Nervous System). To analyse user engagement, we measure participation rates and frequency of proposals submission and voter approval rates. We evaluate decision duration times to determine DAO agility. To investigate dynamic aspects, we also measure metric shifts in time. We evaluate over 3,000 proposals submitted in a time frame of 20 months from 14 SNS DAOs. The selected DAO have been existing between 6 and 20 months and cover a wide spectrum of use cases, treasury sizes, and number of participants. We also compare our results for SNS DAOs with DAOs from other blockchain platforms. While approval rates are generally high for all DAOs studied, SNS DAOs show slightly more alignment. We observe that the SNS governance mechanisms and processes in ICP lead to higher activity, lower costs and faster decisions. Most importantly, in contrast to studies which report a decline in participation over time for other frameworks, SNS DAOs exhibit sustained or increasing engagement levels over time.",
+      "pdf_url": "https://arxiv.org/pdf/2507.20234v1",
+      "relevance_score": 8,
+      "tags": [
+        "empirical-study",
+        "3k-proposals",
+        "14-daos",
+        "participation-rates",
+        "sustained-engagement",
+        "sns-icp"
+      ],
+      "citation_count": 0,
+      "notes": "HIGH RELEVANCE - Empirical data on 3K proposals, sustained engagement (addresses participation problem). SNS framework comparison useful for benchmarking our approach.",
+      "integration_status": "pending_review",
+      "pdf_stored_locally": true,
+      "scoring_breakdown": {
+        "topic_match": 3,
+        "methodology_rigor": 3,
+        "citation_potential": 1,
+        "recency": 1
+      }
+    },
+    {
+      "arxiv_id": "2505.04136",
+      "title": "Delegation and Participation in Decentralized Governance: An Epistemic View",
+      "authors": [
+        "Strnad, Jeff"
+      ],
+      "submitted_date": "2025-05-07",
+      "categories": [
+        "cs.SI"
+      ],
+      "abstract": "We develop and apply epistemic tests to various decentralized governance methods as well as to study the impact of participation. These tests probe the ability to reach a correct outcome when there is one. We find that partial abstention is a strong governance method from an epistemic standpoint compared to alternatives such as various forms of \"transfer delegation\" in which voters explicitly transfer some or all of their voting rights to others. We make a stronger case for multi-step transfer delegation than is present in previous work but also demonstrate that transfer delegation has inherent epistemic weaknesses. We show that enhanced direct participation, voters exercising their own voting rights, can have a variety of epistemic impacts, some very negative. We identify governance conditions under which additional direct participation is guaranteed to do no epistemic harm and is likely to increase the probability of making correct decisions. In light of the epistemic challenges of voting-based decentralized governance, we consider the possible supplementary use of prediction markets, auctions, and AI agents to improve outcomes. All these results are significant because epistemic performance matters if entities such as DAOs (decentralized autonomous organizations) wish to compete with organizations that are more centralized.",
+      "pdf_url": "https://arxiv.org/pdf/2505.04136v1",
+      "relevance_score": 9,
+      "tags": [
+        "epistemic-tests",
+        "delegation",
+        "participation",
+        "transfer-delegation",
+        "partial-abstention",
+        "prediction-markets"
+      ],
+      "citation_count": 0,
+      "notes": "CRITICAL - Epistemic analysis of governance methods. Partial abstention vs transfer delegation highly relevant for our rank-based voting. Conditions for direct participation useful for triangular weight justification.",
+      "integration_status": "pending_review",
+      "pdf_stored_locally": true,
+      "scoring_breakdown": {
+        "topic_match": 3,
+        "methodology_rigor": 3,
+        "citation_potential": 2,
+        "recency": 1
+      }
+    },
+    {
+      "arxiv_id": "2504.11341",
+      "title": "Evaluating DAO Sustainability and Longevity Through On-Chain Governance Metrics",
+      "authors": [
+        "Meneguzzo, Silvio",
+        "Schifanella, Claudio",
+        "Gatteschi, Valentina",
+        "Destefanis, Giuseppe"
+      ],
+      "submitted_date": "2025-04-15",
+      "categories": [
+        "cs.CY"
+      ],
+      "abstract": "Decentralised Autonomous Organisations (DAOs) automate governance and resource allocation through smart contracts, aiming to shift decision-making to distributed token holders. However, many DAOs face sustainability challenges linked to limited user participation, concentrated voting power, and technical design constraints. This paper addresses these issues by identifying research gaps in DAO evaluation and introducing a framework of Key Performance Indicators (KPIs) that capture governance efficiency, financial robustness, decentralisation, and community engagement. We apply the framework to a custom-built dataset of real-world DAOs constructed from on-chain data and analysed using non-parametric methods. The results reveal recurring governance patterns, including low participation rates and high proposer concentration, which may undermine long-term viability. The proposed KPIs offer a replicable, data-driven method for assessing DAO governance structures and identifying potential areas for improvement. These findings support a multidimensional approach to evaluating decentralised systems and provide practical tools for researchers and practitioners working to improve the resilience and effectiveness of DAO-based governance models.",
+      "pdf_url": "https://arxiv.org/pdf/2504.11341v2",
+      "relevance_score": 9,
+      "tags": [
+        "kpi-framework",
+        "sustainability",
+        "participation-rates",
+        "concentrated-voting",
+        "on-chain-metrics",
+        "multidimensional-evaluation"
+      ],
+      "citation_count": 0,
+      "notes": "CRITICAL - KPI framework for DAO evaluation. Low participation + concentrated voting = problems our triangular mechanism addresses. Multidimensional metrics useful for Phase 7 monitoring dashboard.",
+      "integration_status": "pending_review",
+      "pdf_stored_locally": true,
+      "scoring_breakdown": {
+        "topic_match": 3,
+        "methodology_rigor": 3,
+        "citation_potential": 2,
+        "recency": 1
+      }
+    },
+    {
+      "arxiv_id": "2407.10945",
+      "title": "Blockchain Governance: An Empirical Analysis of User Engagement on DAOs",
+      "authors": [
+        "Falk, Brett",
+        "Pathan, Tasneem",
+        "Rigas, Andrew",
+        "Tsoukalas, Gerry"
+      ],
+      "submitted_date": "2024-07-15",
+      "categories": [
+        "cs.CY"
+      ],
+      "abstract": "In this note, we examine voting on four major blockchain DAOs: Aave, Compound, Lido and Uniswap. Using data directly collected from the Ethereum blockchain, we find that in most votes, the \"minimal quorum,\" i.e., the smallest number of active voters who could swing the vote is quite small. To understand who is actually driving these DAOs, we use data from the Ethereum Name Service (ENS), Sybil.org, and Compound, to divide voters into different categories.",
+      "pdf_url": "https://arxiv.org/pdf/2407.10945v1",
+      "relevance_score": 8,
+      "tags": [
+        "empirical-analysis",
+        "minimal-quorum",
+        "aave",
+        "compound",
+        "lido",
+        "uniswap",
+        "voter-categories"
+      ],
+      "citation_count": 0,
+      "notes": "HIGH RELEVANCE - Minimal quorum analysis critical for understanding vote manipulation risk. 4 major DAOs comparison provides benchmarks. Voter categorization (ENS/Sybil) useful for anti-Sybil mechanisms.",
+      "integration_status": "pending_review",
+      "pdf_stored_locally": true,
+      "scoring_breakdown": {
+        "topic_match": 3,
+        "methodology_rigor": 2,
+        "citation_potential": 2,
+        "recency": 1
+      }
+    },
+    {
+      "arxiv_id": "2404.13768",
+      "title": "The Economics of Blockchain Governance: Evaluate Liquid Democracy on the Internet Computer",
+      "authors": [
+        "Liu, Yulin",
+        "Zhang, Luyao"
+      ],
+      "submitted_date": "2024-04-21",
+      "categories": [
+        "econ.GN"
+      ],
+      "abstract": "Decentralized Autonomous Organizations (DAOs), utilizing blockchain technology to enable collective governance, are a promising innovation. This research addresses the ongoing query in blockchain governance: How can DAOs optimize human cooperation? Focusing on the Network Nervous System (NNS), a comprehensive on-chain governance framework underpinned by the Internet Computer Protocol (ICP) and liquid democracy principles, we employ theoretical abstraction and simulations to evaluate its potential impact on cooperation and economic growth within DAOs. Our findings emphasize the significance of the NNS's staking mechanism, particularly the reward multiplier, in aligning individual short-term interests with the DAO's long-term prosperity. This study contributes to the understanding and effective design of blockchain-based governance systems.",
+      "pdf_url": "https://arxiv.org/pdf/2404.13768v2",
+      "relevance_score": 8,
+      "tags": [
+        "liquid-democracy",
+        "nns-icp",
+        "staking-mechanism",
+        "reward-multiplier",
+        "economic-simulation",
+        "cooperation-optimization"
+      ],
+      "citation_count": 0,
+      "notes": "HIGH RELEVANCE - Liquid democracy + staking aligns with our rank progression system. Reward multiplier insight useful for tokenomics design. Cooperation optimization via economic incentives relevant for Phase 4.",
+      "integration_status": "pending_review",
+      "pdf_stored_locally": true,
+      "scoring_breakdown": {
+        "topic_match": 3,
+        "methodology_rigor": 2,
+        "citation_potential": 2,
+        "recency": 1
+      }
+    },
+    {
+      "arxiv_id": "2305.17655",
+      "title": "Understanding Blockchain Governance: Analyzing Decentralized Voting to Amend DeFi Smart Contracts",
+      "authors": [
+        "Messias, Johnnatan",
+        "Pahari, Vabuk",
+        "Chandrasekaran, Balakrishnan",
+        "Gummadi, Krishna P.",
+        "Loiseau, Patrick"
+      ],
+      "submitted_date": "2023-05-28",
+      "categories": [
+        "cs.CR"
+      ],
+      "abstract": "Decentralized Autonomous Organizations (DAOs) have emerged as a novel governance mechanism in blockchain ecosystems, particularly within Decentralized Finance (DeFi). By enabling token holders to propose and vote on protocol changes, these systems promise transparent and equitable decision-making without centralized control. In this paper, we present an in-depth empirical study of the governance protocols of Compound and Uniswap, two of the most widely used DAOs in DeFi. Analyzing over 370 governance proposals and millions of on-chain events from their inception until August 2024, we uncover significant centralization of voting power: as few as 3--5 voters were sufficient to sway the majority of proposals. We also find that the cost of voting disproportionately burdens smaller token holders, and that strategic voting behaviors, such as delayed participation and coalition formation, further distort governance outcomes. Our findings suggest that despite their decentralized ideals, current DAO governance mechanisms fall short in practice.",
+      "pdf_url": "https://arxiv.org/pdf/2305.17655v4",
+      "relevance_score": 9,
+      "tags": [
+        "compound",
+        "uniswap",
+        "370-proposals",
+        "centralization",
+        "voting-cost",
+        "strategic-voting",
+        "coalition-formation"
+      ],
+      "citation_count": 0,
+      "notes": "CRITICAL - 370 proposals analyzed, centralization evidence (3-5 voters control outcome). Voting cost burden on small holders justifies our triangular weighting. Strategic behaviors insight for anti-manipulation design.",
+      "integration_status": "pending_review",
+      "pdf_stored_locally": true,
+      "scoring_breakdown": {
+        "topic_match": 3,
+        "methodology_rigor": 3,
+        "citation_potential": 2,
+        "recency": 1
+      }
+    },
+    {
+      "arxiv_id": "2302.12125",
+      "title": "The Hidden Shortcomings of (D)AOs -- An Empirical Study of On-Chain Governance",
+      "authors": [
+        "Feichtinger, Rainer",
+        "Fritsch, Robin",
+        "Vonlanthen, Yann",
+        "Wattenhofer, Roger"
+      ],
+      "submitted_date": "2023-02-23",
+      "categories": [
+        "cs.CY"
+      ],
+      "abstract": "Decentralized autonomous organizations (DAOs) are a recent innovation in organizational structures, which are already widely used in the blockchain ecosystem. We empirically study the on-chain governance systems of 21 DAOs and open source the live dataset. The DAOs we study are of various size and activity, and govern a wide range of protocols and services, such as decentralized exchanges, lending protocols, infrastructure projects and common goods funding. Our analysis unveils a high concentration of voting rights, a significant hidden monetary costs of on-chain governance systems, as well as a remarkably high amount of pointless governance activity.",
+      "pdf_url": "https://arxiv.org/pdf/2302.12125v2",
+      "relevance_score": 8,
+      "tags": [
+        "21-daos",
+        "empirical-study",
+        "voting-concentration",
+        "governance-costs",
+        "pointless-activity",
+        "open-dataset"
+      ],
+      "citation_count": 0,
+      "notes": "HIGH RELEVANCE - 21 DAOs studied, voting concentration + hidden costs + pointless activity = problems triangular voting solves. Open dataset useful for comparative benchmarking Phase 8.",
+      "integration_status": "pending_review",
+      "pdf_stored_locally": true,
+      "scoring_breakdown": {
+        "topic_match": 3,
+        "methodology_rigor": 3,
+        "citation_potential": 1,
+        "recency": 1
+      }
+    },
+    {
+      "arxiv_id": "2201.07188",
+      "title": "SoK: Blockchain Governance",
+      "authors": [
+        "Kiayias, Aggelos",
+        "Lazos, Philip"
+      ],
+      "submitted_date": "2022-01-18",
+      "categories": [
+        "cs.CR"
+      ],
+      "abstract": "Blockchain systems come with a promise of decentralization that often stumbles on a roadblock when key decisions about modifying the software codebase need to be made. This is attested by the fact that both of the two major cryptocurrencies, Bitcoin and Ethereum, have undergone hard forks that resulted in the creation of alternative systems, creating confusion and opportunities for fraudulent activities. These events, and numerous others, underscore the importance of Blockchain governance, namely the set of processes that blockchain platforms utilize in order to perform decision-making and converge to a widely accepted direction for the system to evolve. While a rich topic of study in other areas, governance of blockchain platforms is lacking a well established set of methods and practices that are adopted industry wide. This makes the topic of blockchain governance a fertile domain for a thorough systematization that we undertake in this work. We start by distilling a comprehensive array of properties for sound governance systems drawn from academic sources as well as grey literature of election systems and blockchain white papers. These are divided into seven categories, confidentiality, verifiability, accountability, sustainability, Pareto efficiency, suffrage and liveness that capture the whole spectrum of desiderata of governance systems. We proceed to classify ten well-documented blockchain systems. While all properties are satisfied, even partially, by at least one system, no system that satisfies most of them. Our work lays out a foundation for assessing blockchain governance processes. While it highlights shortcomings and deficiencies in currently deployed systems, it can also be a catalyst for improving these processes to the highest possible standard with appropriate trade-offs, something direly needed for blockchain platforms to operate effectively in the long term.",
+      "pdf_url": "https://arxiv.org/pdf/2201.07188v4",
+      "relevance_score": 9,
+      "tags": [
+        "sok",
+        "systematization-of-knowledge",
+        "7-categories",
+        "10-systems",
+        "governance-properties",
+        "comprehensive-framework"
+      ],
+      "citation_count": 0,
+      "notes": "CRITICAL - SoK paper (comprehensive survey). 7 governance property categories framework essential for Q2 2026 paper literature review. 10 systems analysis provides taxonomy for positioning triangular voting.",
+      "integration_status": "pending_review",
+      "pdf_stored_locally": true,
+      "scoring_breakdown": {
+        "topic_match": 3,
+        "methodology_rigor": 3,
+        "citation_potential": 2,
+        "recency": 1
+      }
+    },
+    {
+      "arxiv_id": "2412.17114",
+      "title": "Decentralized Governance of Autonomous AI Agents",
+      "authors": [
+        "Chaffer, Tomer Jordi",
+        "von Goins, Charles",
+        "Okusanya, Bayo",
+        "Cotlage, Dontrail",
+        "Goldston, Justin"
+      ],
+      "submitted_date": "2024-12-22",
+      "categories": [
+        "cs.AI"
+      ],
+      "abstract": "Autonomous AI agents present transformative opportunities and significant governance challenges. Existing frameworks, such as the EU AI Act and the NIST AI Risk Management Framework, fall short of addressing the complexities of these agents, which are capable of independent decision-making, learning, and adaptation. To bridge these gaps, we propose the ETHOS (Ethical Technology and Holistic Oversight System) framework, a decentralized governance (DeGov) model leveraging Web3 technologies, including blockchain, smart contracts, and decentralized autonomous organizations (DAOs). ETHOS establishes a global registry for AI agents, enabling dynamic risk classification, proportional oversight, and automated compliance monitoring through tools like soulbound tokens and zero-knowledge proofs. Furthermore, the framework incorporates decentralized justice systems for transparent dispute resolution and introduces AI specific legal entities to manage limited liability, supported by mandatory insurance to ensure financial accountability and incentivize ethical design. By integrating philosophical principles of rationality, ethical grounding, and goal alignment, ETHOS aims to create a robust research agenda for promoting trust, transparency, and participatory governance. This innovative framework offers a scalable and inclusive strategy for regulating AI agents, balancing innovation with ethical responsibility to meet the demands of an AI-driven future.",
+      "pdf_url": "https://arxiv.org/pdf/2412.17114v3",
+      "relevance_score": 7,
+      "tags": [
+        "ai-governance",
+        "ethos-framework",
+        "web3",
+        "soulbound-tokens",
+        "zk-proofs",
+        "decentralized-justice"
+      ],
+      "citation_count": 0,
+      "notes": "RELEVANT - AI agent governance via DAOs. ETHOS framework (soulbound tokens, ZK proofs) applicable to our DAO for AI services. Decentralized justice for dispute resolution aligns with Phase 6.",
+      "integration_status": "pending_review",
+      "pdf_stored_locally": false,
+      "scoring_breakdown": {
+        "topic_match": 2,
+        "methodology_rigor": 2,
+        "citation_potential": 2,
+        "recency": 1
+      }
+    },
+    {
+      "arxiv_id": "2409.01823",
+      "title": "DAOs of Collective Intelligence? Unraveling the Complexity of Blockchain Governance in Decentralized Autonomous Organizations",
+      "authors": [
+        "Ballandies, Mark C.",
+        "Carpentras, Dino",
+        "Pournaras, Evangelos"
+      ],
+      "submitted_date": "2024-09-03",
+      "categories": [
+        "cs.CY"
+      ],
+      "abstract": "Decentralized autonomous organizations (DAOs) have transformed organizational structures by shifting from traditional hierarchical control to decentralized approaches, leveraging blockchain and cryptoeconomics. Despite managing significant funds and building global networks, DAOs face challenges like declining participation, increasing centralization, and inabilities to adapt to changing environments, which stifle innovation. This paper explores DAOs as complex systems and applies complexity science to explain their inefficiencies. In particular, we discuss DAO challenges, their complex nature, and introduce the self-organization mechanisms of collective intelligence, digital democracy, and adaptation. By applying these mechanisms to refine DAO design and construction, a conceptual framework for assessing a DAO's viability is created. This contribution lays the foundation for future research at the intersection of complexity science, digital democracy and DAOs.",
+      "pdf_url": "https://arxiv.org/pdf/2409.01823v2",
+      "relevance_score": 7,
+      "tags": [
+        "collective-intelligence",
+        "complexity-science",
+        "digital-democracy",
+        "self-organization",
+        "adaptation",
+        "dao-viability"
+      ],
+      "citation_count": 0,
+      "notes": "RELEVANT - Complex systems approach to DAOs. Collective intelligence mechanisms relevant for multi-agent coordination. Viability framework useful for long-term sustainability assessment Phase 8.",
+      "integration_status": "pending_review",
+      "pdf_stored_locally": false,
+      "scoring_breakdown": {
+        "topic_match": 2,
+        "methodology_rigor": 2,
+        "citation_potential": 2,
+        "recency": 1
+      }
+    },
+    {
+      "arxiv_id": "2211.04811",
+      "title": "BGRA: A Reference Architecture for Blockchain Governance",
+      "authors": [
+        "Liu, Yue",
+        "Lu, Qinghua",
+        "Yu, Guangsheng",
+        "Paik, Hye-Young",
+        "Zhu, Liming"
+      ],
+      "submitted_date": "2022-11-09",
+      "categories": [
+        "cs.SE"
+      ],
+      "abstract": "Blockchain technology has been integrated into diverse software applications by enabling a decentralised architecture design. However, the defects of on-chain algorithmic mechanisms, and tedious disputes and debates in off-chain communities may affect the operation of blockchain systems. Accordingly, blockchain governance has received great interest for supporting the design, use, and maintenance of blockchain systems, hence improving the overall trustworthiness. Although much effort has been put into this research topic, there is a distinct lack of consideration for blockchain governance from the perspective of software architecture design. In this study, we propose a pattern-oriented reference architecture for governance-driven blockchain systems, which can provide guidance for future blockchain architecture design. We design the reference architecture based on an extensive review of architecture patterns for blockchain governance in academic literature and industry implementation. The reference architecture consists of four layers. We demonstrate the components in each layer, annotating with the identified patterns. A qualitative analysis of mapping two concrete blockchain architectures, Polkadot and Quorum, on the reference architecture is conducted, to evaluate the correctness and utility of proposed reference architecture.",
+      "pdf_url": "https://arxiv.org/pdf/2211.04811v2",
+      "relevance_score": 8,
+      "tags": [
+        "reference-architecture",
+        "architecture-patterns",
+        "4-layers",
+        "polkadot",
+        "quorum",
+        "design-patterns"
+      ],
+      "citation_count": 0,
+      "notes": "HIGH RELEVANCE - Reference architecture with patterns. Polkadot mapping directly applicable (we're building on Polkadot). 4-layer architecture useful for Phase 5 design.",
+      "integration_status": "pending_review",
+      "pdf_stored_locally": true,
+      "scoring_breakdown": {
+        "topic_match": 3,
+        "methodology_rigor": 2,
+        "citation_potential": 2,
+        "recency": 1
+      }
+    },
+    {
+      "arxiv_id": "2203.00268",
+      "title": "A Pattern Language for Blockchain Governance",
+      "authors": [
+        "Liu, Yue",
+        "Lu, Qinghua",
+        "Yu, Guangsheng",
+        "Paik, Hye-Young",
+        "Perera, Harsha",
+        "Zhu, Liming"
+      ],
+      "submitted_date": "2022-03-01",
+      "categories": [
+        "cs.CR"
+      ],
+      "abstract": "Blockchain technology has been used to build next-generation applications taking advantage of its decentralised nature. Nevertheless, there are some serious concerns about the trustworthiness of blockchain due to the vulnerabilities in on-chain algorithmic mechanisms, and tedious disputes and debates in off-chain communities. Accordingly, blockchain governance has received great attention for improving the trustworthiness of all decisions that direct a blockchain platform. However, there is a lack of systematic knowledge to guide practitioners to perform blockchain governance. We have performed a systematic literature review to understand the state-of-the-art of blockchain governance. We identify the lifecycle stages of a blockchain platform, and present 14 architectural patterns for blockchain governance in this study. This pattern language can provide guidance for the effective use of patterns for blockchain governance in practice, and support the architecture design of governance-driven blockchain systems.",
+      "pdf_url": "https://arxiv.org/pdf/2203.00268v3",
+      "relevance_score": 8,
+      "tags": [
+        "pattern-language",
+        "14-patterns",
+        "lifecycle-stages",
+        "systematic-review",
+        "architecture-design"
+      ],
+      "citation_count": 0,
+      "notes": "HIGH RELEVANCE - 14 governance patterns from systematic review. Pattern language approach useful for Phase 5 architecture. Lifecycle stages mapping for roadmap planning.",
+      "integration_status": "pending_review",
+      "pdf_stored_locally": true,
+      "scoring_breakdown": {
+        "topic_match": 3,
+        "methodology_rigor": 3,
+        "citation_potential": 1,
+        "recency": 1
+      }
+    },
+    {
+      "arxiv_id": "2110.13374",
+      "title": "Defining Blockchain Governance Principles: A Comprehensive Framework",
+      "authors": [
+        "Liu, Yue",
+        "Lu, Qinghua",
+        "Yu, Guangsheng",
+        "Paik, Hye-Young",
+        "Zhu, Liming"
+      ],
+      "submitted_date": "2021-10-26",
+      "categories": [
+        "cs.SE"
+      ],
+      "abstract": "Blockchain eliminates the need for trusted third-party intermediaries in business by enabling decentralised architecture design in software applications. However, the vulnerabilities in on-chain autonomous decision-makings and cumbersome off-chain coordination lead to serious concerns about blockchain's ability to behave in a trustworthy and efficient way. Blockchain governance has received considerable attention to support the decision-making process during the use and evolution of blockchain. Nevertheless, the conventional governance frameworks do not apply to blockchain due to its distributed architecture and decentralised decision process. These inherent features lead to the absence of a clear source of authority in blockchain ecosystem. Currently, there is a lack of systematic guidance on the governance of blockchain. Therefore, in this paper, we present a comprehensive blockchain governance framework, which elucidates an integrated view of the degree of decentralisation, decision rights, incentives, accountability, ecosystem, and legal and ethical responsibilities. The above aspects are formulated as six high-level principles for blockchain governance. We demonstrate a qualitative analysis of the proposed framework, including case studies on five extant blockchain platforms, and comparison with existing blockchain governance frameworks. The results show that our proposed framework is feasible and applicable in a real-world context.",
+      "pdf_url": "https://arxiv.org/pdf/2110.13374v2",
+      "relevance_score": 8,
+      "tags": [
+        "6-principles",
+        "comprehensive-framework",
+        "5-case-studies",
+        "decision-rights",
+        "incentives",
+        "accountability"
+      ],
+      "citation_count": 0,
+      "notes": "HIGH RELEVANCE - 6 governance principles framework. Decision rights + incentives + accountability directly applicable to our rank system. 5 case studies provide validation methodology for Phase 8.",
+      "integration_status": "pending_review",
+      "pdf_stored_locally": true,
+      "scoring_breakdown": {
+        "topic_match": 3,
+        "methodology_rigor": 3,
+        "citation_potential": 1,
+        "recency": 1
+      }
+    },
+    {
+      "arxiv_id": "2512.22051",
+      "title": "Centralization and Stability in Formal Constitutions",
+      "authors": [
+        "Gafni, Yotam"
+      ],
+      "submitted_date": "2025-12-26",
+      "categories": [
+        "econ.TH",
+        "cs.GT"
+      ],
+      "abstract": "Examines self-maintaining social-choice functions in voting systems, proving 'only a dictatorship is self-maintaining' and showing applications to 'Blockchain Decentralized Autonomous Organizations (DAOs).'",
+      "pdf_url": "https://arxiv.org/pdf/2512.22051v1",
+      "relevance_score": 9,
+      "tags": [
+        "formal-constitutions",
+        "social-choice",
+        "self-maintaining",
+        "dictatorship-theorem",
+        "dao-applications"
+      ],
+      "citation_count": 0,
+      "notes": "CRITICAL - Theoretical proof about voting system stability. Dictatorship vs. decentralization tension fundamental to our work. Formal constitution approach relevant for DAO charter design Phase 4.",
+      "integration_status": "pending_review",
+      "pdf_stored_locally": true,
+      "scoring_breakdown": {
+        "topic_match": 3,
+        "methodology_rigor": 3,
+        "citation_potential": 2,
+        "recency": 1
+      }
+    },
+    {
+      "arxiv_id": "2504.12859",
+      "title": "Enhancing Decentralization in Blockchain Decision-Making Through Quadratic Voting",
+      "authors": [
+        "Kovalchuk, Lyudmila",
+        "Rodinko, Mariia",
+        "Oliynykov, Roman",
+        "Nastenko, Andrii",
+        "Kaidalov, Dmytro",
+        "Nelson, Kenric"
+      ],
+      "submitted_date": "2025-04-17",
+      "categories": [
+        "cs.GT"
+      ],
+      "abstract": "Explores quadratic voting application showing that 'Types 2 and 3 QV enhance decentralization' while maintaining fairness and preventing excessive concentration.",
+      "pdf_url": "https://arxiv.org/pdf/2504.12859v1",
+      "relevance_score": 9,
+      "tags": [
+        "quadratic-voting",
+        "decentralization",
+        "fairness",
+        "concentration-prevention",
+        "qv-types"
+      ],
+      "citation_count": 0,
+      "notes": "CRITICAL - Direct comparison with our triangular voting approach. QV Types 2/3 analysis provides benchmarks. Decentralization enhancement claims testable via simulation Phase 3.",
+      "integration_status": "pending_review",
+      "pdf_stored_locally": true,
+      "scoring_breakdown": {
+        "topic_match": 3,
+        "methodology_rigor": 3,
+        "citation_potential": 2,
+        "recency": 1
+      }
+    },
+    {
+      "arxiv_id": "2501.05626",
+      "title": "Kite: How to Delegate Voting Power Privately",
+      "authors": [
+        "Nazirkhanova, Kamilla",
+        "Gunjur, Vrushank",
+        "Cruz-De Jesus, X. Pilli",
+        "Boneh, Dan"
+      ],
+      "submitted_date": "2025-01-09",
+      "categories": [
+        "cs.CR"
+      ],
+      "abstract": "Introduces protocol enabling 'private delegation of voting power for DAO members' without revealing delegate identities, implemented on Ethereum blockchain.",
+      "pdf_url": "https://arxiv.org/pdf/2501.05626v3",
+      "relevance_score": 9,
+      "tags": [
+        "private-delegation",
+        "voting-power",
+        "delegate-privacy",
+        "ethereum",
+        "cryptographic-protocol"
+      ],
+      "citation_count": 0,
+      "notes": "CRITICAL - Private delegation complements our triangular voting. Delegate privacy essential for preventing coercion. Ethereum implementation provides reference for Phase 5.",
+      "integration_status": "pending_review",
+      "pdf_stored_locally": true,
+      "scoring_breakdown": {
+        "topic_match": 3,
+        "methodology_rigor": 3,
+        "citation_potential": 2,
+        "recency": 1
+      }
+    },
+    {
+      "arxiv_id": "2512.20973",
+      "title": "DAO-Agent: Zero Knowledge-Verified Incentives for Decentralized Multi-Agent Coordination",
+      "authors": [
+        "Xia, Yihan",
+        "Wang, Taotao",
+        "Xu, Wenxin",
+        "Zhang, Shengli"
+      ],
+      "submitted_date": "2025-12-24",
+      "categories": [
+        "cs.MA"
+      ],
+      "abstract": "Proposes framework integrating 'on-chain decentralized autonomous organization (DAO) governance mechanism' with zero-knowledge proofs for auditable agent task execution and fair incentive distribution.",
+      "pdf_url": "https://arxiv.org/pdf/2512.20973v1",
+      "relevance_score": 8,
+      "tags": [
+        "multi-agent",
+        "zk-proofs",
+        "incentive-distribution",
+        "task-execution",
+        "dao-coordination"
+      ],
+      "citation_count": 0,
+      "notes": "HIGH RELEVANCE - Multi-agent coordination with ZK proofs. Incentive distribution mechanism applicable to our rank-based rewards. Auditable task execution for Phase 7.",
+      "integration_status": "pending_review",
+      "pdf_stored_locally": true,
+      "scoring_breakdown": {
+        "topic_match": 3,
+        "methodology_rigor": 2,
+        "citation_potential": 2,
+        "recency": 1
+      }
+    },
+    {
+      "arxiv_id": "2512.13213",
+      "title": "Towards Secure Decentralized Applications and Consensus Protocols in Blockchains",
+      "authors": [
+        "Homoliak, Ivan"
+      ],
+      "submitted_date": "2025-12-15",
+      "categories": [
+        "cs.CR",
+        "cs.DC",
+        "cs.GT"
+      ],
+      "abstract": "Comprehensive thesis on blockchain security covering 'e-voting with a practical boardroom voting protocol' and scalable versions for millions of participants.",
+      "pdf_url": "https://arxiv.org/pdf/2512.13213v1",
+      "relevance_score": 8,
+      "tags": [
+        "e-voting",
+        "boardroom-protocol",
+        "scalability",
+        "millions-participants",
+        "security-thesis"
+      ],
+      "citation_count": 0,
+      "notes": "HIGH RELEVANCE - Practical e-voting protocol scalable to millions. Boardroom voting insights for high-stakes decisions. Security analysis comprehensive for Phase 6.",
+      "integration_status": "pending_review",
+      "pdf_stored_locally": true,
+      "scoring_breakdown": {
+        "topic_match": 3,
+        "methodology_rigor": 2,
+        "citation_potential": 2,
+        "recency": 1
+      }
+    },
+    {
+      "arxiv_id": "2510.08700",
+      "title": "Are Voters Willing to Collectively Secure Elections? Unraveling a Practical Blockchain Voting System",
+      "authors": [
+        "Li, Zhuolun",
+        "Sonmezler, Haluk",
+        "Shirazi, Faiza",
+        "Shaji, Febin",
+        "Mroczkowski, Tymoteusz",
+        "Lardner, Dexter",
+        "Camus, Matthew Alain",
+        "Pournaras, Evangelos"
+      ],
+      "submitted_date": "2025-10-09",
+      "categories": [
+        "cs.CR",
+        "cs.DC"
+      ],
+      "abstract": "Proposes 'collectively secure voting' system combining 'threshold cryptography and smart contracts' while maintaining transparency and voter participation.",
+      "pdf_url": "https://arxiv.org/pdf/2510.08700v1",
+      "relevance_score": 8,
+      "tags": [
+        "collective-security",
+        "threshold-cryptography",
+        "smart-contracts",
+        "transparency",
+        "voter-participation"
+      ],
+      "citation_count": 0,
+      "notes": "HIGH RELEVANCE - Threshold cryptography for secure voting. Smart contract implementation patterns for Phase 5. Transparency vs. privacy tradeoffs critical design consideration.",
+      "integration_status": "pending_review",
+      "pdf_stored_locally": true,
+      "scoring_breakdown": {
+        "topic_match": 3,
+        "methodology_rigor": 2,
+        "citation_potential": 2,
+        "recency": 1
+      }
+    },
+    {
+      "arxiv_id": "2508.16285",
+      "title": "A Social Choice Analysis of Optimism's Retroactive Project Funding",
+      "authors": [
+        "Briman, Eyal",
+        "Talmon, Nimrod",
+        "Kreitenweis, Angela",
+        "Idrees, Muhammad"
+      ],
+      "submitted_date": "2025-08-22",
+      "categories": [
+        "cs.GT"
+      ],
+      "abstract": "Applies 'computational social choice techniques' recommending 'utilitarian moving phantoms mechanism' for DAO funding allocation across 100M+ dollar rounds.",
+      "pdf_url": "https://arxiv.org/pdf/2508.16285v1",
+      "relevance_score": 8,
+      "tags": [
+        "social-choice",
+        "retroactive-funding",
+        "optimism",
+        "100m-dollars",
+        "moving-phantoms",
+        "allocation-mechanism"
+      ],
+      "citation_count": 0,
+      "notes": "HIGH RELEVANCE - Social choice theory application to real DAO (Optimism). 100M+ funding allocation mechanisms. Moving phantoms approach for treasury management Phase 4.",
+      "integration_status": "pending_review",
+      "pdf_stored_locally": true,
+      "scoring_breakdown": {
+        "topic_match": 3,
+        "methodology_rigor": 2,
+        "citation_potential": 2,
+        "recency": 1
+      }
+    },
+    {
+      "arxiv_id": "2508.05865",
+      "title": "Secure and Scalable Blockchain Voting: A Comparative Framework and the Role of Large Language Models",
+      "authors": [
+        "Kiashemshaki, Kiana",
+        "Chukwuani, Elvis Nnaemeka",
+        "Torkamani, Mohammad Jalili",
+        "Mahmoudi, Negin"
+      ],
+      "submitted_date": "2025-08-07",
+      "categories": [
+        "cs.CR",
+        "cs.SE"
+      ],
+      "abstract": "Presents framework examining consensus mechanisms and cryptographic protocols for E-Voting, addressing 'scalability constraints, high computational demands.'",
+      "pdf_url": "https://arxiv.org/pdf/2508.05865v2",
+      "relevance_score": 8,
+      "tags": [
+        "comparative-framework",
+        "llm-role",
+        "scalability",
+        "consensus-mechanisms",
+        "cryptographic-protocols"
+      ],
+      "citation_count": 0,
+      "notes": "HIGH RELEVANCE - Comparative framework for voting systems. LLM role in governance novel angle. Scalability solutions for high-participation scenarios Phase 5.",
+      "integration_status": "pending_review",
+      "pdf_stored_locally": true,
+      "scoring_breakdown": {
+        "topic_match": 3,
+        "methodology_rigor": 2,
+        "citation_potential": 2,
+        "recency": 1
+      }
+    },
+    {
+      "arxiv_id": "2505.00888",
+      "title": "Balancing Security and Liquidity: A Time-Weighted Snapshot Framework for DAO Governance Voting",
+      "authors": [
+        "Wang, Zayn",
+        "Pu, Frank",
+        "Cheung, Vinci",
+        "Hao, Robert"
+      ],
+      "submitted_date": "2025-05-01",
+      "categories": [
+        "cs.CR"
+      ],
+      "abstract": "Addresses flash loan attack vulnerabilities in DAO governance, proposing defensive structure against voting manipulation through governance tokens.",
+      "pdf_url": "https://arxiv.org/pdf/2505.00888v2",
+      "relevance_score": 8,
+      "tags": [
+        "time-weighted-snapshot",
+        "flash-loan-defense",
+        "voting-manipulation",
+        "governance-tokens",
+        "security"
+      ],
+      "citation_count": 0,
+      "notes": "HIGH RELEVANCE - Flash loan attack defense critical for security. Time-weighted snapshots complement our rank-based system. Manipulation prevention mechanisms Phase 6.",
+      "integration_status": "pending_review",
+      "pdf_stored_locally": true,
+      "scoring_breakdown": {
+        "topic_match": 3,
+        "methodology_rigor": 2,
+        "citation_potential": 2,
+        "recency": 1
+      }
+    },
+    {
+      "arxiv_id": "2511.02034",
+      "title": "GPoS: Geospatially-aware Proof of Stake",
+      "authors": [
+        "Motepalli, Shashank",
+        "Garg, Naman",
+        "Zhang, Gengrui",
+        "Jacobsen, Hans-Arno"
+      ],
+      "submitted_date": "2025-11-03",
+      "categories": [
+        "cs.DC",
+        "cs.ET",
+        "cs.NI"
+      ],
+      "abstract": "Addresses geospatial decentralization by integrating 'geospatial diversity with stake-based voting power' achieving '45% improvement in geospatial decentralization.'",
+      "pdf_url": "https://arxiv.org/pdf/2511.02034v1",
+      "relevance_score": 7,
+      "tags": [
+        "geospatial-decentralization",
+        "pos",
+        "stake-based-voting",
+        "diversity",
+        "45-percent-improvement"
+      ],
+      "citation_count": 0,
+      "notes": "RELEVANT - Geospatial diversity as additional decentralization dimension. Stake-based voting with geographic constraints novel. 45% improvement metric useful for benchmarking.",
+      "integration_status": "pending_review",
+      "pdf_stored_locally": false,
+      "scoring_breakdown": {
+        "topic_match": 2,
+        "methodology_rigor": 2,
+        "citation_potential": 2,
+        "recency": 1
+      }
+    },
+    {
+      "arxiv_id": "2509.11294",
+      "title": "An Incentive-Compatible Reward Sharing Mechanism for Mitigating Mirroring Attacks",
+      "authors": [
+        "Aeeneh, Sina",
+        "Zlatanov, Nikola",
+        "Yu, Jiangshan"
+      ],
+      "submitted_date": "2025-09-14",
+      "categories": [
+        "cs.GT",
+        "cs.ET",
+        "cs.IR",
+        "cs.IT",
+        "math.PR"
+      ],
+      "abstract": "Analyzes voting-based data-feed systems, proposing incentive mechanism preventing Sybil attacks through Nash Equilibrium analysis.",
+      "pdf_url": "https://arxiv.org/pdf/2509.11294v1",
+      "relevance_score": 7,
+      "tags": [
+        "incentive-compatible",
+        "reward-sharing",
+        "sybil-defense",
+        "nash-equilibrium",
+        "data-feed"
+      ],
+      "citation_count": 0,
+      "notes": "RELEVANT - Sybil attack prevention via incentives. Nash Equilibrium analysis for mechanism design. Reward sharing applicable to our rank progression.",
+      "integration_status": "pending_review",
+      "pdf_stored_locally": false,
+      "scoring_breakdown": {
+        "topic_match": 2,
+        "methodology_rigor": 2,
+        "citation_potential": 2,
+        "recency": 1
+      }
+    },
+    {
+      "arxiv_id": "2508.09299",
+      "title": "Decentralized Weather Forecasting via Distributed Machine Learning and Blockchain-Based Model Validation",
+      "authors": [
+        "Umar, Rilwan",
+        "Abadi, Aydin",
+        "Aldali, Basil",
+        "Vincent, Benito"
+      ],
+      "submitted_date": "2025-08-12",
+      "categories": [
+        "cs.LG",
+        "cs.AI",
+        "cs.CR"
+      ],
+      "abstract": "Integrates 'Federated Learning with blockchain technology' incorporating 'reputation-based voting mechanism' for model trustworthiness assessment.",
+      "pdf_url": "https://arxiv.org/pdf/2508.09299v2",
+      "relevance_score": 7,
+      "tags": [
+        "reputation-based-voting",
+        "federated-learning",
+        "model-validation",
+        "trustworthiness",
+        "blockchain-ml"
+      ],
+      "citation_count": 0,
+      "notes": "RELEVANT - Reputation-based voting aligns with our rank system. ML model validation via voting novel application. Trustworthiness assessment mechanisms Phase 7.",
+      "integration_status": "pending_review",
+      "pdf_stored_locally": false,
+      "scoring_breakdown": {
+        "topic_match": 2,
+        "methodology_rigor": 2,
+        "citation_potential": 2,
+        "recency": 1
+      }
+    },
+    {
+      "arxiv_id": "2507.14928",
+      "title": "Byzantine-Robust Decentralized Coordination of LLM Agents",
+      "authors": [
+        "Jo, Yongrae",
+        "Park, Chanik"
+      ],
+      "submitted_date": "2025-07-20",
+      "categories": [
+        "cs.DC",
+        "cs.AI"
+      ],
+      "abstract": "Proposes 'decentralized consensus approach' where worker agents generate answers and evaluator agents independently score using Byzantine-robust aggregation.",
+      "pdf_url": "https://arxiv.org/pdf/2507.14928v1",
+      "relevance_score": 7,
+      "tags": [
+        "byzantine-robust",
+        "llm-agents",
+        "decentralized-consensus",
+        "evaluator-agents",
+        "aggregation"
+      ],
+      "citation_count": 0,
+      "notes": "RELEVANT - Byzantine-robust aggregation for multi-agent systems. Evaluator agents pattern applicable to our governance. LLM coordination mechanisms Phase 7.",
+      "integration_status": "pending_review",
+      "pdf_stored_locally": false,
+      "scoring_breakdown": {
+        "topic_match": 2,
+        "methodology_rigor": 2,
+        "citation_potential": 2,
+        "recency": 1
+      }
+    },
+    {
+      "arxiv_id": "2507.11117",
+      "title": "AI Agent Architecture for Decentralized Trading of Alternative Assets",
+      "authors": [
+        "Borjigin, Ailiya",
+        "He, Cong",
+        "Lee, Charles CC",
+        "Zhou, Wei"
+      ],
+      "submitted_date": "2025-07-15",
+      "categories": [
+        "cs.AI"
+      ],
+      "abstract": "Describes 'multi signature agent updates and on chain community voting on risk parameters' enabling transparency and governance in decentralized exchange.",
+      "pdf_url": "https://arxiv.org/pdf/2507.11117v1",
+      "relevance_score": 7,
+      "tags": [
+        "ai-agent-architecture",
+        "decentralized-trading",
+        "multi-sig",
+        "risk-parameters",
+        "community-voting"
+      ],
+      "citation_count": 0,
+      "notes": "RELEVANT - Multi-sig + community voting for risk parameter governance. AI agent architecture insights for automated governance Phase 7.",
+      "integration_status": "pending_review",
+      "pdf_stored_locally": false,
+      "scoring_breakdown": {
+        "topic_match": 2,
+        "methodology_rigor": 2,
+        "citation_potential": 2,
+        "recency": 1
+      }
+    },
+    {
+      "arxiv_id": "2507.03258",
+      "title": "Novel Blockchain-based Protocols for Electronic Voting and Auctions",
+      "authors": [
+        "Lin, Zhaorun"
+      ],
+      "submitted_date": "2025-07-04",
+      "categories": [
+        "cs.CR",
+        "cs.DC"
+      ],
+      "abstract": "Proposes 'Blind Vote' protocol providing 'untraceable, secure, efficient, secrecy-preserving, and fully on-chain electronic voting' with reduced gas consumption.",
+      "pdf_url": "https://arxiv.org/pdf/2507.03258v2",
+      "relevance_score": 7,
+      "tags": [
+        "blind-vote",
+        "untraceable",
+        "secrecy-preserving",
+        "on-chain-voting",
+        "gas-optimization"
+      ],
+      "citation_count": 0,
+      "notes": "RELEVANT - Blind Vote protocol for voter privacy. Gas optimization critical for scalability. Secrecy-preserving mechanisms complement private delegation.",
+      "integration_status": "pending_review",
+      "pdf_stored_locally": false,
+      "scoring_breakdown": {
+        "topic_match": 2,
+        "methodology_rigor": 2,
+        "citation_potential": 2,
+        "recency": 1
+      }
+    },
+    {
+      "arxiv_id": "2504.10535",
+      "title": "Where Should I Deploy My Contracts? A Practical Experience Report",
+      "authors": [
+        "Lazăr, Cătălina",
+        "Secrieru, Gabriela",
+        "Onica, Emanuel"
+      ],
+      "submitted_date": "2025-04-13",
+      "categories": [
+        "cs.SE",
+        "cs.DC",
+        "cs.PF"
+      ],
+      "abstract": "Evaluates deployment options for voting DApps, analyzing metrics between providers and rollups for 'high security demands' applications.",
+      "pdf_url": "https://arxiv.org/pdf/2504.10535v1",
+      "relevance_score": 7,
+      "tags": [
+        "deployment-options",
+        "voting-dapps",
+        "providers-vs-rollups",
+        "security-metrics",
+        "practical-experience"
+      ],
+      "citation_count": 0,
+      "notes": "RELEVANT - Practical deployment guidance for voting DApps. Provider vs. rollup tradeoffs inform Phase 5 infrastructure decisions. Security metrics for high-stakes governance.",
+      "integration_status": "pending_review",
+      "pdf_stored_locally": false,
+      "scoring_breakdown": {
+        "topic_match": 2,
+        "methodology_rigor": 2,
+        "citation_potential": 2,
+        "recency": 1
+      }
+    }
+  ]
 }

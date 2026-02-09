@@ -1,0 +1,15 @@
+PDF Download Script for High-Scoring Papers (>=8/10)
+============================================================
+Loading metadata files...
+Found 3 metadata files
+Traceback (most recent call last):
+  File "C:\dev\DAO\docs\07-theory\bibliography\download-pdfs.py", line 195, in <module>
+    download_all_pdfs(rate_limit_delay=3.0)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\dev\DAO\docs\07-theory\bibliography\download-pdfs.py", line 136, in download_all_pdfs
+    print("\nFiltering papers with relevance_score \u2265 8...")
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ccoll\AppData\Local\Programs\Python\Python313\Lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode character '\u2265' in position 40: character maps to <undefined>

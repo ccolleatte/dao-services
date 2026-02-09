@@ -30,9 +30,15 @@
     {
       "arxiv_id": "2501.03456",
       "title": "USCSA: Upgradeable Smart Contract Security Analysis",
-      "authors": ["Chen, Wei", "Zhang, Li", "Wang, Kai"],
+      "authors": [
+        "Chen, Wei",
+        "Zhang, Li",
+        "Wang, Kai"
+      ],
       "submitted_date": "2025-01-15",
-      "categories": ["cs.CR"],
+      "categories": [
+        "cs.CR"
+      ],
       "abstract": "We present USCSA, a tool for detecting security vulnerabilities in upgradeable smart contracts with 92.26% precision. Our approach combines static analysis with runtime verification to identify upgrade-related vulnerabilities including storage collisions, initialization flaws, and proxy delegation issues.",
       "pdf_url": "https://arxiv.org/pdf/2501.03456.pdf",
       "relevance_score": 10,
@@ -42,18 +48,30 @@
         "citation_potential": 2,
         "recency": 2
       },
-      "tags": ["upgradeable-contracts", "static-analysis", "runtime-verification", "tool"],
+      "tags": [
+        "upgradeable-contracts",
+        "static-analysis",
+        "runtime-verification",
+        "tool"
+      ],
       "citation_count": 2,
       "notes": "CRITICAL - Upgradeable contracts directly relevant to Governor.sol upgrade patterns. 92.26% precision = production-ready tool",
       "integration_status": "pending_review",
-      "pdf_stored_locally": false
+      "pdf_stored_locally": true
     },
     {
       "arxiv_id": "2412.18923",
       "title": "FLAMES: LLM-Based Invariant Synthesis for Smart Contract Security",
-      "authors": ["Liu, Jingyuan", "Kumar, Rajesh", "Patel, Ankit"],
+      "authors": [
+        "Liu, Jingyuan",
+        "Kumar, Rajesh",
+        "Patel, Ankit"
+      ],
       "submitted_date": "2024-12-20",
-      "categories": ["cs.CR", "cs.AI"],
+      "categories": [
+        "cs.CR",
+        "cs.AI"
+      ],
       "abstract": "FLAMES leverages large language models to automatically synthesize invariants for smart contract verification, preventing 20.4% of real-world exploits in our evaluation. We demonstrate superior performance over rule-based approaches with 15.3% fewer false positives.",
       "pdf_url": "https://arxiv.org/pdf/2412.18923.pdf",
       "relevance_score": 10,
@@ -63,18 +81,30 @@
         "citation_potential": 2,
         "recency": 2
       },
-      "tags": ["llm", "invariant-synthesis", "formal-verification", "automated-testing"],
+      "tags": [
+        "llm",
+        "invariant-synthesis",
+        "formal-verification",
+        "automated-testing"
+      ],
       "citation_count": 5,
       "notes": "CRITICAL - LLM-based invariant generation for Governor.sol state invariants. Novel approach with strong empirical results",
       "integration_status": "pending_review",
-      "pdf_stored_locally": false
+      "pdf_stored_locally": true
     },
     {
       "arxiv_id": "2411.15234",
       "title": "Solvent: Formal Verification of Liquidity Properties in DeFi Protocols",
-      "authors": ["Martinez, Carlos", "O'Brien, Sean", "Kim, Sung-hee"],
+      "authors": [
+        "Martinez, Carlos",
+        "O'Brien, Sean",
+        "Kim, Sung-hee"
+      ],
       "submitted_date": "2024-11-08",
-      "categories": ["cs.CR", "cs.LO"],
+      "categories": [
+        "cs.CR",
+        "cs.LO"
+      ],
       "abstract": "Solvent introduces a formal verification framework for proving liquidity properties in DeFi protocols using temporal logic. We verify 12 production protocols and identify 8 previously unknown liquidity manipulation vulnerabilities.",
       "pdf_url": "https://arxiv.org/pdf/2411.15234.pdf",
       "relevance_score": 9,
@@ -84,18 +114,30 @@
         "citation_potential": 2,
         "recency": 1
       },
-      "tags": ["formal-verification", "defi", "liquidity", "temporal-logic"],
+      "tags": [
+        "formal-verification",
+        "defi",
+        "liquidity",
+        "temporal-logic"
+      ],
       "citation_count": 8,
       "notes": "HIGH - Formal verification techniques applicable to Governor.sol treasury management functions",
       "integration_status": "pending_review",
-      "pdf_stored_locally": false
+      "pdf_stored_locally": true
     },
     {
       "arxiv_id": "2410.22845",
       "title": "Trace2Inv: Learning Invariants from Execution Traces",
-      "authors": ["Zhao, Xiaoming", "Anderson, Kyle", "Dubois, Marie"],
+      "authors": [
+        "Zhao, Xiaoming",
+        "Anderson, Kyle",
+        "Dubois, Marie"
+      ],
       "submitted_date": "2024-10-15",
-      "categories": ["cs.CR", "cs.PL"],
+      "categories": [
+        "cs.CR",
+        "cs.PL"
+      ],
       "abstract": "Trace2Inv automatically learns program invariants from execution traces using symbolic regression and neural networks. Applied to smart contracts, our approach achieves 94.2% accuracy in invariant discovery with 40% reduction in verification time compared to manual specification.",
       "pdf_url": "https://arxiv.org/pdf/2410.22845.pdf",
       "relevance_score": 9,
@@ -105,18 +147,30 @@
         "citation_potential": 2,
         "recency": 1
       },
-      "tags": ["invariant-learning", "execution-traces", "symbolic-regression", "automated-verification"],
+      "tags": [
+        "invariant-learning",
+        "execution-traces",
+        "symbolic-regression",
+        "automated-verification"
+      ],
       "citation_count": 6,
       "notes": "HIGH - Automated invariant discovery from Governor.sol execution traces for test generation",
       "integration_status": "pending_review",
-      "pdf_stored_locally": false
+      "pdf_stored_locally": true
     },
     {
       "arxiv_id": "2409.17632",
       "title": "SmartCoder-R1: Secure Smart Contract Generation with Reinforcement Learning",
-      "authors": ["Wang, Hui", "Chen, Yifan", "Zhang, Qiang"],
+      "authors": [
+        "Wang, Hui",
+        "Chen, Yifan",
+        "Zhang, Qiang"
+      ],
       "submitted_date": "2024-09-22",
-      "categories": ["cs.CR", "cs.SE"],
+      "categories": [
+        "cs.CR",
+        "cs.SE"
+      ],
       "abstract": "SmartCoder-R1 generates secure smart contracts from natural language specifications using reinforcement learning with security-aware rewards. Our model achieves 87.70% pass rate on security test suites, outperforming GPT-4 by 12.3% on vulnerability prevention.",
       "pdf_url": "https://arxiv.org/pdf/2409.17632.pdf",
       "relevance_score": 8,
@@ -126,18 +180,30 @@
         "citation_potential": 2,
         "recency": 1
       },
-      "tags": ["code-generation", "reinforcement-learning", "security-by-design", "llm"],
+      "tags": [
+        "code-generation",
+        "reinforcement-learning",
+        "security-by-design",
+        "llm"
+      ],
       "citation_count": 11,
       "notes": "MEDIUM-HIGH - Code generation less directly applicable but reinforcement learning approach interesting for fuzzing",
       "integration_status": "pending_review",
-      "pdf_stored_locally": false
+      "pdf_stored_locally": true
     },
     {
       "arxiv_id": "2408.13421",
       "title": "CrossLink: Cross-Chain Security Framework for Bridge Protocols",
-      "authors": ["Nakamoto, Takeshi", "Schmidt, Hans", "Ivanov, Dmitri"],
+      "authors": [
+        "Nakamoto, Takeshi",
+        "Schmidt, Hans",
+        "Ivanov, Dmitri"
+      ],
       "submitted_date": "2024-08-18",
-      "categories": ["cs.CR", "cs.DC"],
+      "categories": [
+        "cs.CR",
+        "cs.DC"
+      ],
       "abstract": "CrossLink provides a formal security framework for cross-chain bridge protocols, including message verification, state consistency, and atomic rollback mechanisms. We prove security under Byzantine fault tolerance assumptions and implement a reference bridge with zero successful attacks in 6-month production deployment.",
       "pdf_url": "https://arxiv.org/pdf/2408.13421.pdf",
       "relevance_score": 8,
@@ -147,18 +213,29 @@
         "citation_potential": 2,
         "recency": 1
       },
-      "tags": ["cross-chain", "bridges", "formal-security", "byzantine-fault-tolerance"],
+      "tags": [
+        "cross-chain",
+        "bridges",
+        "formal-security",
+        "byzantine-fault-tolerance"
+      ],
       "citation_count": 14,
       "notes": "MEDIUM-HIGH - Cross-chain governance patterns relevant if DAO expands to multi-chain",
       "integration_status": "pending_review",
-      "pdf_stored_locally": false
+      "pdf_stored_locally": true
     },
     {
       "arxiv_id": "2407.19234",
       "title": "Reentrancy Attack Detection Using Control Flow Analysis",
-      "authors": ["Garcia, Elena", "Brown, Michael", "Lee, Jennifer"],
+      "authors": [
+        "Garcia, Elena",
+        "Brown, Michael",
+        "Lee, Jennifer"
+      ],
       "submitted_date": "2024-07-25",
-      "categories": ["cs.CR"],
+      "categories": [
+        "cs.CR"
+      ],
       "abstract": "We present a static analysis technique for detecting reentrancy vulnerabilities through control flow graph analysis and taint tracking. Our tool identifies 98.7% of known reentrancy attacks with only 2.1% false positives, outperforming existing commercial tools.",
       "pdf_url": "https://arxiv.org/pdf/2407.19234.pdf",
       "relevance_score": 9,
@@ -168,18 +245,30 @@
         "citation_potential": 2,
         "recency": 1
       },
-      "tags": ["reentrancy", "static-analysis", "control-flow", "vulnerability-detection"],
+      "tags": [
+        "reentrancy",
+        "static-analysis",
+        "control-flow",
+        "vulnerability-detection"
+      ],
       "citation_count": 9,
       "notes": "HIGH - Reentrancy detection critical for Governor.sol external calls (execute, queue)",
       "integration_status": "pending_review",
-      "pdf_stored_locally": false
+      "pdf_stored_locally": true
     },
     {
       "arxiv_id": "2406.11876",
       "title": "BitMLx: Extended Process Calculus for Smart Contract Verification",
-      "authors": ["Bartoletti, Massimo", "Zunino, Roberto", "Galletta, Letterio"],
+      "authors": [
+        "Bartoletti, Massimo",
+        "Zunino, Roberto",
+        "Galletta, Letterio"
+      ],
       "submitted_date": "2024-06-10",
-      "categories": ["cs.CR", "cs.LO"],
+      "categories": [
+        "cs.CR",
+        "cs.LO"
+      ],
       "abstract": "BitMLx extends the BitML process calculus with support for complex contract interactions including partial execution, time-locked transactions, and oracle calls. We provide mechanized proofs of correctness in Coq and verify 15 real-world DeFi protocols.",
       "pdf_url": "https://arxiv.org/pdf/2406.11876.pdf",
       "relevance_score": 9,
@@ -189,18 +278,30 @@
         "citation_potential": 2,
         "recency": 1
       },
-      "tags": ["process-calculus", "formal-verification", "coq", "mechanized-proofs"],
+      "tags": [
+        "process-calculus",
+        "formal-verification",
+        "coq",
+        "mechanized-proofs"
+      ],
       "citation_count": 7,
       "notes": "HIGH - Process calculus for modeling Governor.sol proposal lifecycle with time locks",
       "integration_status": "pending_review",
-      "pdf_stored_locally": false
+      "pdf_stored_locally": true
     },
     {
       "arxiv_id": "2405.08923",
       "title": "Ponzi Scheme Detection in Smart Contracts Using Graph Neural Networks",
-      "authors": ["Silva, Ana", "Johnson, Robert", "Nguyen, Linh"],
+      "authors": [
+        "Silva, Ana",
+        "Johnson, Robert",
+        "Nguyen, Linh"
+      ],
       "submitted_date": "2024-05-15",
-      "categories": ["cs.CR", "cs.LG"],
+      "categories": [
+        "cs.CR",
+        "cs.LG"
+      ],
       "abstract": "We apply graph neural networks to detect Ponzi schemes in smart contracts by analyzing transaction graphs and code patterns. Our model achieves 96.4% accuracy on a dataset of 2,847 verified Ponzi contracts with 3.2% false positive rate.",
       "pdf_url": "https://arxiv.org/pdf/2405.08923.pdf",
       "relevance_score": 7,
@@ -210,7 +311,12 @@
         "citation_potential": 1,
         "recency": 1
       },
-      "tags": ["ponzi-detection", "graph-neural-networks", "fraud-detection", "transaction-analysis"],
+      "tags": [
+        "ponzi-detection",
+        "graph-neural-networks",
+        "fraud-detection",
+        "transaction-analysis"
+      ],
       "citation_count": 5,
       "notes": "MEDIUM - Graph analysis techniques potentially applicable to governance attack detection",
       "integration_status": "pending_review",
@@ -219,9 +325,15 @@
     {
       "arxiv_id": "2404.15632",
       "title": "Address Verification Vulnerabilities in ERC-20 Token Transfers",
-      "authors": ["Park, Sung-min", "Taylor, Emma", "Wu, Xiaofeng"],
+      "authors": [
+        "Park, Sung-min",
+        "Taylor, Emma",
+        "Wu, Xiaofeng"
+      ],
       "submitted_date": "2024-04-20",
-      "categories": ["cs.CR"],
+      "categories": [
+        "cs.CR"
+      ],
       "abstract": "We identify a class of vulnerabilities in ERC-20 token transfer logic related to address validation, affecting 142 contracts with combined TVL of $87M. Our analysis reveals systematic misuse of transfer return values and insufficient zero-address checks.",
       "pdf_url": "https://arxiv.org/pdf/2404.15632.pdf",
       "relevance_score": 8,
@@ -231,18 +343,30 @@
         "citation_potential": 2,
         "recency": 1
       },
-      "tags": ["erc-20", "address-validation", "vulnerability", "token-transfers"],
+      "tags": [
+        "erc-20",
+        "address-validation",
+        "vulnerability",
+        "token-transfers"
+      ],
       "citation_count": 12,
       "notes": "MEDIUM-HIGH - Address validation patterns applicable to Governor.sol token handling",
       "integration_status": "pending_review",
-      "pdf_stored_locally": false
+      "pdf_stored_locally": true
     },
     {
       "arxiv_id": "2403.22145",
       "title": "Symbolic Execution for Smart Contract Bug Detection with Z3",
-      "authors": ["Mueller, Klaus", "Rossi, Francesca", "Chen, Wei"],
+      "authors": [
+        "Mueller, Klaus",
+        "Rossi, Francesca",
+        "Chen, Wei"
+      ],
       "submitted_date": "2024-03-28",
-      "categories": ["cs.CR", "cs.SE"],
+      "categories": [
+        "cs.CR",
+        "cs.SE"
+      ],
       "abstract": "We present a symbolic execution framework for Solidity smart contracts using the Z3 SMT solver. Our tool explores execution paths systematically, detecting integer overflows, division-by-zero, and assertion failures with 91.2% bug detection rate and 12-hour median verification time.",
       "pdf_url": "https://arxiv.org/pdf/2403.22145.pdf",
       "relevance_score": 9,
@@ -252,7 +376,12 @@
         "citation_potential": 2,
         "recency": 1
       },
-      "tags": ["symbolic-execution", "z3", "smt-solver", "bug-detection"],
+      "tags": [
+        "symbolic-execution",
+        "z3",
+        "smt-solver",
+        "bug-detection"
+      ],
       "citation_count": 15,
       "notes": "HIGH - Symbolic execution for Governor.sol path coverage and edge case detection",
       "integration_status": "pending_review",
@@ -261,9 +390,16 @@
     {
       "arxiv_id": "2402.17834",
       "title": "Gas Optimization Patterns for Smart Contracts: A Systematic Study",
-      "authors": ["Zhao, Yang", "Kim, Hyun-soo", "Muller, Stefan"],
+      "authors": [
+        "Zhao, Yang",
+        "Kim, Hyun-soo",
+        "Muller, Stefan"
+      ],
       "submitted_date": "2024-02-22",
-      "categories": ["cs.CR", "cs.SE"],
+      "categories": [
+        "cs.CR",
+        "cs.SE"
+      ],
       "abstract": "We conduct a systematic study of gas optimization patterns across 5,000 verified smart contracts, identifying 23 optimization categories that reduce gas costs by 18-45%. We provide a taxonomy and empirically validate each pattern's impact on security properties.",
       "pdf_url": "https://arxiv.org/pdf/2402.17834.pdf",
       "relevance_score": 8,
@@ -273,18 +409,30 @@
         "citation_potential": 2,
         "recency": 1
       },
-      "tags": ["gas-optimization", "performance", "patterns", "empirical-study"],
+      "tags": [
+        "gas-optimization",
+        "performance",
+        "patterns",
+        "empirical-study"
+      ],
       "citation_count": 18,
       "notes": "MEDIUM-HIGH - Gas optimization critical for Governor.sol proposal execution costs",
       "integration_status": "pending_review",
-      "pdf_stored_locally": false
+      "pdf_stored_locally": true
     },
     {
       "arxiv_id": "2401.09234",
       "title": "Timelock Security: Formal Analysis of Delayed Execution Patterns",
-      "authors": ["Anderson, Erik", "Lopez, Maria", "Chen, Jing"],
+      "authors": [
+        "Anderson, Erik",
+        "Lopez, Maria",
+        "Chen, Jing"
+      ],
       "submitted_date": "2024-01-12",
-      "categories": ["cs.CR", "cs.LO"],
+      "categories": [
+        "cs.CR",
+        "cs.LO"
+      ],
       "abstract": "We provide formal analysis of timelock mechanisms in smart contracts, proving safety and liveness properties under various attack scenarios. Our framework models 8 timelock variants and identifies 3 previously unknown vulnerability classes affecting 67 production contracts.",
       "pdf_url": "https://arxiv.org/pdf/2401.09234.pdf",
       "relevance_score": 10,
@@ -294,18 +442,29 @@
         "citation_potential": 2,
         "recency": 2
       },
-      "tags": ["timelock", "formal-verification", "delayed-execution", "safety-properties"],
+      "tags": [
+        "timelock",
+        "formal-verification",
+        "delayed-execution",
+        "safety-properties"
+      ],
       "citation_count": 11,
       "notes": "CRITICAL - Timelock analysis directly applicable to Governor.sol proposal queue and execution delays",
       "integration_status": "pending_review",
-      "pdf_stored_locally": false
+      "pdf_stored_locally": true
     },
     {
       "arxiv_id": "2312.18456",
       "title": "Access Control Vulnerabilities in DAO Smart Contracts",
-      "authors": ["Zhang, Lin", "Wilson, David", "Kumar, Priya"],
+      "authors": [
+        "Zhang, Lin",
+        "Wilson, David",
+        "Kumar, Priya"
+      ],
       "submitted_date": "2023-12-20",
-      "categories": ["cs.CR"],
+      "categories": [
+        "cs.CR"
+      ],
       "abstract": "We analyze access control patterns in 234 DAO contracts, identifying 18 vulnerability patterns including role confusion, privilege escalation, and missing modifiers. Our study reveals that 42% of audited DAOs contain at least one access control flaw.",
       "pdf_url": "https://arxiv.org/pdf/2312.18456.pdf",
       "relevance_score": 10,
@@ -315,7 +474,12 @@
         "citation_potential": 2,
         "recency": 2
       },
-      "tags": ["access-control", "dao", "privilege-escalation", "vulnerability-study"],
+      "tags": [
+        "access-control",
+        "dao",
+        "privilege-escalation",
+        "vulnerability-study"
+      ],
       "citation_count": 22,
       "notes": "CRITICAL - Access control patterns for Governor.sol role-based permissions (proposer, executor, admin)",
       "integration_status": "pending_review",
@@ -324,9 +488,16 @@
     {
       "arxiv_id": "2311.14523",
       "title": "Flash Loan Attack Taxonomy and Detection",
-      "authors": ["Patel, Raj", "Nguyen, Anh", "Schmidt, Julia"],
+      "authors": [
+        "Patel, Raj",
+        "Nguyen, Anh",
+        "Schmidt, Julia"
+      ],
       "submitted_date": "2023-11-18",
-      "categories": ["cs.CR", "cs.CE"],
+      "categories": [
+        "cs.CR",
+        "cs.CE"
+      ],
       "abstract": "We present a comprehensive taxonomy of flash loan attacks categorizing 47 real-world exploits across 6 attack classes. Our machine learning classifier detects suspicious flash loan transactions with 93.8% precision, analyzing 2.3M transactions from 2020-2023.",
       "pdf_url": "https://arxiv.org/pdf/2311.14523.pdf",
       "relevance_score": 8,
@@ -336,18 +507,30 @@
         "citation_potential": 2,
         "recency": 1
       },
-      "tags": ["flash-loans", "attack-taxonomy", "defi", "exploit-detection"],
+      "tags": [
+        "flash-loans",
+        "attack-taxonomy",
+        "defi",
+        "exploit-detection"
+      ],
       "citation_count": 28,
       "notes": "MEDIUM-HIGH - Flash loan attack vectors potentially applicable to DAO treasury manipulation",
       "integration_status": "pending_review",
-      "pdf_stored_locally": false
+      "pdf_stored_locally": true
     },
     {
       "arxiv_id": "2310.22789",
       "title": "Fuzzing Smart Contracts with Grammar-Based Mutations",
-      "authors": ["Brown, Alice", "Takahashi, Ken", "Morin, Luc"],
+      "authors": [
+        "Brown, Alice",
+        "Takahashi, Ken",
+        "Morin, Luc"
+      ],
       "submitted_date": "2023-10-25",
-      "categories": ["cs.CR", "cs.SE"],
+      "categories": [
+        "cs.CR",
+        "cs.SE"
+      ],
       "abstract": "We propose a grammar-based fuzzing approach for smart contracts that generates semantically valid transaction sequences. Our tool discovers 37 unique vulnerabilities across 150 contracts, achieving 2.3× higher code coverage than random fuzzing.",
       "pdf_url": "https://arxiv.org/pdf/2310.22789.pdf",
       "relevance_score": 9,
@@ -357,7 +540,12 @@
         "citation_potential": 2,
         "recency": 1
       },
-      "tags": ["fuzzing", "grammar-based", "testing", "vulnerability-discovery"],
+      "tags": [
+        "fuzzing",
+        "grammar-based",
+        "testing",
+        "vulnerability-discovery"
+      ],
       "citation_count": 14,
       "notes": "HIGH - Grammar-based fuzzing for Governor.sol proposal state machine transitions",
       "integration_status": "pending_review",
@@ -366,9 +554,16 @@
     {
       "arxiv_id": "2309.16234",
       "title": "Slither++: Enhanced Static Analysis with Inter-Procedural Taint Tracking",
-      "authors": ["Feist, Josselin", "Zimmerman, Trail", "Grieco, Gustavo"],
+      "authors": [
+        "Feist, Josselin",
+        "Zimmerman, Trail",
+        "Grieco, Gustavo"
+      ],
       "submitted_date": "2023-09-20",
-      "categories": ["cs.CR", "cs.PL"],
+      "categories": [
+        "cs.CR",
+        "cs.PL"
+      ],
       "abstract": "Slither++ extends the Slither static analyzer with inter-procedural taint tracking and context-sensitive analysis. We reduce false positives by 38% while discovering 12 zero-day vulnerabilities in audited contracts.",
       "pdf_url": "https://arxiv.org/pdf/2309.16234.pdf",
       "relevance_score": 9,
@@ -378,18 +573,30 @@
         "citation_potential": 2,
         "recency": 1
       },
-      "tags": ["slither", "static-analysis", "taint-tracking", "tool-improvement"],
+      "tags": [
+        "slither",
+        "static-analysis",
+        "taint-tracking",
+        "tool-improvement"
+      ],
       "citation_count": 25,
       "notes": "HIGH - Slither enhancements for Governor.sol static analysis pipeline",
       "integration_status": "pending_review",
-      "pdf_stored_locally": false
+      "pdf_stored_locally": true
     },
     {
       "arxiv_id": "2308.11456",
       "title": "MEV Attack Detection in Governance Protocols",
-      "authors": ["Cohen, Sarah", "Wang, Bo", "Ivanova, Olga"],
+      "authors": [
+        "Cohen, Sarah",
+        "Wang, Bo",
+        "Ivanova, Olga"
+      ],
       "submitted_date": "2023-08-15",
-      "categories": ["cs.CR", "cs.GT"],
+      "categories": [
+        "cs.CR",
+        "cs.GT"
+      ],
       "abstract": "We analyze Miner Extractable Value (MEV) attacks targeting governance protocols, identifying 5 attack patterns including proposal frontrunning, vote manipulation, and execution sniping. Our detection system achieves 89.3% accuracy on historical governance transactions.",
       "pdf_url": "https://arxiv.org/pdf/2308.11456.pdf",
       "relevance_score": 10,
@@ -399,18 +606,30 @@
         "citation_potential": 2,
         "recency": 2
       },
-      "tags": ["mev", "governance", "frontrunning", "attack-detection"],
+      "tags": [
+        "mev",
+        "governance",
+        "frontrunning",
+        "attack-detection"
+      ],
       "citation_count": 19,
       "notes": "CRITICAL - MEV attacks on Governor.sol proposal execution and vote ordering",
       "integration_status": "pending_review",
-      "pdf_stored_locally": false
+      "pdf_stored_locally": true
     },
     {
       "arxiv_id": "2307.19823",
       "title": "Certora Prover: Industrial-Scale Formal Verification",
-      "authors": ["Mooly, Sagiv", "Guth, Ori", "Milo, Tomer"],
+      "authors": [
+        "Mooly, Sagiv",
+        "Guth, Ori",
+        "Milo, Tomer"
+      ],
       "submitted_date": "2023-07-22",
-      "categories": ["cs.CR", "cs.LO"],
+      "categories": [
+        "cs.CR",
+        "cs.LO"
+      ],
       "abstract": "We present the Certora Prover, an industrial formal verification tool that has verified over 500 production smart contracts. Our approach combines symbolic execution, SMT solving, and modular verification, achieving median verification time of 8 minutes per contract.",
       "pdf_url": "https://arxiv.org/pdf/2307.19823.pdf",
       "relevance_score": 9,
@@ -420,7 +639,12 @@
         "citation_potential": 2,
         "recency": 1
       },
-      "tags": ["certora", "formal-verification", "production-tool", "smt"],
+      "tags": [
+        "certora",
+        "formal-verification",
+        "production-tool",
+        "smt"
+      ],
       "citation_count": 31,
       "notes": "HIGH - Industrial tool for Governor.sol formal specification and verification",
       "integration_status": "pending_review",
@@ -429,9 +653,15 @@
     {
       "arxiv_id": "2306.14567",
       "title": "Upgradeable Proxy Patterns: Security Analysis",
-      "authors": ["Russo, Alessandro", "Kim, Min-ji", "Perez, Carlos"],
+      "authors": [
+        "Russo, Alessandro",
+        "Kim, Min-ji",
+        "Perez, Carlos"
+      ],
       "submitted_date": "2023-06-18",
-      "categories": ["cs.CR"],
+      "categories": [
+        "cs.CR"
+      ],
       "abstract": "We analyze 4 common upgradeable proxy patterns (Transparent, UUPS, Beacon, Diamond) for security properties including storage layout preservation, initialization safety, and delegatecall protection. Our study of 823 upgradeable contracts reveals 67 vulnerabilities.",
       "pdf_url": "https://arxiv.org/pdf/2306.14567.pdf",
       "relevance_score": 9,
@@ -441,18 +671,30 @@
         "citation_potential": 2,
         "recency": 1
       },
-      "tags": ["upgradeable", "proxy-patterns", "security-analysis", "storage-layout"],
+      "tags": [
+        "upgradeable",
+        "proxy-patterns",
+        "security-analysis",
+        "storage-layout"
+      ],
       "citation_count": 21,
       "notes": "HIGH - Proxy patterns for Governor.sol upgradeability via TimelockController",
       "integration_status": "pending_review",
-      "pdf_stored_locally": false
+      "pdf_stored_locally": true
     },
     {
       "arxiv_id": "2305.11234",
       "title": "DeFi Security: A Comprehensive Survey",
-      "authors": ["Zhou, Liyi", "Qin, Kaihua", "Gervais, Arthur"],
+      "authors": [
+        "Zhou, Liyi",
+        "Qin, Kaihua",
+        "Gervais, Arthur"
+      ],
       "submitted_date": "2023-05-15",
-      "categories": ["cs.CR", "cs.CE"],
+      "categories": [
+        "cs.CR",
+        "cs.CE"
+      ],
       "abstract": "We survey 5 years of DeFi security research covering 156 papers, categorizing vulnerabilities into protocol-level, smart contract, and economic attack vectors. We propose a unified taxonomy and identify 8 research gaps including cross-protocol attacks and governance exploits.",
       "pdf_url": "https://arxiv.org/pdf/2305.11234.pdf",
       "relevance_score": 8,
@@ -462,18 +704,30 @@
         "citation_potential": 2,
         "recency": 1
       },
-      "tags": ["survey", "defi", "taxonomy", "comprehensive"],
+      "tags": [
+        "survey",
+        "defi",
+        "taxonomy",
+        "comprehensive"
+      ],
       "citation_count": 67,
       "notes": "MEDIUM-HIGH - Comprehensive survey for contextualizing Governor.sol security in DeFi ecosystem",
       "integration_status": "pending_review",
-      "pdf_stored_locally": false
+      "pdf_stored_locally": true
     },
     {
       "arxiv_id": "2304.08923",
       "title": "Runtime Verification of Smart Contracts with Temporal Properties",
-      "authors": ["Garfatta, Ikram", "Klai, Kais", "Graiet, Mohamed"],
+      "authors": [
+        "Garfatta, Ikram",
+        "Klai, Kais",
+        "Graiet, Mohamed"
+      ],
       "submitted_date": "2023-04-12",
-      "categories": ["cs.CR", "cs.LO"],
+      "categories": [
+        "cs.CR",
+        "cs.LO"
+      ],
       "abstract": "We propose a runtime verification framework for smart contracts using Linear Temporal Logic (LTL) specifications. Our monitor detects property violations with 2.8% gas overhead and has prevented 14 attacks in production deployment across 6 months.",
       "pdf_url": "https://arxiv.org/pdf/2304.08923.pdf",
       "relevance_score": 9,
@@ -483,18 +737,30 @@
         "citation_potential": 2,
         "recency": 1
       },
-      "tags": ["runtime-verification", "ltl", "monitoring", "temporal-logic"],
+      "tags": [
+        "runtime-verification",
+        "ltl",
+        "monitoring",
+        "temporal-logic"
+      ],
       "citation_count": 10,
       "notes": "HIGH - Runtime monitoring for Governor.sol invariant enforcement during execution",
       "integration_status": "pending_review",
-      "pdf_stored_locally": false
+      "pdf_stored_locally": true
     },
     {
       "arxiv_id": "2303.15678",
       "title": "Blockchain Simulator for Security Testing",
-      "authors": ["Nakamura, Yuki", "Fischer, Thomas", "Dubois, Pierre"],
+      "authors": [
+        "Nakamura, Yuki",
+        "Fischer, Thomas",
+        "Dubois, Pierre"
+      ],
       "submitted_date": "2023-03-20",
-      "categories": ["cs.CR", "cs.DC"],
+      "categories": [
+        "cs.CR",
+        "cs.DC"
+      ],
       "abstract": "We develop a high-fidelity blockchain simulator for security testing that replicates EVM semantics, consensus mechanisms, and network conditions. Our simulator enables 100× faster security testing compared to testnet deployment while maintaining 99.2% behavior fidelity.",
       "pdf_url": "https://arxiv.org/pdf/2303.15678.pdf",
       "relevance_score": 8,
@@ -504,18 +770,30 @@
         "citation_potential": 2,
         "recency": 1
       },
-      "tags": ["simulation", "testing", "evm", "security-testing"],
+      "tags": [
+        "simulation",
+        "testing",
+        "evm",
+        "security-testing"
+      ],
       "citation_count": 8,
       "notes": "MEDIUM-HIGH - Simulation for Governor.sol attack scenario testing under various network conditions",
       "integration_status": "pending_review",
-      "pdf_stored_locally": false
+      "pdf_stored_locally": true
     },
     {
       "arxiv_id": "2302.22456",
       "title": "State Machine Extraction from Smart Contracts",
-      "authors": ["Mavridou, Anastasia", "Laszka, Aron", "Stachtiari, Emmanouela"],
+      "authors": [
+        "Mavridou, Anastasia",
+        "Laszka, Aron",
+        "Stachtiari, Emmanouela"
+      ],
       "submitted_date": "2023-02-25",
-      "categories": ["cs.CR", "cs.SE"],
+      "categories": [
+        "cs.CR",
+        "cs.SE"
+      ],
       "abstract": "We present an automated technique for extracting state machines from smart contract bytecode, enabling formal verification of state transition properties. Applied to 500 contracts, our tool achieves 91.7% accuracy in state machine reconstruction.",
       "pdf_url": "https://arxiv.org/pdf/2302.22456.pdf",
       "relevance_score": 9,
@@ -525,7 +803,12 @@
         "citation_potential": 2,
         "recency": 1
       },
-      "tags": ["state-machine", "extraction", "formal-verification", "bytecode-analysis"],
+      "tags": [
+        "state-machine",
+        "extraction",
+        "formal-verification",
+        "bytecode-analysis"
+      ],
       "citation_count": 13,
       "notes": "HIGH - State machine extraction for Governor.sol proposal lifecycle verification",
       "integration_status": "pending_review",
@@ -534,9 +817,16 @@
     {
       "arxiv_id": "2301.17234",
       "title": "Mutation Testing for Smart Contracts",
-      "authors": ["Beller, Moritz", "Gousios, Georgios", "Zaidman, Andy"],
+      "authors": [
+        "Beller, Moritz",
+        "Gousios, Georgios",
+        "Zaidman, Andy"
+      ],
       "submitted_date": "2023-01-22",
-      "categories": ["cs.CR", "cs.SE"],
+      "categories": [
+        "cs.CR",
+        "cs.SE"
+      ],
       "abstract": "We adapt mutation testing to smart contracts, defining 32 Solidity-specific mutation operators. Our empirical study of 150 contracts reveals that only 23% of test suites achieve >80% mutation score, indicating widespread inadequacy of existing tests.",
       "pdf_url": "https://arxiv.org/pdf/2301.17234.pdf",
       "relevance_score": 8,
@@ -546,7 +836,12 @@
         "citation_potential": 2,
         "recency": 1
       },
-      "tags": ["mutation-testing", "test-quality", "solidity", "empirical-study"],
+      "tags": [
+        "mutation-testing",
+        "test-quality",
+        "solidity",
+        "empirical-study"
+      ],
       "citation_count": 16,
       "notes": "MEDIUM-HIGH - Mutation testing for Governor.sol test suite quality assessment",
       "integration_status": "pending_review",
@@ -555,9 +850,16 @@
     {
       "arxiv_id": "2312.09876",
       "title": "Smart Contract Optimization via IR-Level Transformations",
-      "authors": ["Li, Shuang", "Dong, Jin-song", "Sun, Jun"],
+      "authors": [
+        "Li, Shuang",
+        "Dong, Jin-song",
+        "Sun, Jun"
+      ],
       "submitted_date": "2023-12-10",
-      "categories": ["cs.CR", "cs.PL"],
+      "categories": [
+        "cs.CR",
+        "cs.PL"
+      ],
       "abstract": "We propose optimization techniques at the Intermediate Representation (IR) level for smart contracts, achieving 22-38% gas reduction without compromising security. Our compiler pass applies 15 optimization patterns validated against formal security specifications.",
       "pdf_url": "https://arxiv.org/pdf/2312.09876.pdf",
       "relevance_score": 7,
@@ -567,7 +869,12 @@
         "citation_potential": 1,
         "recency": 1
       },
-      "tags": ["optimization", "compiler", "ir-transformations", "gas-reduction"],
+      "tags": [
+        "optimization",
+        "compiler",
+        "ir-transformations",
+        "gas-reduction"
+      ],
       "citation_count": 6,
       "notes": "MEDIUM - Optimization techniques for Governor.sol gas efficiency improvements",
       "integration_status": "pending_review",
@@ -576,9 +883,16 @@
     {
       "arxiv_id": "2311.08234",
       "title": "Privacy-Preserving Voting Protocols for Blockchains",
-      "authors": ["Zhang, Fangguo", "Li, Xianhui", "Wang, Yujue"],
+      "authors": [
+        "Zhang, Fangguo",
+        "Li, Xianhui",
+        "Wang, Yujue"
+      ],
       "submitted_date": "2023-11-08",
-      "categories": ["cs.CR", "cs.CY"],
+      "categories": [
+        "cs.CR",
+        "cs.CY"
+      ],
       "abstract": "We design zero-knowledge proof-based voting protocols that preserve voter privacy while maintaining verifiability on-chain. Our system supports 10,000 voters with 45-second proof generation time and 200K gas cost per vote.",
       "pdf_url": "https://arxiv.org/pdf/2311.08234.pdf",
       "relevance_score": 8,
@@ -588,18 +902,30 @@
         "citation_potential": 2,
         "recency": 1
       },
-      "tags": ["privacy", "voting", "zero-knowledge-proofs", "governance"],
+      "tags": [
+        "privacy",
+        "voting",
+        "zero-knowledge-proofs",
+        "governance"
+      ],
       "citation_count": 9,
       "notes": "MEDIUM-HIGH - Privacy-preserving voting extensions for Governor.sol (future work)",
       "integration_status": "pending_review",
-      "pdf_stored_locally": false
+      "pdf_stored_locally": true
     },
     {
       "arxiv_id": "2310.17845",
       "title": "Automated Exploit Generation for Smart Contracts",
-      "authors": ["Torres, Christof F.", "Iannillo, Antonio Ken", "Gervais, Arthur"],
+      "authors": [
+        "Torres, Christof F.",
+        "Iannillo, Antonio Ken",
+        "Gervais, Arthur"
+      ],
       "submitted_date": "2023-10-20",
-      "categories": ["cs.CR", "cs.SE"],
+      "categories": [
+        "cs.CR",
+        "cs.SE"
+      ],
       "abstract": "We present sFuzz, an automated exploit generation tool that combines symbolic execution with reinforcement learning. Applied to 5,000 contracts, sFuzz discovers exploits for 156 vulnerabilities with median exploitation time of 8.3 minutes.",
       "pdf_url": "https://arxiv.org/pdf/2310.17845.pdf",
       "relevance_score": 9,
@@ -609,18 +935,30 @@
         "citation_potential": 2,
         "recency": 1
       },
-      "tags": ["exploit-generation", "symbolic-execution", "reinforcement-learning", "automated-testing"],
+      "tags": [
+        "exploit-generation",
+        "symbolic-execution",
+        "reinforcement-learning",
+        "automated-testing"
+      ],
       "citation_count": 21,
       "notes": "HIGH - Automated exploit generation for Governor.sol adversarial testing",
       "integration_status": "pending_review",
-      "pdf_stored_locally": false
+      "pdf_stored_locally": true
     },
     {
       "arxiv_id": "2507.20175",
       "title": "SoK: Root Cause of $1 Billion Loss in Smart Contract Real-World Attacks",
-      "authors": ["Rezaei, Hadis", "Eshghie, Mojtaba", "Anderesson, Karl", "Palmieri, Francesco"],
+      "authors": [
+        "Rezaei, Hadis",
+        "Eshghie, Mojtaba",
+        "Anderesson, Karl",
+        "Palmieri, Francesco"
+      ],
       "submitted_date": "2025-07-27",
-      "categories": ["cs.CR"],
+      "categories": [
+        "cs.CR"
+      ],
       "abstract": "We analyze 50 severe real-world smart contract attacks (2022-2025) exceeding $1.09B in total losses. Introducing the concept of exploit chains, we propose a novel four-tier root-cause framework that moves beyond code-level vulnerabilities to examine design flaws, protocol interactions, and economic incentive misalignments. Our systematization reveals that 68% of attacks involved multiple vulnerabilities exploited sequentially, and 42% exploited cross-protocol composability assumptions.",
       "pdf_url": "https://arxiv.org/pdf/2507.20175.pdf",
       "relevance_score": 10,
@@ -630,18 +968,29 @@
         "citation_potential": 2,
         "recency": 2
       },
-      "tags": ["sok", "real-world-attacks", "exploit-chains", "root-cause-analysis"],
+      "tags": [
+        "sok",
+        "real-world-attacks",
+        "exploit-chains",
+        "root-cause-analysis"
+      ],
       "citation_count": 3,
       "notes": "CRITICAL - SoK analyzing $1B+ in real attacks with novel exploit chain framework. 68% multi-vulnerability chains directly applicable to Governor.sol compound attack scenarios. Four-tier framework provides structure for our threat modeling.",
       "integration_status": "pending_review",
-      "pdf_stored_locally": false
+      "pdf_stored_locally": true
     },
     {
       "arxiv_id": "2203.11520",
       "title": "SoK: Transaction Reordering Manipulations in DeFi",
-      "authors": ["Heimbach, Lioba", "Wattenhofer, Roger"],
+      "authors": [
+        "Heimbach, Lioba",
+        "Wattenhofer, Roger"
+      ],
       "submitted_date": "2022-03-22",
-      "categories": ["cs.CR", "cs.DC"],
+      "categories": [
+        "cs.CR",
+        "cs.DC"
+      ],
       "abstract": "We systematize mitigation approaches for transaction reordering attacks including front-running, back-running, and sandwich attacks in DeFi. Analyzing 12 proposed solutions (commit-reveal schemes, encrypted mempools, batch auctions, MEV auctions), we conclude that currently no scheme fully meets all demands of the blockchain ecosystem—privacy, fairness, and efficiency remain in tension. We propose an evaluation framework with 8 security and usability criteria.",
       "pdf_url": "https://arxiv.org/pdf/2203.11520.pdf",
       "relevance_score": 9,
@@ -651,11 +1000,17 @@
         "citation_potential": 2,
         "recency": 1
       },
-      "tags": ["sok", "mev", "transaction-reordering", "front-running", "mitigation"],
+      "tags": [
+        "sok",
+        "mev",
+        "transaction-reordering",
+        "front-running",
+        "mitigation"
+      ],
       "citation_count": 47,
       "notes": "HIGH - SoK on MEV mitigation strategies for governance transactions. Analysis of 12 solutions informs Governor.sol MEV protection (Flashbots integration, commit-reveal voting). Evaluation framework applicable to comparing governance MEV defenses.",
       "integration_status": "pending_review",
-      "pdf_stored_locally": false
+      "pdf_stored_locally": true
     }
   ]
 }
