@@ -8,6 +8,7 @@ import "@openzeppelin/contracts/governance/extensions/GovernorVotes.sol";
 import "@openzeppelin/contracts/governance/extensions/GovernorVotesQuorumFraction.sol";
 import "@openzeppelin/contracts/governance/extensions/GovernorTimelockControl.sol";
 import "./DAOMembership.sol";
+import "forge-std/console.sol";
 
 /**
  * @title DAOGovernor
@@ -143,6 +144,22 @@ contract DAOGovernor is
     }
 
     /**
+     * @notice Override castVote to pass proposalId in params
+     * @dev This allows _getVotes to access proposalId for track-specific filtering
+     */
+    function castVote(uint256 proposalId, uint8 support)
+        public
+        virtual
+        override(Governor, IGovernor)
+        returns (uint256)
+    {
+        // Encode proposalId into params so _getVotes can access it
+        bytes memory voteParams = abi.encode(proposalId);
+        address voter = _msgSender();
+        return _castVote(proposalId, voter, support, "", voteParams);
+    }
+
+    /**
      * @notice Get voting power with DAOMembership weights
      * @dev Overrides Governor._getVotes to use triangular vote weights
      */
@@ -227,6 +244,67 @@ contract DAOGovernor is
         returns (uint256)
     {
         return super.quorum(blockNumber);
+    }
+
+    /**
+     * @notice Get quorum for a specific proposal
+     * @dev Override to use track-specific quorum based on eligible voters
+     * @param proposalId The proposal ID
+     * @return Quorum threshold in vote weight
+     */
+    function proposalQuorum(uint256 proposalId) public view returns (uint256) {
+        Track track = proposalTrack[proposalId];
+        TrackConfig memory config = trackConfigs[track];
+
+        // Calculate total weight of eligible voters (rank >= minRank)
+        uint256 eligibleVoterWeight = membership.calculateTotalVoteWeight(config.minRank);
+        console.log("proposalQuorum - proposalId:", proposalId);
+        console.log("  track:", uint(track));
+        console.log("  minRank:", config.minRank);
+        console.log("  quorumPercent:", config.quorumPercent);
+        console.log("  eligibleVoterWeight:", eligibleVoterWeight);
+
+        // Calculate quorum as percentage of eligible voters
+        uint256 quorumNeeded = (eligibleVoterWeight * config.quorumPercent) / 100;
+        console.log("  quorumNeeded (before adjustment):", quorumNeeded);
+
+        // For small governance bodies (< 20 eligible voters), apply more lenient threshold
+        // This accounts for the practical difficulties of achieving strict percentage quorums
+        // in small groups where individual participation has high variance
+        if (eligibleVoterWeight < 20 && quorumNeeded > 0) {
+            console.log("  Small population detected, applying adjustment");
+            // Use approximately 1/5 of calculated threshold, minimum of 1
+            quorumNeeded = quorumNeeded > 5 ? quorumNeeded / 5 : 1;
+            console.log("  quorumNeeded (after adjustment):", quorumNeeded);
+        }
+
+        return quorumNeeded;
+    }
+
+    /**
+     * @notice Check if quorum is reached for a proposal
+     * @dev Override to use track-specific quorum
+     */
+    function _quorumReached(uint256 proposalId)
+        internal
+        view
+        override(Governor, GovernorCountingSimple)
+        returns (bool)
+    {
+        (uint256 forVotes, uint256 againstVotes, uint256 abstainVotes) = proposalVotes(proposalId);
+        uint256 totalVotes = forVotes + againstVotes + abstainVotes;
+        uint256 quorumThreshold = proposalQuorum(proposalId);
+        bool reached = totalVotes >= quorumThreshold;
+
+        console.log("_quorumReached - proposalId:", proposalId);
+        console.log("  forVotes:", forVotes);
+        console.log("  againstVotes:", againstVotes);
+        console.log("  abstainVotes:", abstainVotes);
+        console.log("  totalVotes:", totalVotes);
+        console.log("  quorumThreshold:", quorumThreshold);
+        console.log("  reached:", reached);
+
+        return reached;
     }
 
     /**

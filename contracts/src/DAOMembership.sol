@@ -15,9 +15,11 @@ import "@openzeppelin/contracts/access/AccessControl.sol";
  * - Rang 3 : Manager (10-15 ans)
  * - Rang 4 : Partner (15+ ans)
  *
- * Vote weight : Triangular numbers
- * weight(r, m) = (r - m + 1) × (r - m + 2) / 2
- * où r = rang du membre, m = rang minimum requis pour la proposition
+ * Vote weight : Standard triangular numbers (no adjustment for minRank)
+ * weight(r) = r × (r + 1) / 2
+ * où r = rang du membre (0-4)
+ * Rank 0: 0, Rank 1: 1, Rank 2: 3, Rank 3: 6, Rank 4: 10
+ * minRank acts as eligibility filter only (reverts if rank < minRank)
  */
 contract DAOMembership is AccessControl {
     // ===== Roles =====
@@ -185,13 +187,16 @@ contract DAOMembership is AccessControl {
      * @param _minRank Rang minimum requis pour voter sur cette proposition
      * @return weight Poids de vote (triangular number)
      *
-     * Formule : weight(r, m) = (r - m + 1) × (r - m + 2) / 2
-     * Exemple (m=0) :
-     * - Rang 0: weight = 1
-     * - Rang 1: weight = 3
-     * - Rang 2: weight = 6
-     * - Rang 3: weight = 10
-     * - Rang 4: weight = 15
+     * Formule : weight(r) = r × (r + 1) / 2
+     * où r = rang du membre (0-4)
+     * minRank acts as eligibility filter (reverts if rank < minRank)
+     *
+     * Examples:
+     * - Rang 0: weight = 0
+     * - Rang 1: weight = 1
+     * - Rang 2: weight = 3
+     * - Rang 3: weight = 6
+     * - Rang 4: weight = 10
      */
     function calculateVoteWeight(address _member, uint8 _minRank)
         public
@@ -202,14 +207,13 @@ contract DAOMembership is AccessControl {
         Member memory member = members[_member];
         require(member.active, "Member inactive");
 
-        // If member's rank is below minimum, they have no vote weight
-        if (member.rank < _minRank) {
-            return 0;
-        }
+        // If member's rank is below minimum, revert
+        require(member.rank >= _minRank, "Rank too low for this proposal");
 
-        // Vote weight using adjusted rank formula: (r - m + 1) × (r - m + 2) / 2
-        uint256 r = uint256(member.rank - _minRank + 1);
-        weight = (r * (r + 1)) / 2;
+        // Standard triangular number (absolute rank, no minRank adjustment)
+        // weight = rank × (rank + 1) / 2
+        uint256 rank = uint256(member.rank);
+        weight = rank * (rank + 1) / 2;
     }
 
     /**
@@ -227,8 +231,9 @@ contract DAOMembership is AccessControl {
             Member memory member = members[memberAddr];
 
             if (member.active && member.rank >= _minRank) {
-                uint256 r = uint256(member.rank - _minRank + 1);
-                totalWeight += (r * (r + 1)) / 2;
+                // Standard triangular number (absolute rank)
+                uint256 rank = uint256(member.rank);
+                totalWeight += rank * (rank + 1) / 2;
             }
         }
     }
@@ -296,5 +301,67 @@ contract DAOMembership is AccessControl {
         }
 
         return result;
+    }
+
+    // ===== OpenZeppelin IVotes Interface =====
+    // Required for Governor integration
+
+    /**
+     * @notice Returns the current timepoint (block number)
+     * @dev Part of IVotes interface for OpenZeppelin Governor
+     * @return Current block number as uint48
+     */
+    function clock() public view returns (uint48) {
+        return uint48(block.number);
+    }
+
+    /**
+     * @notice Returns the clock mode used for voting
+     * @dev Part of IVotes interface - indicates we use block.number
+     * @return Clock mode string
+     */
+    function CLOCK_MODE() public pure returns (string memory) {
+        return "mode=blocknumber&from=default";
+    }
+
+    /**
+     * @notice Returns total voting power at a given timepoint
+     * @dev Part of IVotes interface
+     * @param timepoint Block number (unused in this simplified implementation)
+     * @return Total vote weight of all active members with rank >= 0
+     *
+     * NOTE: This simplified implementation returns CURRENT total supply,
+     * not historical. For production, implement checkpoint-based tracking.
+     */
+    function getPastTotalSupply(uint256 timepoint) public view returns (uint256) {
+        // For now, return current total supply (no historical tracking)
+        // Governor will call this with a past block number, but we return current
+        return calculateTotalVoteWeight(0);
+    }
+
+    /**
+     * @notice Returns voting power for an account at a given timepoint
+     * @dev Part of IVotes interface
+     * @param account Member address
+     * @param timepoint Block number (unused in this simplified implementation)
+     * @return Vote weight for the account with rank >= 0
+     *
+     * NOTE: This simplified implementation returns CURRENT votes,
+     * not historical. For production, implement checkpoint-based tracking.
+     */
+    function getPastVotes(address account, uint256 timepoint) public view returns (uint256) {
+        // For now, return current vote weight (no historical tracking)
+        if (!isMember(account)) {
+            return 0;
+        }
+
+        Member memory member = members[account];
+        if (!member.active) {
+            return 0;
+        }
+
+        // Return vote weight with minRank=0 (all members eligible)
+        uint256 rank = uint256(member.rank);
+        return rank * (rank + 1) / 2;
     }
 }

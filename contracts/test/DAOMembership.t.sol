@@ -138,34 +138,34 @@ contract DAOMembershipTest is Test {
         vm.prank(admin);
         membership.addMember(alice, 0, "alice-github");
 
-        // minRank = 0 → weight = 1
+        // Rank 0 → weight = 0 (standard triangular)
         uint256 weight = membership.calculateVoteWeight(alice, 0);
-        assertEq(weight, 1);
+        assertEq(weight, 0);
     }
 
     function test_CalculateVoteWeight_Rank1() public {
         vm.prank(admin);
         membership.addMember(bob, 1, "bob-github");
 
-        // minRank = 0 → weight = 3
+        // Rank 1 → weight = 1 (standard triangular)
         uint256 weight = membership.calculateVoteWeight(bob, 0);
-        assertEq(weight, 3);
+        assertEq(weight, 1);
     }
 
     function test_CalculateVoteWeight_Rank2() public {
         vm.prank(admin);
         membership.addMember(charlie, 2, "charlie-github");
 
-        // minRank = 0 → weight = 6
+        // Rank 2 → weight = 3 (standard triangular)
         uint256 weight = membership.calculateVoteWeight(charlie, 0);
-        assertEq(weight, 6);
+        assertEq(weight, 3);
     }
 
     function test_CalculateVoteWeight_WithMinRank() public {
         vm.prank(admin);
         membership.addMember(charlie, 2, "charlie-github");
 
-        // minRank = 1 → r = 2-1+1 = 2 → weight = 3
+        // minRank = 1 → charlie's rank 2 >= minRank → weight = triangular(2) = 3
         uint256 weight = membership.calculateVoteWeight(charlie, 1);
         assertEq(weight, 3);
     }
@@ -182,12 +182,12 @@ contract DAOMembershipTest is Test {
 
     function test_CalculateTotalVoteWeight() public {
         vm.startPrank(admin);
-        membership.addMember(alice, 0, "alice-github");     // weight = 1
-        membership.addMember(bob, 1, "bob-github");         // weight = 3
-        membership.addMember(charlie, 2, "charlie-github"); // weight = 6
+        membership.addMember(alice, 0, "alice-github");     // weight = 0
+        membership.addMember(bob, 1, "bob-github");         // weight = 1
+        membership.addMember(charlie, 2, "charlie-github"); // weight = 3
 
         uint256 totalWeight = membership.calculateTotalVoteWeight(0);
-        assertEq(totalWeight, 10); // 1 + 3 + 6 = 10
+        assertEq(totalWeight, 4); // 0 + 1 + 3 = 4
         vm.stopPrank();
     }
 
@@ -197,10 +197,12 @@ contract DAOMembershipTest is Test {
         membership.addMember(bob, 1, "bob-github");
         membership.addMember(charlie, 2, "charlie-github");
 
-        // minRank = 1 → seuls bob et charlie comptent
+        // minRank = 1 → only bob and charlie count (alice filtered out)
         uint256 totalWeight = membership.calculateTotalVoteWeight(1);
-        // bob: r=1→1, weight=1; charlie: r=2-1=1, weight=1
-        assertEq(totalWeight, 2); // 1 + 1 = 2
+        // bob: rank=1, weight=1*2/2=1
+        // charlie: rank=2, weight=2*3/2=3
+        // Total = 1 + 3 = 4 (standard triangular, no minRank adjustment)
+        assertEq(totalWeight, 4);
         vm.stopPrank();
     }
 
