@@ -229,6 +229,10 @@ contract DAOTreasuryTest is Test {
     }
 
     function testExecuteProposal_DailyLimit() public {
+        // Increase maxSingleSpend to allow 400 ETH proposal
+        vm.prank(admin);
+        treasury.updateLimits(500 ether, 500 ether);
+
         // Create and execute first proposal
         vm.prank(member1);
         uint256 proposal1 = treasury.createProposal(
@@ -397,6 +401,10 @@ contract DAOTreasuryTest is Test {
     }
 
     function testDailyLimitReset() public {
+        // Increase maxSingleSpend to allow 400 ETH proposal
+        vm.prank(admin);
+        treasury.updateLimits(500 ether, 500 ether);
+
         // Execute proposal
         vm.prank(member1);
         uint256 proposal1 = treasury.createProposal(

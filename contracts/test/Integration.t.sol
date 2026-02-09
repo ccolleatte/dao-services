@@ -184,7 +184,8 @@ contract IntegrationTest is Test {
         assertEq(uint(governor.state(govProposalId)), uint(IGovernor.ProposalState.Succeeded));
 
         // Step 3: Queue proposal in timelock
-        bytes32 descriptionHash = keccak256(bytes("Approve treasury spending of 50 ETH"));
+        // Note: proposeWithTrack prefixes the description with track name
+        bytes32 descriptionHash = keccak256(bytes("[TREASURY] Approve treasury spending of 50 ETH"));
         governor.queue(targets, values, calldatas, descriptionHash);
 
         // Step 4: Wait for timelock delay
@@ -326,9 +327,10 @@ contract IntegrationTest is Test {
      * @dev Verify budget is tracked correctly across multiple spending proposals
      */
     function testIntegration_BudgetTrackingAcrossGovernance() public {
-        // Setup: Allocate budget
+        // Setup: Allocate budget and grant roles
         vm.startPrank(admin);
         treasury.grantRole(treasury.TREASURER_ROLE(), admin);
+        treasury.grantRole(treasury.SPENDER_ROLE(), admin);
         treasury.allocateBudget("development", 100 ether);
         vm.stopPrank();
 
@@ -344,9 +346,6 @@ contract IntegrationTest is Test {
         // Approve and execute
         vm.prank(admin);
         treasury.approveProposal(proposal1);
-
-        vm.prank(admin);
-        treasury.grantRole(treasury.SPENDER_ROLE(), admin);
 
         vm.prank(admin);
         treasury.executeProposal(proposal1, "development");

@@ -329,6 +329,9 @@ contract MissionEscrowTest is Test {
 
         // Transfer budget to escrow
         daosToken.transfer(address(escrow), 1000 ether);
+
+        // Fund client with ETH for dispute stakes
+        vm.deal(client, 200 ether);
     }
 
     // Test 7: Add milestone
