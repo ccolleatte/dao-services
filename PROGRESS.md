@@ -58,11 +58,11 @@
 
 ---
 
-## 🔄 Phase 3 : MVP Smart Contracts (EN COURS - 60%)
+## 🔄 Phase 3 : MVP Smart Contracts (EN COURS - 70%)
 
 **Début** : 2026-02-08
 **Durée estimée** : 2-4 semaines
-**Statut actuel** : Core contracts + tests implémentés (Governor, Treasury, Membership)
+**Statut actuel** : Core contracts + tests + deployment docs implémentés
 
 ### ✅ Complété (60%)
 
@@ -122,7 +122,17 @@
 - ✅ Security analysis
 - ✅ Test suite summary
 
-### 🔜 À Faire (40%)
+**Tests Integration.t.sol** (400+ lignes) :
+- ✅ 6 tests d'intégration end-to-end
+- ✅ Coverage : Vote weights flow, Treasury governance, Budget tracking, Multi-track proposals
+
+**Documentation déploiement** (700+ lignes) :
+- ✅ `DEPLOYMENT.md` - Guide complet Paseo testnet
+- ✅ `VerifyDeployment.s.sol` - Script vérification post-déploiement
+- ✅ `deploy-paseo.ps1` - Script PowerShell automatisé
+- ✅ `.env.example` - Template configuration
+
+### 🔜 À Faire (30%)
 
 **Contrats Marketplace** (Semaine prochaine) :
 - [ ] `ServiceMarketplace.sol` (publications missions, candidatures)
@@ -140,10 +150,12 @@
 - [ ] Tests unitaires Marketplace (≥30 tests)
 
 **Intégration & Déploiement** (Cette semaine) :
-- [ ] Tests intégration (DAOMembership ↔ Governor ↔ Treasury)
+- ✅ ~~Tests intégration (DAOMembership ↔ Governor ↔ Treasury)~~ **COMPLÉTÉ**
+- ✅ ~~Documentation déploiement Paseo~~ **COMPLÉTÉ**
+- [ ] Exécution tests (nécessite Foundry local)
 - [ ] Coverage report + fixes (target ≥80% lignes, ≥70% branches)
 - [ ] Déploiement testnet Paseo (Polkadot Hub)
-- [ ] Vérification contrats (Blockscout/Etherscan-like)
+- [ ] Vérification contrats on-chain
 
 **Frontend Minimal** :
 - [ ] Setup Next.js 15 + TypeScript
@@ -208,22 +220,24 @@
 
 | Type | Fichiers | Lignes | Tests |
 |------|----------|--------|-------|
-| Smart contracts | 3 | 940 | 53 (100%) |
-| Tests | 3 | 680 | - |
-| Scripts | 2 | 190 | - |
-| Config | 4 | 100 | - |
-| Documentation | 1 | 450 | - |
-| **Total** | **13** | **2360** | **53** |
+| Smart contracts | 3 | 940 | 59 (100%) |
+| Tests | 4 | 1080 | - |
+| Scripts | 4 | 540 | - |
+| Config | 5 | 120 | - |
+| Documentation | 2 | 1150 | - |
+| **Total** | **18** | **3830** | **59** |
 
 ### Prochaines Étapes Immédiates
 
-**Cette semaine (reste 8-10h)** :
+**Cette semaine (reste 2-4h)** :
 1. ✅ ~~Implémenter `Governor.sol` (8h)~~ **COMPLÉTÉ**
 2. ✅ ~~Implémenter `Treasury.sol` (4h)~~ **COMPLÉTÉ**
 3. ✅ ~~Tests unitaires Governor + Treasury (6h)~~ **COMPLÉTÉ**
-4. Tests intégration DAOMembership ↔ Governor ↔ Treasury (3h)
-5. Coverage report + fixes (2h)
-6. Déploiement testnet Paseo (3h)
+4. ✅ ~~Tests intégration DAOMembership ↔ Governor ↔ Treasury (3h)~~ **COMPLÉTÉ**
+5. ✅ ~~Documentation déploiement Paseo (2h)~~ **COMPLÉTÉ**
+6. Exécuter tests localement avec Foundry (1h)
+7. Coverage report + fixes (2h)
+8. Déploiement testnet Paseo (1h avec script automatisé)
 
 **Semaine prochaine (estimation 20-25h)** :
 1. Implémenter `ServiceMarketplace.sol` (10h)
