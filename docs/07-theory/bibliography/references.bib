@@ -1,8 +1,164 @@
 % BibTeX Bibliography for DAO Project
 % Auto-generated from arXiv metadata
-% Total entries: 81
+% Total entries: 94
 % Format: Harvard author-date style
 % Last updated: 2026-02-09
+
+@misc{gersbach2025propose,
+  author = {Hans Gersbach},
+  title = {{Propose or Vote: A Canonical Democratic Procedure}},
+  year = {2025},
+  eprint = {2506.05998v2},
+  archivePrefix = {arXiv},
+  primaryClass = {cs.GT},
+  url = {https://arxiv.org/pdf/2506.05998v2},
+  note = {arXiv preprint},
+  abstract = {{This paper introduces Propose or Vote (PoV), a democratic procedure for collective decision-making and elections that does not rely on a central mechanism designer. In the first stage, members of a polity choose whether to become proposal-makers or to participate only as voters. In the second stage, voters decide by majority voting over the set of submitted proposals. With appropriately chosen default points, PoV implements the Condorcet winner in a single round of voting whenever one exists. We show that this implementation is globally unique when the number of members is odd; for an even number of members, uniqueness can be restored by adding an artificial agent. PoV can also be applied to elections, where agents decide whether to stand as candidates or vote over the resulting candidate set.}}
+}
+
+@misc{bahel2024anonymous,
+  author = {Eric Bahel},
+  title = {{Anonymous and Strategy-Proof Voting under Subjective Expected Utility Preferences}},
+  year = {2024},
+  eprint = {2401.04060v2},
+  archivePrefix = {arXiv},
+  primaryClass = {cs.GT},
+  url = {https://arxiv.org/pdf/2401.04060v2},
+  note = {arXiv preprint},
+  abstract = {{We study three axioms in the model of constrained social choice under uncertainty where (i) agents have subjective expected utility preferences over acts and (ii) different states of nature have (possibly) different sets of available outcomes. Anonymity says that agents' names or labels should never play a role in the mechanism used to select the social act. Strategy-proofness requires that reporting one's true preferences be a (weakly) dominant strategy for each agent in the associated direct revelation game. Range unanimity essentially says that a feasible act must be selected by society whenever it is reported as every voter's favorite act within the range of the mechanism. We first show that every social choice function satisfying these three axioms can be factored as a product of voting rules that are either constant or binary (always yielding one of two pre-specified outcomes in each state). We describe four basic types of binary factors: three of these types are novel to this literature and exploit the voters' subjective beliefs. Our characterization result then states that a social choice function is anonymous, strategy-proof and range-unanimous if and only if every binary factor (in its canonical factorization) is of one of these four basic types.}}
+}
+
+@misc{das2025strategic,
+  author = {Dipankar Das},
+  title = {{Strategic Bid Shading in Real-Time Bidding Auctions in Ad Exchange Using Minority Game Theory}},
+  year = {2025},
+  eprint = {2512.15717v1},
+  archivePrefix = {arXiv},
+  primaryClass = {cs.GT},
+  url = {https://arxiv.org/pdf/2512.15717v1},
+  note = {arXiv preprint},
+  abstract = {{Traditional auction theory posits that bid value exhibits a positive correlation with the probability of securing the auctioned object in ascending auctions. However, under uncertainty and incomplete information, as is characteristic in real-time advertising markets, truthful bidding may not always represent a dominant strategy or yield a Pure Strategy Nash Equilibrium. Real-Time Bidding (RTB) platforms operationalize impression-level auctions via programmatic interfaces, where advertisers compete in first-price auction settings and often resort to bid shading, i.e., strategically submitting bids below their private valuations to optimize payoff.  This paper empirically investigates bid shading behaviors and strategic adaptation using large-scale RTB auction data from the Yahoo Webscope dataset. Integrating Minority Game Theory with clustering algorithms and variance-scaling diagnostics, we analyze equilibrium bidding behavior across temporally segmented impression markets. Our results reveal the emergence of minority-based bidding strategies, wherein agents partition hourly ad slots into submarkets and place bids strategically where they anticipate being in the numerical minority. This strategic heterogeneity facilitates reduced expenditure while enhancing win probability, functioning as an endogenous bid shading mechanism. The analysis highlights the computational and economic implications of minority strategies in shaping bidder dynamics and pricing outcomes in decentralized, high-frequency auction environments.}}
+}
+
+@misc{cha2025mechanism,
+  author = {Jinho Cha and Justin Yu and Eunchan Daniel Cha and Emily Yoo and Caedon Geoffrey and Hyoshin Song},
+  title = {{Mechanism design and equilibrium analysis of smart contract mediated resource allocation}},
+  year = {2025},
+  eprint = {2510.05504v2},
+  archivePrefix = {arXiv},
+  primaryClass = {cs.GT},
+  url = {https://arxiv.org/pdf/2510.05504v2},
+  note = {arXiv preprint},
+  abstract = {{Decentralized coordination and digital contracting are becoming critical in complex industrial ecosystems, yet existing approaches often rely on ad hoc heuristics or purely technical blockchain implementations without a rigorous economic foundation. This study develops a mechanism design framework for smart contract-based resource allocation that explicitly embeds efficiency and fairness in decentralized coordination. We establish the existence and uniqueness of contract equilibria, extending classical results in mechanism design, and introduce a decentralized price adjustment algorithm with provable convergence guarantees that can be implemented in real time. To evaluate performance, we combine extensive synthetic benchmarks with a proof-of-concept real-world dataset (MovieLens). The synthetic tests probe robustness under fee volatility, participation shocks, and dynamic demand, while the MovieLens case study illustrates how the mechanism can balance efficiency and fairness in realistic allocation environments. Results demonstrate that the proposed mechanism achieves substantial improvements in both efficiency and equity while remaining resilient to abrupt perturbations, confirming its stability beyond steady state analysis. The findings highlight broad managerial and policy relevance for supply chains, logistics, energy markets, healthcare resource allocation, and public infrastructure, where transparent and auditable coordination is increasingly critical. By combining theoretical rigor with empirical validation, the study shows how digital contracts can serve not only as technical artifacts but also as institutional instruments for transparency, accountability, and resilience in high-stakes resource allocation.}}
+}
+
+@misc{luo2025toward,
+  author = {Junliang Luo and Hong Kang and Shuhao Zheng and Xue Liu},
+  title = {{Toward Resilient Airdrop Mechanisms: Empirical Measurement of Hunter Profits and Airdrop Game Theory Modeling}},
+  year = {2025},
+  eprint = {2503.14316v1},
+  archivePrefix = {arXiv},
+  primaryClass = {cs.GT},
+  url = {https://arxiv.org/pdf/2503.14316v1},
+  note = {arXiv preprint},
+  abstract = {{Airdrops issued by platforms are to distribute tokens, drive user adoption, and promote decentralized services. The distributions attract airdrop hunters (attackers), who exploit the system by employing Sybil attacks, i.e., using multiple identities to manipulate token allocations to meet eligibility criteria. While debates around airdrop hunting question the potential benefits to the ecosystem, exploitative behaviors like Sybil attacks clearly undermine the system's integrity, eroding trust and credibility. Despite the increasing prevalence of these tactics, a gap persists in the literature regarding systematic modeling of airdrop hunters' costs and returns, alongside the theoretical models capturing the interactions among all roles for airdrop mechanism design. Our study first conducts an empirical analysis of transaction data from the Hop Protocol and LayerZero, identifying prevalent attack patterns and estimating hunters' expected profits. Furthermore, we develop a game-theory model that simulates the interactions between attackers, organizers, and bounty hunters, proposing optimal incentive structures that enhance detection while minimizing organizational costs.}}
+}
+
+@misc{fuente2024game,
+  author = {Neil De La Fuente and Miquel Noguer i Alonso and Guim Casadellà},
+  title = {{Game Theory and Multi-Agent Reinforcement Learning : From Nash Equilibria to Evolutionary Dynamics}},
+  year = {2024},
+  eprint = {2412.20523v1},
+  archivePrefix = {arXiv},
+  primaryClass = {cs.GT},
+  url = {https://arxiv.org/pdf/2412.20523v1},
+  note = {arXiv preprint},
+  abstract = {{This paper explores advanced topics in complex multi-agent systems building upon our previous work. We examine four fundamental challenges in Multi-Agent Reinforcement Learning (MARL): non-stationarity, partial observability, scalability with large agent populations, and decentralized learning. The paper provides mathematical formulations and analysis of recent algorithmic advancements designed to address these challenges, with a particular focus on their integration with game-theoretic concepts. We investigate how Nash equilibria, evolutionary game theory, correlated equilibrium, and adversarial dynamics can be effectively incorporated into MARL algorithms to improve learning outcomes. Through this comprehensive analysis, we demonstrate how the synthesis of game theory and MARL can enhance the robustness and effectiveness of multi-agent systems in complex, dynamic environments.}}
+}
+
+@misc{ganesh2024revisiting,
+  author = {Aadityan Ganesh and Clayton Thomas and S. Matthew Weinberg},
+  title = {{Revisiting the Primitives of Transaction Fee Mechanism Design}},
+  year = {2024},
+  eprint = {2410.07566v1},
+  archivePrefix = {arXiv},
+  primaryClass = {cs.GT},
+  url = {https://arxiv.org/pdf/2410.07566v1},
+  note = {arXiv preprint},
+  abstract = {{Transaction Fee Mechanism Design studies auctions run by untrusted miners for transaction inclusion in a blockchain. Under previously-considered desiderata, an auction is considered `good' if, informally-speaking, each party (i.e., the miner, the users, and coalitions of both miners and users) has no incentive to deviate from the fixed and pre-determined protocol.   In this paper, we propose a novel desideratum for transaction fee mechanisms. We say that a TFM is off-chain influence proof when the miner cannot achieve additional revenue by running a separate auction off-chain. While the previously-highlighted EIP-1559 is the gold-standard according to prior desiderata, we show that it does not satisfy off-chain influence proofness. Intuitively, this holds because a Bayesian revenue-maximizing miner can strictly increase profits by persuasively threatening to censor any bids that do not transfer a tip directly to the miner off-chain.   On the other hand, we reconsider the Cryptographic (multi-party computation assisted) Second Price Auction mechanism, which is technically not `simple for miners' according to previous desiderata (since miners may wish to set a reserve by fabricating bids). We show that, in a slightly different model where the miner is allowed to set the reserve directly, this auction satisfies simplicity for users and miners, and off-chain influence proofness.   Finally, we prove a strong impossibility result: no mechanism satisfies all previously-considered properties along with off-chain influence proofness, even with unlimited supply, and even after soliciting input from the miner.}}
+}
+
+@misc{behera2024pfedgame,
+  author = {Monik Raj Behera and Suchetana Chakraborty},
+  title = {{pFedGame -- Decentralized Federated Learning using Game Theory in Dynamic Topology}},
+  year = {2024},
+  eprint = {2410.04058v1},
+  archivePrefix = {arXiv},
+  primaryClass = {cs.GT},
+  url = {https://arxiv.org/pdf/2410.04058v1},
+  note = {arXiv preprint},
+  abstract = {{Conventional federated learning frameworks suffer from several challenges including performance bottlenecks at the central aggregation server, data bias, poor model convergence, and exposure to model poisoning attacks, and limited trust in the centralized infrastructure. In the current paper, a novel game theory-based approach called pFedGame is proposed for decentralized federated learning, best suitable for temporally dynamic networks. The proposed algorithm works without any centralized server for aggregation and incorporates the problem of vanishing gradients and poor convergence over temporally dynamic topology among federated learning participants. The solution comprises two sequential steps in every federated learning round, for every participant. First, it selects suitable peers for collaboration in federated learning. Secondly, it executes a two-player constant sum cooperative game to reach convergence by applying an optimal federated learning aggregation strategy. Experiments performed to assess the performance of pFedGame in comparison to existing methods in decentralized federated learning have shown promising results with accuracy higher than 70% for heterogeneous data.}}
+}
+
+@misc{chung2024collusion-resilience,
+  author = {Hao Chung and Tim Roughgarden and Elaine Shi},
+  title = {{Collusion-Resilience in Transaction Fee Mechanism Design}},
+  year = {2024},
+  eprint = {2402.09321v3},
+  archivePrefix = {arXiv},
+  primaryClass = {cs.GT},
+  url = {https://arxiv.org/pdf/2402.09321v3},
+  note = {arXiv preprint},
+  abstract = {{Users bid in a transaction fee mechanism (TFM) to get their transactions included and confirmed by a blockchain protocol. Roughgarden (EC'21) initiated the formal treatment of TFMs and proposed three requirements: user incentive compatibility (UIC), miner incentive compatibility (MIC), and a form of collusion-resilience called OCA-proofness. Ethereum's EIP-1559 mechanism satisfies all three properties simultaneously when there is no contention between transactions, but loses the UIC property when there are too many eligible transactions to fit in a single block. Chung and Shi (SODA'23) considered an alternative notion of collusion-resilience, called $c$-side-contract-proofness ($c$-SCP), and showed that, when there is contention between transactions, no TFM can satisfy UIC, MIC, and $c$-SCP for any $c\geq 1$. OCA-proofness asserts that the users and a miner should not be able to "steal from the protocol." On the other hand, the $c$-SCP condition requires that a coalition of a miner and a subset of users should not be able to profit through strategic deviations (whether at the expense of the protocol or of the users outside the coalition).   Our main result is the first proof that, when there is contention between transactions, no (possibly randomized) TFM in which users are expected to bid truthfully satisfies UIC, MIC, and OCA-proofness.This result resolves the main open question in Roughgarden (EC'21). We also suggest several relaxations of the basic model that allow our impossibility result to be circumvented.}}
+}
+
+@misc{damle2024transaction,
+  author = {Sankarshan Damle and Varul Srivastava and Sujit Gujar},
+  title = {{No Transaction Fees? No Problem! Achieving Fairness in Transaction Fee Mechanism Design}},
+  year = {2024},
+  eprint = {2402.04634v1},
+  archivePrefix = {arXiv},
+  primaryClass = {cs.GT},
+  url = {https://arxiv.org/pdf/2402.04634v1},
+  note = {arXiv preprint},
+  abstract = {{The recently proposed Transaction Fee Mechanism (TFM) literature studies the strategic interaction between the miner of a block and the transaction creators (or users) in a blockchain. In a TFM, the miner includes transactions that maximize its utility while users submit fees for a slot in the block. The existing TFM literature focuses on satisfying standard incentive properties -- which may limit widespread adoption. We argue that a TFM is "fair" to the transaction creators if it satisfies specific notions, namely Zero-fee Transaction Inclusion and Monotonicity. First, we prove that one generally cannot ensure both these properties and prevent a miner's strategic manipulation. We also show that existing TFMs either do not satisfy these notions or do so at a high cost to the miners' utility. As such, we introduce a novel TFM using on-chain randomness -- rTFM. We prove that rTFM guarantees incentive compatibility for miners and users while satisfying our novel fairness constraints.}}
+}
+
+@misc{tang2023transaction,
+  author = {Michael Tang and Alex Zhang},
+  title = {{Transaction Fee Mining and Mechanism Design}},
+  year = {2023},
+  eprint = {2302.06769v1},
+  archivePrefix = {arXiv},
+  primaryClass = {cs.GT},
+  url = {https://arxiv.org/pdf/2302.06769v1},
+  note = {arXiv preprint},
+  abstract = {{Transaction fees represent a major incentive in many blockchain systems as a way to incentivize processing transactions. Unfortunately, they also introduce an enormous amount of incentive asymmetry compared to alternatives like fixed block rewards. We analyze some of the incentive compatibility issues that arise from transaction fees, which relate to the bids that users submit, the allocation rules that miners use to choose which transactions to include, and where they choose to mine in the context of longest-chain consensus. We start by surveying a variety of mining attacks including undercutting, fee sniping, and fee-optimized selfish mining. Then, we move to analyzing mechanistic notions of user incentive compatibility, myopic miner incentive compatibility, and off-chain-agreement-proofness, as well as why they are provably incompatible in their full form. Then, we discuss weaker notions of nearly and $γ$-weak incentive compatibility, and how all of these forms of incentive compatibility hold or fail in the trustless auctioneer setup of blockchains, examining classical mechanisms as well as more recent ones such as Ethereum's EIP-1559 mechanism and \cite\{chung\}'s burning second-price auction. Throughout, we generalize and interrelate existing notions, provide new unifying perspectives and intuitions on analysis, and discuss both specific and overarching open problems for future work.}}
+}
+
+@misc{mustafa2025simulation-based,
+  author = {Atta Ul Mustafa},
+  title = {{A Simulation-Based Conceptual Model for Tokenized Recycling: Integrating Blockchain, Market Dynamics, and Behavioral Economics}},
+  year = {2025},
+  eprint = {2507.19901v1},
+  archivePrefix = {arXiv},
+  primaryClass = {cs.GT},
+  url = {https://arxiv.org/pdf/2507.19901v1},
+  note = {arXiv preprint},
+  abstract = {{This study develops a conceptual simulation model for a tokenized recycling incentive system that integrates blockchain infrastructure, market-driven pricing, behavioral economics, and carbon credit mechanisms. The model aims to address the limitations of traditional recycling systems, which often rely on static government subsidies and fail to generate sustained public participation. By introducing dynamic token values linked to real-world supply and demand conditions, as well as incorporating non-monetary behavioral drivers (e.g., social norms, reputational incentives), the framework creates a dual-incentive structure that can adapt over time. The model uses Monte Carlo simulations to estimate outcomes under a range of scenarios involving operational costs, carbon pricing, token volatility, and behavioral adoption rates. Due to the absence of real-world implementations of such integrated blockchain-based recycling systems, the paper remains theoretical and simulation-based. It is intended as a prototype framework for future policy experimentation and pilot projects. The model provides insights for policymakers, urban planners, and technology developers aiming to explore decentralized and market-responsive solutions to sustainable waste management. Future work should focus on validating the model through field trials or behavioral experiments.}}
+}
+
+@misc{kiayias2024single-token,
+  author = {Aggelos Kiayias and Philip Lazos and Paolo Penna},
+  title = {{Single-token vs Two-token Blockchain Tokenomics}},
+  year = {2024},
+  eprint = {2403.15429v3},
+  archivePrefix = {arXiv},
+  primaryClass = {cs.GT},
+  url = {https://arxiv.org/pdf/2403.15429v3},
+  note = {arXiv preprint},
+  abstract = {{We study long-term equilibria that arise in the token monetary policy, or tokenomics, design of proof-of-stake (PoS) blockchain systems that engage utility maximizing users and validators. Validators are system maintainers who get rewarded with tokens for performing the work necessary for the system to function properly, while users compete and pay with such tokens for getting a desired portion of the system service.   We study how the system service provision and suitable rewards schemes together can lead to equilibria with the following desirable characteristics (1) viability: the system keeps parties engaged,   (2) decentralization and skin-in-the-game: multiple sufficiently invested validators are participating,   (3) stability: the price path of the underlying token used to transact with the system does not change widely over time, and   (4) feasibility: the mechanism is easy to implement as a smart contract, e.g., it does not require a fiat reserve on-chain to perform token \{\em buybacks\} or to perform bookkeeping of exponentially growing token holdings.   Our analysis enables us to put forward a novel generic mechanism for blockchain monetary policy that we call quantitative rewarding (QR). We investigate how to implement QR in single-token and two-token proof of stake (PoS) blockchain systems. The latter are systems that utilize one token for the users to pay the transaction fees and a different token for the validators to participate in the PoS protocol and get rewarded. Our approach demonstrates a concrete advantage of the two-token setting in terms of the ability of the QR mechanism to be realized effectively and provide good equilibria. Our analysis also reveals an inherent limitation of the single token setting in terms of implementing an effective blockchain monetary policy - a distinction that is, to the best of our knowledge, highlighted for the first time.}}
+}
 
 @misc{chen2025uscsa:,
   author = {Chen, Wei and Zhang, Li and Wang, Kai},
