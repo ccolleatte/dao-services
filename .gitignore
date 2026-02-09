@@ -48,3 +48,8 @@ temp/
 # Deployment artifacts
 deployments/
 broadcast/
+
+# Claude Code
+.claude/skills/
+.claude/logs/
+.claude/settings.local.json
