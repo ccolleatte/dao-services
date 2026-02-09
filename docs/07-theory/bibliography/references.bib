@@ -1,8 +1,392 @@
 % BibTeX Bibliography for DAO Project
 % Auto-generated from arXiv metadata
-% Total entries: 109
+% Total entries: 141
 % Format: Harvard author-date style
 % Last updated: 2026-02-09
+
+@misc{brant2026estimating,
+  author = {Thiago Brant and Julien Kühn and Jun Pang},
+  title = {{Estimating Exam Item Difficulty with LLMs: A Benchmark on Brazil's ENEM Corpus}},
+  year = {2026},
+  eprint = {2602.06631v1},
+  archivePrefix = {arXiv},
+  primaryClass = {cs.GT},
+  url = {https://arxiv.org/pdf/2602.06631v1},
+  note = {arXiv preprint},
+  abstract = {{As Large Language Models (LLMs) are increasingly deployed to generate educational content, a critical safety question arises: can these models reliably estimate the difficulty of the questions they produce? Using Brazil's high-stakes ENEM exam as a testbed, we benchmark ten proprietary and open-weight LLMs against official Item Response Theory (IRT) parameters for 1,031 questions. We evaluate performance along three axes: absolute calibration, rank fidelity, and context sensitivity across learner backgrounds. Our results reveal a significant trade-off: while the best models achieve moderate rank correlation, they systematically underestimate difficulty and degrade significantly on multimodal items. Crucially, we find that models exhibit limited and inconsistent plasticity when prompted with student demographic cues, suggesting they are not yet ready for context-adaptive personalization. We conclude that LLMs function best as calibrated screeners rather than authoritative oracles, supporting an "evaluation-before-generation" pipeline for responsible assessment design.}}
+}
+
+@misc{ko2026bilingual,
+  author = {Ju-Chun Ko},
+  title = {{Bilingual Bias in Large Language Models: A Taiwan Sovereignty Benchmark Study}},
+  year = {2026},
+  eprint = {2602.06371v1},
+  archivePrefix = {arXiv},
+  primaryClass = {cs.GT},
+  url = {https://arxiv.org/pdf/2602.06371v1},
+  note = {arXiv preprint},
+  abstract = {{Large Language Models (LLMs) are increasingly deployed in multilingual contexts, yet their consistency across languages on politically sensitive topics remains understudied. This paper presents a systematic bilingual benchmark study examining how 17 LLMs respond to questions concerning the sovereignty of the Republic of China (Taiwan) when queried in Chinese versus English. We discover significant language bias -- the phenomenon where the same model produces substantively different political stances depending on the query language. Our findings reveal that 15 out of 17 tested models exhibit measurable language bias, with Chinese-origin models showing particularly severe issues including complete refusal to answer or explicit propagation of Chinese Communist Party (CCP) narratives. Notably, only GPT-4o Mini achieves a perfect 10/10 score in both languages. We propose novel metrics for quantifying language bias and consistency, including the Language Bias Score (LBS) and Quality-Adjusted Consistency (QAC). Our benchmark and evaluation framework are open-sourced to enable reproducibility and community extension.}}
+}
+
+@misc{parikh2026llms,
+  author = {Riya Parikh and Sarah H. Cen and Chara Podimata},
+  title = {{Do LLMs Track Public Opinion? A Multi-Model Study of Favorability Predictions in the 2024 U.S. Presidential Election}},
+  year = {2026},
+  eprint = {2602.06302v1},
+  archivePrefix = {arXiv},
+  primaryClass = {cs.GT},
+  url = {https://arxiv.org/pdf/2602.06302v1},
+  note = {arXiv preprint},
+  abstract = {{We investigate whether Large Language Models (LLMs) can track public opinion as measured by exit polls during the 2024 U.S. presidential election cycle. Our analysis focuses on headline favorability (e.g., "Favorable" vs. "Unfavorable") of presidential candidates across multiple LLMs queried daily throughout the election season. Using the publicly available llm-election-data-2024 dataset, we evaluate predictions from nine LLM configurations against a curated set of five high-quality polls from major organizations including Reuters, CNN, Gallup, Quinnipiac, and ABC. We find systematic directional miscalibration. For Kamala Harris, all models overpredict favorability by 10-40% relative to polls. For Donald Trump, biases are smaller (5-10%) and poll-dependent, with substantially lower cross-model variation. These deviations persist under temporal smoothing and are not corrected by internet-augmented retrieval. We conclude that off-the-shelf LLMs do not reliably track polls when queried in a straightforward manner and discuss implications for election forecasting.}}
+}
+
+@misc{feldman2026know,
+  author = {Jonathan Feldman and Tal Feldman and Annie I Anton},
+  title = {{Know Your Scientist: KYC as Biosecurity Infrastructure}},
+  year = {2026},
+  eprint = {2602.06172v1},
+  archivePrefix = {arXiv},
+  primaryClass = {cs.GT},
+  url = {https://arxiv.org/pdf/2602.06172v1},
+  note = {arXiv preprint},
+  abstract = {{Biological AI tools for protein design and structure prediction are advancing rapidly, creating dual-use risks that existing safeguards cannot adequately address. Current model-level restrictions, including keyword filtering, output screening, and content-based access denials, are fundamentally ill-suited to biology, where reliable function prediction remains beyond reach and novel threats evade detection by design. We propose a three-tier Know Your Customer (KYC) framework, inspired by anti-money laundering (AML) practices in the financial sector, that shifts governance from content inspection to user verification and monitoring. Tier I leverages research institutions as trust anchors to vouch for affiliated researchers and assume responsibility for vetting. Tier II applies output screening through sequence homology searches and functional annotation. Tier III monitors behavioral patterns to detect anomalies inconsistent with declared research purposes. This layered approach preserves access for legitimate researchers while raising the cost of misuse through institutional accountability and traceability. The framework can be implemented immediately using existing institutional infrastructure, requiring no new legislation or regulatory mandates.}}
+}
+
+@misc{lamadrid2026fine-tuning,
+  author = {Dolores Zamacola Sánchez de Lamadrid and Eduardo C. Garrido-Merchán},
+  title = {{Fine-Tuning Large Language Models for Automatic Detection of Sexually Explicit Content in Spanish-Language Song Lyrics}},
+  year = {2026},
+  eprint = {2602.05485v1},
+  archivePrefix = {arXiv},
+  primaryClass = {cs.GT},
+  url = {https://arxiv.org/pdf/2602.05485v1},
+  note = {arXiv preprint},
+  abstract = {{The proliferation of sexually explicit content in popular music genres such as reggaeton and trap, consumed predominantly by young audiences, has raised significant societal concern regarding the exposure of minors to potentially harmful lyrical material. This paper presents an approach to the automatic detection of sexually explicit content in Spanish-language song lyrics by fine-tuning a Generative Pre-trained Transformer (GPT) model on a curated corpus of 100 songs, evenly divided between expert-labeled explicit and non-explicit categories. The proposed methodology leverages transfer learning to adapt the pre-trained model to the idiosyncratic linguistic features of urban Latin music, including slang, metaphors, and culturally specific double entendres that evade conventional dictionary-based filtering systems. Experimental evaluation on held-out test sets demonstrates that the fine-tuned model achieves 87% accuracy, 100% precision, and 100% specificity after a feedback-driven refinement loop, outperforming both its pre-feedback configuration and a non-customized baseline ChatGPT model. A comparative analysis reveals that the fine-tuned model agrees with expert human classification in 59.2% of cases versus 55.1% for the standard model, confirming that domain-specific adaptation enhances sensitivity to implicit and culturally embedded sexual references. These findings support the viability of deploying fine-tuned large language models as automated content moderation tools on music streaming platforms. Building on these technical results, the paper develops a public policy proposal for a multi-tier age-based content rating system for music analogous to the PEGI system for video games analyzed through the PESTEL framework and Kingdon's Multiple Streams Framework, establishing both the technological feasibility and the policy pathway for systematic music content regulation.}}
+}
+
+@misc{gong2026advancing,
+  author = {Chenghua Gong and Yihang Jiang and Hao Li and Rui Sun and Juyuan Zhang and Tianjun Gu and Liming Pan and Linyuan Lü},
+  title = {{Advancing Opinion Dynamics Modeling with Neural Diffusion-Convection-Reaction Equation}},
+  year = {2026},
+  eprint = {2602.05403v1},
+  archivePrefix = {arXiv},
+  primaryClass = {cs.GT},
+  url = {https://arxiv.org/pdf/2602.05403v1},
+  note = {arXiv preprint},
+  abstract = {{Advanced opinion dynamics modeling is vital for deciphering social behavior, emphasizing its role in mitigating polarization and securing cyberspace. To synergize mechanistic interpretability with data-driven flexibility, recent studies have explored the integration of Physics-Informed Neural Networks (PINNs) for opinion modeling. Despite this promise, existing methods are tailored to incomplete priors, lacking a comprehensive physical system to integrate dynamics from local, global, and endogenous levels. Moreover, penalty-based constraints adopted in existing methods struggle to deeply encode physical priors, leading to optimization pathologies and discrepancy between latent representations and physical transparency. To this end, we offer a physical view to interpret opinion dynamics via Diffusion-Convection-Reaction (DCR) system inspired by interacting particle theory. Building upon the Neural ODEs, we define the neural opinion dynamics to coordinate neural networks with physical priors, and further present the OPINN, a physics-informed neural framework for opinion dynamics modeling. Evaluated on real-world and synthetic datasets, OPINN achieves state-of-the-art performance in opinion evolution forecasting, offering a promising paradigm for the nexus of cyber, physical, and social systems.}}
+}
+
+@misc{lakadawala2026blockchain,
+  author = {Hozefa Lakadawala and Komla Dzigbede and Yu Chen},
+  title = {{Blockchain Technology for Public Services: A Polycentric Governance Synthesis}},
+  year = {2026},
+  eprint = {2602.05109v1},
+  archivePrefix = {arXiv},
+  primaryClass = {cs.GT},
+  url = {https://arxiv.org/pdf/2602.05109v1},
+  note = {arXiv preprint},
+  abstract = {{National governments are increasingly adopting blockchain to enhance transparency, trust, and efficiency in public service delivery. However, evidence on how these technologies are governed across national contexts remains fragmented and overly focused on technical features. Using Polycentric Governance Theory, this study conducts a systematic review of peer-reviewed research published between 2021 and 2025 to examine blockchain-enabled public services and the institutional, organizational, and information-management factors shaping their adoption. Following PRISMA guidelines, we synthesize findings from major digital government and information systems databases to identify key application domains, including digital identity, electronic voting, procurement, and social services, and analyze the governance arrangements underpinning these initiatives. Our analysis reveals that blockchain adoption is embedded within polycentric environments characterized by distributed authority, inter-organizational coordination, and layered accountability. Rather than adopting full decentralization, governments typically utilize hybrid and permissioned designs that allow for selective decentralization alongside centralized oversight, a pattern we conceptualize as "controlled polycentricity." By reframing blockchain as a governance infrastructure that encodes rules for coordination and information-sharing, this study advances digital government theory beyond simple adoption metrics. The findings offer theoretically grounded insights for researchers and practical guidance for policymakers seeking to design and scale sustainable blockchain-enabled public services.}}
+}
+
+@misc{hatchett2026learning,
+  author = {Johaun Hatchett and Debshila Basu Mallick and Brittany C. Bradford and Richard G. Baraniuk},
+  title = {{Learning Context Matters: Measuring and Diagnosing Personalization Gaps in LLM-Based Instructional Design}},
+  year = {2026},
+  eprint = {2602.04972v1},
+  archivePrefix = {arXiv},
+  primaryClass = {cs.GT},
+  url = {https://arxiv.org/pdf/2602.04972v1},
+  note = {arXiv preprint},
+  abstract = {{The adoption of generative AI in education has accelerated dramatically in recent years, with Large Language Models (LLMs) increasingly integrated into learning environments in the hope of providing personalized support that enhances learner engagement and knowledge retention. However, truly personalized support requires access to meaningful Learning Context (LC) regarding who the learner is, what they are trying to understand, and how they are engaging with the material. In this paper, we present a framework for measuring and diagnosing how the LC influences instructional strategy selection in LLM-based tutoring systems. Using psychometrically grounded synthetic learning contexts and a pedagogically grounded decision space, we compare LLM instructional decisions in context-blind and context-aware conditions and quantify their alignment with the pedagogical judgments of subject matter experts. Our results show that, while providing the LC induces systematic, measurable changes in instructional decisions that move LLM policies closer to the subject matter expert policy, substantial misalignment remains. To diagnose this misalignment, we introduce a relevance-impact analysis that reveals which learner characteristics are attended to, ignored, or spuriously influential in LLM instructional decision-making. This analysis, conducted in collaboration with subject matter experts, demonstrates that LC materially shapes LLM instructional planning but does not reliably induce pedagogically appropriate personalization. Our results enable principled evaluation of context-aware LLM systems and provide a foundation for improving personalization through learner characteristic prioritization, pedagogical model tuning, and LC engineering.}}
+}
+
+@misc{vatsal2026agentic,
+  author = {Shubham Vatsal and Harsh Dubey and Aditi Singh},
+  title = {{Agentic AI in Healthcare & Medicine: A Seven-Dimensional Taxonomy for Empirical Evaluation of LLM-based Agents}},
+  year = {2026},
+  eprint = {2602.04813v1},
+  archivePrefix = {arXiv},
+  primaryClass = {cs.GT},
+  url = {https://arxiv.org/pdf/2602.04813v1},
+  note = {arXiv preprint},
+  abstract = {{Large Language Model (LLM)-based agents that plan, use tools and act has begun to shape healthcare and medicine. Reported studies demonstrate competence on various tasks ranging from EHR analysis and differential diagnosis to treatment planning and research workflows. Yet the literature largely consists of overviews which are either broad surveys or narrow dives into a single capability (e.g., memory, planning, reasoning), leaving healthcare work without a common frame. We address this by reviewing 49 studies using a seven-dimensional taxonomy: Cognitive Capabilities, Knowledge Management, Interaction Patterns, Adaptation & Learning, Safety & Ethics, Framework Typology and Core Tasks & Subtasks with 29 operational sub-dimensions. Using explicit inclusion and exclusion criteria and a labeling rubric (Fully Implemented, Partially Implemented, Not Implemented), we map each study to the taxonomy and report quantitative summaries of capability prevalence and co-occurrence patterns. Our empirical analysis surfaces clear asymmetries. For instance, the External Knowledge Integration sub-dimension under Knowledge Management is commonly realized (~76% Fully Implemented) whereas Event-Triggered Activation sub-dimenison under Interaction Patterns is largely absent (~92% Not Implemented) and Drift Detection & Mitigation sub-dimension under Adaptation & Learning is rare (~98% Not Implemented). Architecturally, Multi-Agent Design sub-dimension under Framework Typology is the dominant pattern (~82% Fully Implemented) while orchestration layers remain mostly partial. Across Core Tasks & Subtasks, information centric capabilities lead e.g., Medical Question Answering & Decision Support and Benchmarking & Simulation, while action and discovery oriented areas such as Treatment Planning & Prescription still show substantial gaps (~59% Not Implemented).}}
+}
+
+@misc{hossain2026tamperbench:,
+  author = {Saad Hossain and Tom Tseng and Punya Syon Pandey and Samanvay Vajpayee and Matthew Kowal and Nayeema Nonta and Samuel Simko and Stephen Casper and Zhijing Jin and Kellin Pelrine and Sirisha Rambhatla},
+  title = {{TamperBench: Systematically Stress-Testing LLM Safety Under Fine-Tuning and Tampering}},
+  year = {2026},
+  eprint = {2602.06911v1},
+  archivePrefix = {arXiv},
+  primaryClass = {cs.GT},
+  url = {https://arxiv.org/pdf/2602.06911v1},
+  note = {arXiv preprint},
+  abstract = {{As increasingly capable open-weight large language models (LLMs) are deployed, improving their tamper resistance against unsafe modifications, whether accidental or intentional, becomes critical to minimize risks. However, there is no standard approach to evaluate tamper resistance. Varied data sets, metrics, and tampering configurations make it difficult to compare safety, utility, and robustness across different models and defenses. To this end, we introduce TamperBench, the first unified framework to systematically evaluate the tamper resistance of LLMs. TamperBench (i) curates a repository of state-of-the-art weight-space fine-tuning attacks and latent-space representation attacks; (ii) enables realistic adversarial evaluation through systematic hyperparameter sweeps per attack-model pair; and (iii) provides both safety and utility evaluations. TamperBench requires minimal additional code to specify any fine-tuning configuration, alignment-stage defense method, and metric suite while ensuring end-to-end reproducibility. We use TamperBench to evaluate 21 open-weight LLMs, including defense-augmented variants, across nine tampering threats using standardized safety and capability metrics with hyperparameter sweeps per model-attack pair. This yields novel insights, including effects of post-training on tamper resistance, that jailbreak-tuning is typically the most severe attack, and that Triplet emerges as a leading alignment-stage defense. Code is available at: https://github.com/criticalml-uw/TamperBench}}
+}
+
+@misc{li2026beyond,
+  author = {Yikun Li and Ting Zhang and Jieke Shi and Chengran Yang and Junda He and Xin Zhou and Jinfeng Jiang and Huihui Huang and Wen Bin Leow and Yide Yin and Eng Lieh Ouh and Lwin Khin Shar and David Lo},
+  title = {{Beyond Function-Level Analysis: Context-Aware Reasoning for Inter-Procedural Vulnerability Detection}},
+  year = {2026},
+  eprint = {2602.06751v1},
+  archivePrefix = {arXiv},
+  primaryClass = {cs.GT},
+  url = {https://arxiv.org/pdf/2602.06751v1},
+  note = {arXiv preprint},
+  abstract = {{Recent progress in ML and LLMs has improved vulnerability detection, and recent datasets have reduced label noise and unrelated code changes. However, most existing approaches still operate at the function level, where models are asked to predict whether a single function is vulnerable without inter-procedural context. In practice, vulnerability presence and root cause often depend on contextual information. Naively appending such context is not a reliable solution: real-world context is long, redundant, and noisy, and we find that unstructured context frequently degrades the performance of strong fine-tuned code models.   We present CPRVul, a context-aware vulnerability detection framework that couples Context Profiling and Selection with Structured Reasoning. CPRVul constructs a code property graph, and extracts candidate context. It then uses an LLM to generate security-focused profiles and assign relevance scores, selecting only high-impact contextual elements that fit within the model's context window. In the second phase, CPRVul integrates the target function, the selected context, and auxiliary vulnerability metadata to generate reasoning traces, which are used to fine-tune LLMs for reasoning-based vulnerability detection.   We evaluate CPRVul on three high-quality vulnerability datasets: PrimeVul, TitanVul, and CleanVul. Across all datasets, CPRVul consistently outperforms function-only baselines, achieving accuracies ranging from 64.94% to 73.76%, compared to 56.65% to 63.68% for UniXcoder. Specifically, on the challenging PrimeVul benchmark, CPRVul achieves 67.78% accuracy, outperforming prior state-of-the-art approaches, improving accuracy from 55.17% to 67.78% (22.9% improvement). Our ablations further show that neither raw context nor processed context alone benefits strong code models; gains emerge only when processed context is paired with structured reasoning.}}
+}
+
+@misc{xu2026ghostcite:,
+  author = {Zuyao Xu and Yuqi Qiu and Lu Sun and FaSheng Miao and Fubin Wu and Xinyi Wang and Xiang Li and Haozhe Lu and ZhengZe Zhang and Yuxin Hu and Jialu Li and Jin Luo and Feng Zhang and Rui Luo and Xinran Liu and Yingxian Li and Jiaji Liu},
+  title = {{GhostCite: A Large-Scale Analysis of Citation Validity in the Age of Large Language Models}},
+  year = {2026},
+  eprint = {2602.06718v1},
+  archivePrefix = {arXiv},
+  primaryClass = {cs.GT},
+  url = {https://arxiv.org/pdf/2602.06718v1},
+  note = {arXiv preprint},
+  abstract = {{Citations provide the basis for trusting scientific claims; when they are invalid or fabricated, this trust collapses. With the advent of Large Language Models (LLMs), this risk has intensified: LLMs are increasingly used for academic writing, yet their tendency to fabricate citations (``ghost citations'') poses a systemic threat to citation validity.   To quantify this threat and inform mitigation, we develop CiteVerifier, an open-source framework for large-scale citation verification, and conduct the first comprehensive study of citation validity in the LLM era through three experiments built on it. We benchmark 13 state-of-the-art LLMs on citation generation across 40 research domains, finding that all models hallucinate citations at rates from 14.23\% to 94.93\%, with significant variation across research domains. Moreover, we analyze 2.2 million citations from 56,381 papers published at top-tier AI/ML and Security venues (2020--2025), confirming that 1.07\% of papers contain invalid or fabricated citations (604 papers), with an 80.9\% increase in 2025 alone. Furthermore, we survey 97 researchers and analyze 94 valid responses after removing 3 conflicting samples, revealing a critical ``verification gap'': 41.5\% of researchers copy-paste BibTeX without checking and 44.4\% choose no-action responses when encountering suspicious references; meanwhile, 76.7\% of reviewers do not thoroughly check references and 80.0\% never suspect fake citations. Our findings reveal an accelerating crisis where unreliable AI tools, combined with inadequate human verification by researchers and insufficient peer review scrutiny, enable fabricated citations to contaminate the scientific record. We propose interventions for researchers, venues, and tool developers to protect citation integrity.}}
+}
+
+@misc{song2026taipan:,
+  author = {Ying Song and Balaji Palanisamy},
+  title = {{Taipan: A Query-free Transfer-based Multiple Sensitive Attribute Inference Attack Solely from Publicly Released Graphs}},
+  year = {2026},
+  eprint = {2602.06700v1},
+  archivePrefix = {arXiv},
+  primaryClass = {cs.GT},
+  url = {https://arxiv.org/pdf/2602.06700v1},
+  note = {arXiv preprint},
+  abstract = {{Graph-structured data underpin a wide spectrum of modern applications. However, complex graph topologies and homophilic patterns can facilitate attribute inference attacks (AIAs) by enabling sensitive information leakage to propagate across local neighborhoods. Existing AIAs predominantly assume that adversaries can probe sensitive attributes through repeated model queries. Such assumptions are often impractical in real-world settings due to stringent data protection regulations, prohibitive query budgets, and heightened detection risks, especially when inferring multiple sensitive attributes. More critically, this model-centric perspective obscures a pervasive blind spot: \textbf\{intrinsic multiple sensitive information leakage arising solely from publicly released graphs.\} To exploit this unexplored vulnerability, we introduce a new attack paradigm and propose \textbf\{Taipan, the first query-free transfer-based attack framework for multiple sensitive attribute inference attacks on graphs (G-MSAIAs).\} Taipan integrates \emph\{Hierarchical Attack Knowledge Routing\} to capture intricate inter-attribute correlations, and \emph\{Prompt-guided Attack Prototype Refinement\} to mitigate negative transfer and performance degradation. We further present a systematic evaluation framework tailored to G-MSAIAs. Extensive experiments on diverse real-world graph datasets demonstrate that Taipan consistently achieves strong attack performance across same-distribution settings and heterogeneous similar- and out-of-distribution settings with mismatched feature dimensionalities, and remains effective even under rigorous differential privacy guarantees. Our findings underscore the urgent need for more robust multi-attribute privacy-preserving graph publishing methods and data-sharing practices.}}
+}
+
+@misc{lu2026evaluating,
+  author = {Li Lu and Yanjie Zhao and Hongzhou Rao and Kechi Zhang and Haoyu Wang},
+  title = {{Evaluating and Enhancing the Vulnerability Reasoning Capabilities of Large Language Models}},
+  year = {2026},
+  eprint = {2602.06687v1},
+  archivePrefix = {arXiv},
+  primaryClass = {cs.GT},
+  url = {https://arxiv.org/pdf/2602.06687v1},
+  note = {arXiv preprint},
+  abstract = {{Large Language Models (LLMs) have demonstrated remarkable proficiency in vulnerability detection. However, a critical reliability gap persists: models frequently yield correct detection verdicts based on hallucinated logic or superficial patterns that deviate from the actual root cause. This misalignment remains largely obscured because contemporary benchmarks predominantly prioritize coarse-grained classification metrics, lacking the granular ground truth required to evaluate the underlying reasoning process. To bridge this gap, we first construct a benchmark consisting of two datasets: (1) real-world vulnerabilities with expert-curated causal reasoning as ground truth, and (2) semantically equivalent code perturbations for assessing reasoning robustness. Our large-scale empirical study reveals that even state-of-the-art models struggle to maintain logical consistency during semantic code comprehension, exhibiting 12 systematic failure patterns. Addressing these limitations, we propose DAGVul, a novel framework that models vulnerability reasoning as a Directed Acyclic Graph (DAG) generation task. Unlike linear chain-of-thought (CoT), our approach explicitly maps causal dependencies to enforce structural consistency. By further introducing Reinforcement Learning with Verifiable Rewards (RLVR), we align model reasoning trace with program-intrinsic logic. Experimental results demonstrate that our framework improves the reasoning F1-score by an average of 18.9% over all the baselines. Remarkably, our 8B-parameter implementation not only outperforms existing models of comparable scale but also surpasses specialized large-scale reasoning models, including Qwen3-30B-Reasoning and GPT-OSS-20B-High. It is even competitive with state-of-the-art models like Claude-Sonnet-4.5 (75.47% vs. 76.11%), establishing new efficiency in vulnerability reasoning across model scales.}}
+}
+
+@misc{mallick2025quantum,
+  author = {Tushin Mallick and Maya Zeldin and Murat Cenk and Cristina Nita-Rotaru},
+  title = {{Quantum Disruption: An SOK of How Post-Quantum Attackers Reshape Blockchain Security and Performance}},
+  year = {2025},
+  eprint = {2512.13333v1},
+  archivePrefix = {arXiv},
+  primaryClass = {cs.GT},
+  url = {https://arxiv.org/pdf/2512.13333v1},
+  note = {arXiv preprint},
+  abstract = {{As quantum computing advances toward practical deployment, it threatens a wide range of classical cryptographic mechanisms, including digital signatures, key exchange protocols, public-key encryption, and certain hash-based constructions that underpin modern network infrastructures. These primitives form the security backbone of most blockchain platforms, raising serious concerns about the long-term viability of blockchain systems in a post-quantum world. Although migrating to post-quantum cryptography may appear straightforward, the substantially larger key sizes and higher computational costs of post-quantum primitives can introduce significant challenges and, in some cases, render such transitions impractical for blockchain environments.   In this paper, we examine the implications of adopting post-quantum cryptography in blockchain systems across four key dimensions. We begin by identifying the cryptographic primitives within blockchain architectures that are most vulnerable to quantum attacks, particularly those used in consensus mechanisms, identity management, and transaction validation. We then survey proposed post-quantum adaptations across existing blockchain designs, analyzing their feasibility within decentralized and resource-constrained settings. Building on this analysis, we evaluate how replacing classical primitives with post-quantum alternatives affects system performance, protocol dynamics, and the incentive and trust structures that sustain blockchain ecosystems. Our study demonstrates that integrating post-quantum signature schemes into blockchain systems is not a simple drop-in replacement; instead, it requires careful architectural redesign, as naive substitutions risk undermining both security guarantees and operational efficiency.}}
+}
+
+@misc{ghosh2025quantum,
+  author = {Saurav Ghosh and Niloy Deb Roy Mishu},
+  title = {{Quantum Blockchain Survey: Foundations, Trends, and Gaps}},
+  year = {2025},
+  eprint = {2507.13720v2},
+  archivePrefix = {arXiv},
+  primaryClass = {cs.GT},
+  url = {https://arxiv.org/pdf/2507.13720v2},
+  note = {arXiv preprint},
+  abstract = {{Quantum computing poses fundamental risks to classical blockchain systems by undermining widely used cryptographic primitives. In response, two major research directions have emerged: post-quantum blockchains, which integrate quantum-resistant algorithms, and quantum blockchains, which leverage quantum properties such as entanglement and quantum key distribution. This survey reviews key developments in both areas, analyzing their cryptographic foundations, architectural designs, and implementation challenges. This work provides a comparative overview of technical proposals, highlight trade-offs in security, scalability, and deployment, and identify open research problems across hardware, consensus, and network design. The goal is to offer a structured and comprehensive reference for advancing secure blockchain systems in the quantum era.}}
+}
+
+@misc{deng2025enhancing,
+  author = {Zhihong Deng and Chunming Tang and Taotao Li and Parhat Abla and Qi Chen and Wei Liang and Debiao He},
+  title = {{Enhancing Blockchain Cross Chain Interoperability: A Comprehensive Survey}},
+  year = {2025},
+  eprint = {2505.04934v1},
+  archivePrefix = {arXiv},
+  primaryClass = {cs.GT},
+  url = {https://arxiv.org/pdf/2505.04934v1},
+  note = {arXiv preprint},
+  abstract = {{Blockchain technology, introduced in 2008, has revolutionized data storage and transfer across sectors such as finance, healthcare, intelligent transportation, and the metaverse. However, the proliferation of blockchain systems has led to discrepancies in architectures, consensus mechanisms, and data standards, creating data and value silos that hinder the development of an integrated multi chain ecosystem. Blockchain interoperability (a.k.a cross chain interoperability) has thus emerged as a solution to enable seamless data and asset exchange across disparate blockchains. In this survey, we systematically analyze over 150 high impact sources from academic journals, digital libraries, and grey literature to provide an in depth examination of blockchain interoperability. By exploring the existing methods, technologies, and architectures, we offer a classification of interoperability approaches including Atomic Swaps, Sidechains, Light Clients, and so on, which represent the most comprehensive overview to date. Furthermore, we investigate the convergence of academic research with industry practices, underscoring the importance of collaborative efforts in advancing blockchain innovation. Finally, we identify key strategic insights, challenges, and future research trajectories in this field. Our findings aim to support researchers, policymakers, and industry leaders in understanding and harnessing the transformative potential of blockchain interoperability to address current challenges and drive forward a cohesive multi-chain ecosystem.}}
+}
+
+@misc{aliyu2025from,
+  author = {Mansur Masama Aliyu and Niclas Kannengießer and Ali Sunyaev},
+  title = {{From Concept to Measurement: A Survey of How the Blockchain Trilemma Is Analyzed}},
+  year = {2025},
+  eprint = {2505.03768v4},
+  archivePrefix = {arXiv},
+  primaryClass = {cs.GT},
+  url = {https://arxiv.org/pdf/2505.03768v4},
+  note = {arXiv preprint},
+  abstract = {{The blockchain trilemma highlights the difficulty of simultaneously achieving a high degree of decentralization (DoD), scalability, and security in blockchain systems. While numerous constructs and metrics have been proposed to analyze these subconcepts, existing guidance is fragmented and inconsistent, limiting comparability across studies. This lack of clarity hinders practitioners in identifying Pareto-optimal blockchain system designs that meet common non-functional requirements. We systematically reviewed literature on the blockchain trilemma and blockchain benchmarks to synthesize constructs and their operationalizations through metrics to analyze the trilemma's subconcepts. We identified 12 constructs, operationalized through 15 metrics, that capture DoD, scalability, and security. We explain how these constructs apply across different blockchain systems and provide a structured overview that supports benchmarking and blockchain system design. Beyond blockchain, the findings offer insights for distributed database systems that rely on consensus and state machine replication. This work contributes a harmonized foundation for quantitative analyses of the blockchain trilemma, guiding both researchers in developing analysis approaches and practitioners in evaluating real-world systems.}}
+}
+
+@misc{lynham2025decentralization:,
+  author = {Alex Lynham and Geoff Goodell},
+  title = {{Decentralization: A Qualitative Survey of Node Operators}},
+  year = {2025},
+  eprint = {2503.17246v5},
+  archivePrefix = {arXiv},
+  primaryClass = {cs.GT},
+  url = {https://arxiv.org/pdf/2503.17246v5},
+  note = {arXiv preprint},
+  abstract = {{Decentralization is understood both by professionals in the blockchain industry and general users as a core design goal of permissionless ledgers. However, its meaning is far from universally agreed, and often it is easier to get opinions on what it is not, rather than what it is. In this paper, we solicit definitions of 'decentralization' and 'decentralization theatre' from blockchain node operators. Key to a definition is asking about effective decentralization strategies, as well as those that are ineffective. Malicious, deceptive, or incompetent strategies are commonly referred to by the term 'decentralization theatre.' Finally, we ask what is being decentralized. Via thematic analysis of interview transcripts, we find that most operators conceive of decentralization as existing broadly on a technical and a governance axis. This informs a two-axis model: network topology and governance topology, or the structure of decision-making power. Our key finding is that `decentralization' alone does not affect ledger immutability or systemic robustness.}}
+}
+
+@misc{li2025survey,
+  author = {Jichen Li and Lijia Xie and Hanting Huang and Bo Zhou and Binfeng Song and Wanying Zeng and Xiaotie Deng and Xiao Zhang},
+  title = {{Survey on Strategic Mining in Blockchain: A Reinforcement Learning Approach}},
+  year = {2025},
+  eprint = {2502.17307v2},
+  archivePrefix = {arXiv},
+  primaryClass = {cs.GT},
+  url = {https://arxiv.org/pdf/2502.17307v2},
+  note = {arXiv preprint},
+  abstract = {{Strategic mining attacks, such as selfish mining, exploit blockchain consensus protocols by deviating from honest behavior to maximize rewards. Markov Decision Process (MDP) analysis faces scalability challenges in modern digital economics, including blockchain. To address these limitations, reinforcement learning (RL) provides a scalable alternative, enabling adaptive strategy optimization in complex dynamic environments.   In this survey, we examine RL's role in strategic mining analysis, comparing it to MDP-based approaches. We begin by reviewing foundational MDP models and their limitations, before exploring RL frameworks that can learn near-optimal strategies across various protocols. Building on this analysis, we compare RL techniques and their effectiveness in deriving security thresholds, such as the minimum attacker power required for profitable attacks. Expanding the discussion further, we classify consensus protocols and propose open challenges, such as multi-agent dynamics and real-world validation.   This survey highlights the potential of reinforcement learning (RL) to address the challenges of selfish mining, including protocol design, threat detection, and security analysis, while offering a strategic roadmap for researchers in decentralized systems and AI-driven analytics.}}
+}
+
+@misc{ovezik2025sok:,
+  author = {Christina Ovezik and Dimitris Karakostas and Mary Milad and Aggelos Kiayias and Daniel W. Woods},
+  title = {{SoK: Measuring Blockchain Decentralization}},
+  year = {2025},
+  eprint = {2501.18279v2},
+  archivePrefix = {arXiv},
+  primaryClass = {cs.GT},
+  url = {https://arxiv.org/pdf/2501.18279v2},
+  note = {arXiv preprint},
+  abstract = {{In the context of blockchain systems, the importance of decentralization is undermined by the lack of a widely accepted methodology to measure it. To address this gap, we set out a systematization effort targeting the decentralization measurement workflow. To facilitate our systematization, we put forth a framework that categorizes all measurement techniques used in previous work based on the resource they target, the methods they use to extract resource allocation, and the functions they apply to produce the final measurements. We complement this framework with an empirical analysis designed to evaluate whether the various pre-processing steps and metrics used in prior work capture the same underlying concept of decentralization. Our analysis brings about a number of novel insights and observations. First, the seemingly innocuous choices performed during data extraction, such as the size of estimation windows or the application of thresholds that affect the resource distribution, have important repercussions when calculating the level of decentralization. Second, exploratory factor analysis suggests that in Proof-of-Work (PoW) blockchains, participation on the consensus layer is not correlated with decentralization, but rather captures a distinct signal, unlike in Proof-of-Stake (PoS) systems, where the different metrics align under a single factor. These findings challenge the long-held assumption within the blockchain community that higher participation drives higher decentralization. Finally, we combine the results of our empirical analysis with first-principles reasoning to derive practical recommendations for researchers that set out to measure blockchain decentralization, and we further systematize the existing literature in line with these recommendations.}}
+}
+
+@misc{li2024sok:,
+  author = {Zhuolun Li and Evangelos Pournaras},
+  title = {{SoK: Consensus for Fair Message Ordering}},
+  year = {2024},
+  eprint = {2411.09981v3},
+  archivePrefix = {arXiv},
+  primaryClass = {cs.GT},
+  url = {https://arxiv.org/pdf/2411.09981v3},
+  note = {arXiv preprint},
+  abstract = {{Distributed ledger systems, such as blockchains, rely on consensus protocols that commit ordered messages for processing. In practice, message ordering within these systems is often reward-driven. This raises concerns about fairness, particularly in decentralized finance applications, where nodes can exploit transaction orders to maximize rewards referred to as Maximal Extractable Value. This paper provides a systematic understanding of consensus protocols that order messages with different approaches, especially focusing on the ones that promote order fairness, using methods including First-In-First-Out (FIFO), random, and blind ordering. We review the challenges and trade-offs of deriving fair message ordering in a Byzantine fault-tolerant setting, and summarize the requirements for making a fair message ordering consensus protocol. We introduce a design guideline, with which we propose a latency optimization to the state-of-the-art FIFO ordering protocol of Themis. This work provides a systematic way for assessing and enhancing message order fairness in blockchain systems.}}
+}
+
+@misc{bellaj2024drawing,
+  author = {Badr Bellaj and Aafaf Ouaddah and Noel Crespi and Abdelatif Mezrioui and Emmanuel Bertin},
+  title = {{Drawing the boundaries between Blockchain and Blockchain-like systems: A Comprehensive Survey on Distributed Ledger Technologies}},
+  year = {2024},
+  eprint = {2409.18799v1},
+  archivePrefix = {arXiv},
+  primaryClass = {cs.GT},
+  url = {https://arxiv.org/pdf/2409.18799v1},
+  note = {arXiv preprint},
+  abstract = {{Bitcoin's global success has led to the rise of blockchain, but many systems labeled as "blockchain" deviate from its core principles, adding complexity to the ecosystem. This survey addresses the need for a comprehensive review and taxonomy to clarify the differences between blockchain and blockchain-like systems. We propose a reference model with four key layers: data, consensus, execution, and application, and introduce a new taxonomy for better classification. Through a qualitative and quantitative analysis of 44 DLT solutions and 26 consensus mechanisms, we highlight key challenges and offer research directions in the field.}}
+}
+
+@misc{liu2024survey,
+  author = {Changxin Liu and Nicola Bastianello and Wei Huo and Yang Shi and Karl H. Johansson},
+  title = {{A survey on secure decentralized optimization and learning}},
+  year = {2024},
+  eprint = {2408.08628v1},
+  archivePrefix = {arXiv},
+  primaryClass = {cs.GT},
+  url = {https://arxiv.org/pdf/2408.08628v1},
+  note = {arXiv preprint},
+  abstract = {{Decentralized optimization has become a standard paradigm for solving large-scale decision-making problems and training large machine learning models without centralizing data. However, this paradigm introduces new privacy and security risks, with malicious agents potentially able to infer private data or impair the model accuracy. Over the past decade, significant advancements have been made in developing secure decentralized optimization and learning frameworks and algorithms. This survey provides a comprehensive tutorial on these advancements. We begin with the fundamentals of decentralized optimization and learning, highlighting centralized aggregation and distributed consensus as key modules exposed to security risks in federated and distributed optimization, respectively. Next, we focus on privacy-preserving algorithms, detailing three cryptographic tools and their integration into decentralized optimization and learning systems. Additionally, we examine resilient algorithms, exploring the design and analysis of resilient aggregation and consensus protocols that support these systems. We conclude the survey by discussing current trends and potential future directions.}}
+}
+
+@misc{luo2024survey,
+  author = {Zhengdong Luo},
+  title = {{A Survey on Blockchain-based Supply Chain Finance with Progress and Future directions}},
+  year = {2024},
+  eprint = {2408.08915v1},
+  archivePrefix = {arXiv},
+  primaryClass = {cs.GT},
+  url = {https://arxiv.org/pdf/2408.08915v1},
+  note = {arXiv preprint},
+  abstract = {{Supply Chain Finance is very important for supply chain competition, which is an important tool to activate the capital flow in the supply chain. Supply Chain Finance-related research can support multiple applications and services, such as providing accounts receivable financing, enhancing risk management, and optimizing supply chain management. For more than a decade, the development of Blockchain has attracted widely attention in various fields, especially in finance. With the characteristics of data tamper-proof, forgery-proof, cryptography, consensus verification, and decentralization, Blockchain fits well with the realistic needs of Supply Chain Finance, which requires data integrity, authenticity, privacy, and information sharing. Therefore, it is time to summarize the applications of Blockchain technology in the field of Supply Chain Finance. What Blockchain technology brings to Supply Chain Finance is not only to alleviate the problems of information asymmetry, credit disassembly, and financing cost, but also to improve Supply Chain Finance operations through smart contracts to intelligent Supply Chain Finance and in combination with other technologies, such as artificial intelligence, cloud computing, and data mining, jointly. So there has been some work in Blockchain-based Supply Chain Finance research for different Supply Chain Finance oriented applications, but most of these work are at the management level to propose conceptual frameworks or simply use Blockchain without exploiting its deep applications. Moreover, there are few systematic reviews providing a comprehensive summary of current work in the area of Blockchain-based Supply Chain Finance. In this paper, we ...}}
+}
+
+@misc{lavin2024survey,
+  author = {Ryan Lavin and Xuekai Liu and Hardhik Mohanty and Logan Norman and Giovanni Zaarour and Bhaskar Krishnamachari},
+  title = {{A Survey on the Applications of Zero-Knowledge Proofs}},
+  year = {2024},
+  eprint = {2408.00243v1},
+  archivePrefix = {arXiv},
+  primaryClass = {cs.GT},
+  url = {https://arxiv.org/pdf/2408.00243v1},
+  note = {arXiv preprint},
+  abstract = {{Zero-knowledge proofs (ZKPs) represent a revolutionary advance in computational integrity and privacy technology, enabling the secure and private exchange of information without revealing underlying private data. ZKPs have unique advantages in terms of universality and minimal security assumptions when compared to other privacy-sensitive computational methods for distributed systems, such as homomorphic encryption and secure multiparty computation. Their application spans multiple domains, from enhancing privacy in blockchain to facilitating confidential verification of computational tasks. This survey starts with a high-level overview of the technical workings of ZKPs with a focus on an increasingly relevant subset of ZKPs called zk-SNARKS. While there have been prior surveys on the algorithmic and theoretical aspects of ZKPs, our work is distinguished by providing a broader view of practical aspects and describing many recently-developed use cases of ZKPs across various domains. These application domains span blockchain privacy, scaling, storage, and interoperability, as well as non-blockchain applications like voting, authentication, timelocks, and machine learning. Aimed at both practitioners and researchers, the survey also covers foundational components and infrastructure such as zero-knowledge virtual machines (zkVM), domain-specific languages (DSLs), supporting libraries, frameworks, and protocols. We conclude with a discussion on future directions, positioning ZKPs as pivotal in the advancement of cryptographic practices and digital privacy across many applications.}}
+}
+
+@misc{ito2024cryptoeconomics,
+  author = {Kensuke Ito},
+  title = {{Cryptoeconomics and Tokenomics as Economics: A Survey with Opinions}},
+  year = {2024},
+  eprint = {2407.15715v1},
+  archivePrefix = {arXiv},
+  primaryClass = {cs.GT},
+  url = {https://arxiv.org/pdf/2407.15715v1},
+  note = {arXiv preprint},
+  abstract = {{This paper surveys products and studies on cryptoeconomics and tokenomics from an economic perspective, as these terms are still (i) ill-defined and (ii) disconnected from economic disciplines. We first suggest that they can be novel when integrated; we then conduct a literature review and case study following consensus-building for decentralization and token value for autonomy. Integration requires simultaneous consideration of strategic behavior, spamming, Sybil attacks, free-riding, marginal cost, marginal utility and stabilizers. This survey is the first systematization of knowledge on cryptoeconomics and tokenomics, aiming to bridge the contexts of economics and blockchain.}}
+}
+
+@misc{feichtinger2024sok:,
+  author = {Rainer Feichtinger and Robin Fritsch and Lioba Heimbach and Yann Vonlanthen and Roger Wattenhofer},
+  title = {{SoK: Attacks on DAOs}},
+  year = {2024},
+  eprint = {2406.15071v2},
+  archivePrefix = {arXiv},
+  primaryClass = {cs.GT},
+  url = {https://arxiv.org/pdf/2406.15071v2},
+  note = {arXiv preprint},
+  abstract = {{Decentralized Autonomous Organizations (DAOs) are blockchain-based organizations that facilitate decentralized governance. Today, DAOs not only hold billions of dollars in their treasury but also govern many of the most popular Decentralized Finance (DeFi) protocols. This paper systematically analyses security threats to DAOs, focusing on the types of attacks they face. We study attacks on DAOs that took place in the past, attacks that have been theorized to be possible, and potential attacks that were uncovered and prevented in audits. For each of these (potential) attacks, we describe and categorize the attack vectors utilized into four categories. This reveals that while many attacks on DAOs take advantage of the less tangible and more complex human nature involved in governance, audits tend to focus on code and protocol vulnerabilities. Thus, additionally, the paper examines empirical data on DAO vulnerabilities, outlines risk factors contributing to these attacks, and suggests mitigation strategies to safeguard against such vulnerabilities.}}
+}
+
+@misc{liu2024enhancing,
+  author = {Ji Liu and Chunlu Chen and Yu Li and Lin Sun and Yulun Song and Jingbo Zhou and Bo Jing and Dejing Dou},
+  title = {{Enhancing Trust and Privacy in Distributed Networks: A Comprehensive Survey on Blockchain-based Federated Learning}},
+  year = {2024},
+  eprint = {2403.19178v1},
+  archivePrefix = {arXiv},
+  primaryClass = {cs.GT},
+  url = {https://arxiv.org/pdf/2403.19178v1},
+  note = {arXiv preprint},
+  abstract = {{While centralized servers pose a risk of being a single point of failure, decentralized approaches like blockchain offer a compelling solution by implementing a consensus mechanism among multiple entities. Merging distributed computing with cryptographic techniques, decentralized technologies introduce a novel computing paradigm. Blockchain ensures secure, transparent, and tamper-proof data management by validating and recording transactions via consensus across network nodes. Federated Learning (FL), as a distributed machine learning framework, enables participants to collaboratively train models while safeguarding data privacy by avoiding direct raw data exchange. Despite the growing interest in decentralized methods, their application in FL remains underexplored. This paper presents a thorough investigation into Blockchain-based FL (BCFL), spotlighting the synergy between blockchain's security features and FL's privacy-preserving model training capabilities. First, we present the taxonomy of BCFL from three aspects, including decentralized, separate networks, and reputation-based architectures. Then, we summarize the general architecture of BCFL systems, providing a comprehensive perspective on FL architectures informed by blockchain. Afterward, we analyze the application of BCFL in healthcare, IoT, and other privacy-sensitive areas. Finally, we identify future research directions of BCFL.}}
+}
+
+@misc{miller2024collaborative,
+  author = {Loïc Miller and Marc-Oliver Pahl},
+  title = {{Collaborative Cybersecurity Using Blockchain: A Survey}},
+  year = {2024},
+  eprint = {2403.04410v1},
+  archivePrefix = {arXiv},
+  primaryClass = {cs.GT},
+  url = {https://arxiv.org/pdf/2403.04410v1},
+  note = {arXiv preprint},
+  abstract = {{Collaborative cybersecurity relies on organizations sharing information to boost security, but trust management is a key concern. Decentralized solutions like distributed ledgers, particularly blockchain, are crucial for eliminating single points of failure. However, the existing literature on blockchain-based collaborative cybersecurity is limited, lacking comprehensive insights. This paper addresses this gap by surveying blockchain's role in collaborative cybersecurity from 2016 to 2023. It explores various applications, trends, and the evolution of blockchain technology, focusing on access control, data validation policies, underlying tech, and consensus mechanisms. A key finding is the fragmentation of the field with no dominant research group or venue. Many recent projects poorly select consensus protocols for their blockchain. To aid researchers and practitioners, this paper offers guidelines for choosing the right blockchain for specific purposes and highlights open research areas and lessons learned from past blockchain applications in collaborative cybersecurity, encouraging further exploration in this field.}}
+}
+
+@misc{wu2024blockchain,
+  author = {Hanjie Wu and Qian Yao and Zhenguang Liu and Butian Huang and Yuan Zhuang and Huayun Tang and Erwu Liu},
+  title = {{Blockchain for Finance: A Survey}},
+  year = {2024},
+  eprint = {2402.17219v1},
+  archivePrefix = {arXiv},
+  primaryClass = {cs.GT},
+  url = {https://arxiv.org/pdf/2402.17219v1},
+  note = {arXiv preprint},
+  abstract = {{As an innovative technology for enhancing authenticity, security, and risk management, blockchain is being widely adopted in trade and finance systems. The unique capabilities of blockchain, such as immutability and transparency, enable new business models of distributed data storage, point-to-point transactions, and decentralized autonomous organizations. In this paper, we focus on blockchain-based securities trading, in which blockchain technology plays a vital role in financial services as it ultimately lifts trust and frees the need for third-party verification by using consensus-based verification. We investigate the 12 most popular blockchain platforms and elaborate on 6 platforms that are related to finance, seeking to provide a panorama of securities trading practices. Meanwhile, this survey provides a comprehensive summary of blockchain-based securities trading applications. We gather numerous practical applications of blockchain-based securities trading and categorize them into four distinct categories. For each category, we introduce a typical example and explain how blockchain contributes to solving the key problems faced by FinTech companies and researchers. Finally, we provide interesting observations ranging from mainstream blockchain-based financial institutions to security issues of decentralized finance applications, aiming to picture the current blockchain ecosystem in finance.}}
+}
+
+@misc{mansour2024survey,
+  author = {Manal Mansour and May Salama and Hala Helmi and Mona Mursi},
+  title = {{A Survey on Blockchain in E-Government Services: Status and Challenges}},
+  year = {2024},
+  eprint = {2402.02483v1},
+  archivePrefix = {arXiv},
+  primaryClass = {cs.GT},
+  url = {https://arxiv.org/pdf/2402.02483v1},
+  note = {arXiv preprint},
+  abstract = {{Blockchain technology is referred to as a very secure decentralized, distributed ledger that records the history of any digital asset. It is being used in numerous governmental and private sector organizations across numerous nations. Surveying the current state of blockchain applications and difficulties in e-government services is the goal of this review. Held to the account are use cases for current facilities that use blockchain. Finally, it examines the research gap in blockchain deployment and makes suggestions for future work for additional research.}}
+}
 
 @misc{rabbani2026data,
   author = {Mahdis Rabbani and Navid Mojahed and Shima Nazari},
@@ -124,7 +508,7 @@
   abstract = {{Founded in 2017, Algorand is one of the world's first carbon-negative, public blockchains inspired by proof of stake. Algorand uses a Byzantine agreement protocol to add new blocks to the blockchain. The protocol can tolerate malicious users as long as a supermajority of the stake is controlled by non-malicious users. The protocol achieves about 100x more throughput compared to Bitcoin and can be easily scaled to millions of nodes. Despite its impressive features, Algorand lacks a reward-distribution scheme that can effectively incentivize nodes to participate in the protocol. In this work, we study the incentive issue in Algorand through the lens of game theory. We model the Algorand protocol as a Bayesian game and propose a novel reward scheme to address the incentive issue in Algorand. We derive necessary conditions to ensure that participation in the protocol is a Bayesian Nash equilibrium under our proposed reward scheme even in the presence of a malicious adversary. We also present quantitative analysis of our proposed reward scheme by applying it to two real-world deployment scenarios. We estimate the costs of running an Algorand node and simulate the protocol to measure the overheads in terms of computation, storage, and networking.}}
 }
 
-@misc{hossain2026tamperbench:,
+@misc{hossain2026tamperbench:_2,
   author = {Saad Hossain and Tom Tseng and Punya Syon Pandey and Samanvay Vajpayee and Matthew Kowal and Nayeema Nonta and Samuel Simko and Stephen Casper and Zhijing Jin and Kellin Pelrine and Sirisha Rambhatla},
   title = {{TamperBench: Systematically Stress-Testing LLM Safety Under Fine-Tuning and Tampering}},
   year = {2026},
@@ -136,7 +520,7 @@
   abstract = {{As increasingly capable open-weight large language models (LLMs) are deployed, improving their tamper resistance against unsafe modifications, whether accidental or intentional, becomes critical to minimize risks. However, there is no standard approach to evaluate tamper resistance. Varied data sets, metrics, and tampering configurations make it difficult to compare safety, utility, and robustness across different models and defenses. To this end, we introduce TamperBench, the first unified framework to systematically evaluate the tamper resistance of LLMs. TamperBench (i) curates a repository of state-of-the-art weight-space fine-tuning attacks and latent-space representation attacks; (ii) enables realistic adversarial evaluation through systematic hyperparameter sweeps per attack-model pair; and (iii) provides both safety and utility evaluations. TamperBench requires minimal additional code to specify any fine-tuning configuration, alignment-stage defense method, and metric suite while ensuring end-to-end reproducibility. We use TamperBench to evaluate 21 open-weight LLMs, including defense-augmented variants, across nine tampering threats using standardized safety and capability metrics with hyperparameter sweeps per model-attack pair. This yields novel insights, including effects of post-training on tamper resistance, that jailbreak-tuning is typically the most severe attack, and that Triplet emerges as a leading alignment-stage defense. Code is available at: https://github.com/criticalml-uw/TamperBench}}
 }
 
-@misc{li2026beyond,
+@misc{li2026beyond_2,
   author = {Yikun Li and Ting Zhang and Jieke Shi and Chengran Yang and Junda He and Xin Zhou and Jinfeng Jiang and Huihui Huang and Wen Bin Leow and Yide Yin and Eng Lieh Ouh and Lwin Khin Shar and David Lo},
   title = {{Beyond Function-Level Analysis: Context-Aware Reasoning for Inter-Procedural Vulnerability Detection}},
   year = {2026},
@@ -148,7 +532,7 @@
   abstract = {{Recent progress in ML and LLMs has improved vulnerability detection, and recent datasets have reduced label noise and unrelated code changes. However, most existing approaches still operate at the function level, where models are asked to predict whether a single function is vulnerable without inter-procedural context. In practice, vulnerability presence and root cause often depend on contextual information. Naively appending such context is not a reliable solution: real-world context is long, redundant, and noisy, and we find that unstructured context frequently degrades the performance of strong fine-tuned code models.   We present CPRVul, a context-aware vulnerability detection framework that couples Context Profiling and Selection with Structured Reasoning. CPRVul constructs a code property graph, and extracts candidate context. It then uses an LLM to generate security-focused profiles and assign relevance scores, selecting only high-impact contextual elements that fit within the model's context window. In the second phase, CPRVul integrates the target function, the selected context, and auxiliary vulnerability metadata to generate reasoning traces, which are used to fine-tune LLMs for reasoning-based vulnerability detection.   We evaluate CPRVul on three high-quality vulnerability datasets: PrimeVul, TitanVul, and CleanVul. Across all datasets, CPRVul consistently outperforms function-only baselines, achieving accuracies ranging from 64.94% to 73.76%, compared to 56.65% to 63.68% for UniXcoder. Specifically, on the challenging PrimeVul benchmark, CPRVul achieves 67.78% accuracy, outperforming prior state-of-the-art approaches, improving accuracy from 55.17% to 67.78% (22.9% improvement). Our ablations further show that neither raw context nor processed context alone benefits strong code models; gains emerge only when processed context is paired with structured reasoning.}}
 }
 
-@misc{xu2026ghostcite:,
+@misc{xu2026ghostcite:_2,
   author = {Zuyao Xu and Yuqi Qiu and Lu Sun and FaSheng Miao and Fubin Wu and Xinyi Wang and Xiang Li and Haozhe Lu and ZhengZe Zhang and Yuxin Hu and Jialu Li and Jin Luo and Feng Zhang and Rui Luo and Xinran Liu and Yingxian Li and Jiaji Liu},
   title = {{GhostCite: A Large-Scale Analysis of Citation Validity in the Age of Large Language Models}},
   year = {2026},
@@ -160,7 +544,7 @@
   abstract = {{Citations provide the basis for trusting scientific claims; when they are invalid or fabricated, this trust collapses. With the advent of Large Language Models (LLMs), this risk has intensified: LLMs are increasingly used for academic writing, yet their tendency to fabricate citations (``ghost citations'') poses a systemic threat to citation validity.   To quantify this threat and inform mitigation, we develop CiteVerifier, an open-source framework for large-scale citation verification, and conduct the first comprehensive study of citation validity in the LLM era through three experiments built on it. We benchmark 13 state-of-the-art LLMs on citation generation across 40 research domains, finding that all models hallucinate citations at rates from 14.23\% to 94.93\%, with significant variation across research domains. Moreover, we analyze 2.2 million citations from 56,381 papers published at top-tier AI/ML and Security venues (2020--2025), confirming that 1.07\% of papers contain invalid or fabricated citations (604 papers), with an 80.9\% increase in 2025 alone. Furthermore, we survey 97 researchers and analyze 94 valid responses after removing 3 conflicting samples, revealing a critical ``verification gap'': 41.5\% of researchers copy-paste BibTeX without checking and 44.4\% choose no-action responses when encountering suspicious references; meanwhile, 76.7\% of reviewers do not thoroughly check references and 80.0\% never suspect fake citations. Our findings reveal an accelerating crisis where unreliable AI tools, combined with inadequate human verification by researchers and insufficient peer review scrutiny, enable fabricated citations to contaminate the scientific record. We propose interventions for researchers, venues, and tool developers to protect citation integrity.}}
 }
 
-@misc{song2026taipan:,
+@misc{song2026taipan:_2,
   author = {Ying Song and Balaji Palanisamy},
   title = {{Taipan: A Query-free Transfer-based Multiple Sensitive Attribute Inference Attack Solely from Publicly Released Graphs}},
   year = {2026},
@@ -172,7 +556,7 @@
   abstract = {{Graph-structured data underpin a wide spectrum of modern applications. However, complex graph topologies and homophilic patterns can facilitate attribute inference attacks (AIAs) by enabling sensitive information leakage to propagate across local neighborhoods. Existing AIAs predominantly assume that adversaries can probe sensitive attributes through repeated model queries. Such assumptions are often impractical in real-world settings due to stringent data protection regulations, prohibitive query budgets, and heightened detection risks, especially when inferring multiple sensitive attributes. More critically, this model-centric perspective obscures a pervasive blind spot: \textbf\{intrinsic multiple sensitive information leakage arising solely from publicly released graphs.\} To exploit this unexplored vulnerability, we introduce a new attack paradigm and propose \textbf\{Taipan, the first query-free transfer-based attack framework for multiple sensitive attribute inference attacks on graphs (G-MSAIAs).\} Taipan integrates \emph\{Hierarchical Attack Knowledge Routing\} to capture intricate inter-attribute correlations, and \emph\{Prompt-guided Attack Prototype Refinement\} to mitigate negative transfer and performance degradation. We further present a systematic evaluation framework tailored to G-MSAIAs. Extensive experiments on diverse real-world graph datasets demonstrate that Taipan consistently achieves strong attack performance across same-distribution settings and heterogeneous similar- and out-of-distribution settings with mismatched feature dimensionalities, and remains effective even under rigorous differential privacy guarantees. Our findings underscore the urgent need for more robust multi-attribute privacy-preserving graph publishing methods and data-sharing practices.}}
 }
 
-@misc{lu2026evaluating,
+@misc{lu2026evaluating_2,
   author = {Li Lu and Yanjie Zhao and Hongzhou Rao and Kechi Zhang and Haoyu Wang},
   title = {{Evaluating and Enhancing the Vulnerability Reasoning Capabilities of Large Language Models}},
   year = {2026},
