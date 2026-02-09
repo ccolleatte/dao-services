@@ -1,0 +1,460 @@
+{
+  "topic": "blockchain-protocols",
+  "time_period": "2024-2025",
+  "last_updated": "2026-02-09T18:00:00Z",
+  "total_papers": 20,
+  "curation_status": "Phase 1 - Queries 2A+2B+2C completed (32 papers found, 20 curated ≥7/10)",
+  "target_papers": 20,
+  "priority": "P2 - Context Phase 5 parachain migration",
+  "arxiv_queries": [
+    {
+      "query_id": "2A",
+      "description": "Consensus algorithms",
+      "query_string": "cat:cs.DC AND ti:\"consensus algorithm\" AND (abs:blockchain OR abs:Polkadot) AND submittedDate:[2022 TO 2025]",
+      "expected_results": "15-20 papers",
+      "actual_results": 11,
+      "papers_curated": 5,
+      "status": "completed"
+    },
+    {
+      "query_id": "2B",
+      "description": "Scalability solutions",
+      "query_string": "cat:cs.DC AND (ti:sharding OR ti:rollup OR ti:\"layer 2\") AND abs:blockchain AND submittedDate:[2022 TO 2025]",
+      "expected_results": "15-20 papers",
+      "actual_results": 11,
+      "papers_curated": 10,
+      "status": "completed"
+    },
+    {
+      "query_id": "2C",
+      "description": "Interoperability and cross-chain",
+      "query_string": "cat:cs.DC AND (ti:\"cross-chain\" OR ti:interoperability OR ti:bridge) AND abs:blockchain AND submittedDate:[2022 TO 2025]",
+      "expected_results": "10-15 papers",
+      "actual_results": 10,
+      "papers_curated": 5,
+      "status": "completed"
+    }
+  ],
+  "papers": [
+    {
+      "arxiv_id": "2204.03181",
+      "title": "Reaching Consensus in the Byzantine Empire: A Comprehensive Review of BFT Consensus Algorithms",
+      "authors": ["Zhang, Gengrui", "Pan, Fei", "Mao, Yunhao", "Tijanic, Sofia", "Dang'ana, Michael", "Motepalli, Shashank", "Zhang, Shiquan", "Jacobsen, Hans-Arno"],
+      "submitted_date": "2022-04-07",
+      "categories": ["cs.DC"],
+      "abstract": "We present a systematic survey of Byzantine fault-tolerant consensus algorithms, decomposing each algorithm into its constituent subprotocols (leader election, view change, agreement, commitment). Our analysis covers classical protocols (PBFT, Tendermint) and recent optimizations (HotStuff, Fast-HotStuff), providing complexity analysis and performance comparisons across throughput, latency, and communication overhead dimensions.",
+      "pdf_url": "https://arxiv.org/pdf/2204.03181.pdf",
+      "relevance_score": 9,
+      "scoring_breakdown": {
+        "topic_match": 3,
+        "methodology_rigor": 3,
+        "citation_potential": 2,
+        "recency": 1
+      },
+      "tags": ["bft", "byzantine-fault-tolerance", "consensus", "survey", "pbft", "tendermint"],
+      "citation_count": 28,
+      "notes": "HIGH - Comprehensive BFT survey essential for understanding Governor.sol Byzantine resistance. Decomposition into subprotocols enables modular analysis. Coverage of PBFT, Tendermint, HotStuff relevant for comparing DAO consensus with blockchain consensus.",
+      "integration_status": "pending_review",
+      "pdf_stored_locally": false
+    },
+    {
+      "arxiv_id": "2312.09123",
+      "title": "MRL-PoS: A Multi-agent Reinforcement Learning based Proof of Stake Consensus Algorithm for Blockchain",
+      "authors": ["Islam, Tariqul", "Bappy, Faisal Haque", "Zaman, Tarannum Shaila", "Sajid, Md Sajidul Islam", "Pritom, Mir Mehedi Ahsan"],
+      "submitted_date": "2023-12-14",
+      "categories": ["cs.DC", "cs.CR"],
+      "abstract": "We propose MRL-PoS, a Proof of Stake variant employing multi-agent reinforcement learning for dynamically adapting validator selection to user behavior. The system detects malicious nodes through behavioral analysis, adjusting staking requirements and validator probabilities in real-time. Evaluation shows 23% improvement in Byzantine fault tolerance and 15% reduction in finality time compared to standard PoS implementations.",
+      "pdf_url": "https://arxiv.org/pdf/2312.09123.pdf",
+      "relevance_score": 9,
+      "scoring_breakdown": {
+        "topic_match": 3,
+        "methodology_rigor": 3,
+        "citation_potential": 2,
+        "recency": 1
+      },
+      "tags": ["pos", "reinforcement-learning", "adaptive-consensus", "malicious-detection"],
+      "citation_count": 7,
+      "notes": "HIGH - RL-based PoS variant for adaptive security. Malicious node detection applicable to governance attack prevention. Byzantine tolerance improvements relevant for Governor.sol threat modeling.",
+      "integration_status": "pending_review",
+      "pdf_stored_locally": false
+    },
+    {
+      "arxiv_id": "2309.13498",
+      "title": "Consensus Algorithms of Distributed Ledger Technology -- A Comprehensive Analysis",
+      "authors": ["Alkhodair, Ahmad J.", "Mohanty, Saraju P.", "Kougianos, Elias"],
+      "submitted_date": "2023-09-23",
+      "categories": ["cs.DC", "cs.CR"],
+      "abstract": "We systematically review thirty consensus mechanisms including Nominated Proof of Stake (NPoS), Bonded Proof of Stake (BPoS), and hybrid variants across eleven evaluation attributes: scalability, throughput, latency, energy efficiency, security, decentralization, finality, fault tolerance, incentive alignment, governance support, and interoperability. The analysis provides comparative framework for selecting consensus mechanisms based on application requirements.",
+      "pdf_url": "https://arxiv.org/pdf/2309.13498.pdf",
+      "relevance_score": 8,
+      "scoring_breakdown": {
+        "topic_match": 3,
+        "methodology_rigor": 2,
+        "citation_potential": 2,
+        "recency": 1
+      },
+      "tags": ["survey", "consensus-comparison", "npos", "polkadot", "governance"],
+      "citation_count": 14,
+      "notes": "MEDIUM-HIGH - Survey includes NPoS (Polkadot) directly relevant for Phase 5 parachain migration. Governance support attribute critical for DAO consensus selection. 11-attribute framework enables systematic comparison.",
+      "integration_status": "pending_review",
+      "pdf_stored_locally": false
+    },
+    {
+      "arxiv_id": "2305.16927",
+      "title": "P-CFT: A Privacy-preserving and Crash Fault Tolerant Consensus Algorithm for Permissioned Blockchains",
+      "authors": ["Li, Wanxin", "Meese, Collin", "Nejad, Mark", "Guo, Hao"],
+      "submitted_date": "2023-05-26",
+      "categories": ["cs.CR", "cs.DC", "cs.NI"],
+      "abstract": "We present P-CFT, integrating zero-knowledge proofs directly into the consensus layer to provide inherent data privacy while maintaining crash fault tolerance for permissioned networks. The protocol supports threshold signatures for validator coordination and achieves 8,500 TPS with 2.1-second finality in networks of 20-50 nodes. Privacy guarantees hold under standard cryptographic assumptions.",
+      "pdf_url": "https://arxiv.org/pdf/2305.16927.pdf",
+      "relevance_score": 8,
+      "scoring_breakdown": {
+        "topic_match": 3,
+        "methodology_rigor": 2,
+        "citation_potential": 2,
+        "recency": 1
+      },
+      "tags": ["privacy", "zero-knowledge", "permissioned", "crash-fault-tolerance"],
+      "citation_count": 9,
+      "notes": "MEDIUM-HIGH - Privacy-preserving consensus for permissioned settings. Zero-knowledge integration at consensus layer applicable to private DAO voting. Threshold signatures relevant for multi-sig treasury management.",
+      "integration_status": "pending_review",
+      "pdf_stored_locally": false
+    },
+    {
+      "arxiv_id": "2501.15289",
+      "title": "ExClique: An Express Consensus Algorithm for High-Speed Transaction Process in Blockchains",
+      "authors": ["Zhao, Chonghe", "Zhou, Yipeng", "Zhang, Shengli", "Sheng, Quan Z.", "Zhang, Yang", "Wen, Shiting"],
+      "submitted_date": "2025-01-25",
+      "categories": ["cs.DC"],
+      "abstract": "ExClique improves Proof of Authority by compacting blocks for broadcasting to shorten communication delay, achieving 7.01× throughput increase in large-scale networks (100+ nodes). The protocol reduces message complexity from O(n²) to O(n log n) through hierarchical block aggregation and optimistic parallel validation.",
+      "pdf_url": "https://arxiv.org/pdf/2501.15289.pdf",
+      "relevance_score": 7,
+      "scoring_breakdown": {
+        "topic_match": 2,
+        "methodology_rigor": 3,
+        "citation_potential": 1,
+        "recency": 1
+      },
+      "tags": ["poa", "throughput", "optimization", "communication-efficiency"],
+      "citation_count": 2,
+      "notes": "MEDIUM - PoA optimization achieving 7× throughput. Communication efficiency techniques (block compaction, hierarchical aggregation) applicable to proposal broadcasting in governance systems.",
+      "integration_status": "pending_review",
+      "pdf_stored_locally": false
+    },
+    {
+      "arxiv_id": "2407.06882",
+      "title": "StableShard: Stable and Scalable Blockchain Sharding with High Concurrency via Collaborative Committees",
+      "authors": ["Li, Mingzhe", "Lin, You", "Zhang, Jin"],
+      "submitted_date": "2024-07-09",
+      "categories": ["cs.DC"],
+      "abstract": "StableShard divides labor between proposer shards and finalizer committees, achieving 10× higher throughput with stable performance under adversarial conditions (up to 33% Byzantine nodes). The design uses collaborative validation where finalizers verify proposals from multiple shards in parallel, reducing cross-shard latency by 42%.",
+      "pdf_url": "https://arxiv.org/pdf/2407.06882.pdf",
+      "relevance_score": 9,
+      "scoring_breakdown": {
+        "topic_match": 3,
+        "methodology_rigor": 3,
+        "citation_potential": 2,
+        "recency": 1
+      },
+      "tags": ["sharding", "scalability", "byzantine-tolerance", "collaborative-validation"],
+      "citation_count": 11,
+      "notes": "HIGH - 10× throughput via collaborative committees. Byzantine tolerance (33%) essential for security guarantees. Proposer/finalizer separation applicable to DAO governance (proposal creation vs. execution validation).",
+      "integration_status": "pending_review",
+      "pdf_stored_locally": false
+    },
+    {
+      "arxiv_id": "2407.08651",
+      "title": "SpiralShard: Highly Concurrent and Secure Blockchain Sharding via Linked Cross-shard Endorsement",
+      "authors": ["Lin, You", "Li, Mingzhe", "Zhang, Jin"],
+      "submitted_date": "2024-07-09",
+      "categories": ["cs.CR", "cs.DC"],
+      "abstract": "SpiralShard allows smaller shards with corrupted nodes by implementing Linked Cross-shard Endorsement protocol for sequential verification across shards. The system achieves around 19× throughput gain over non-sharded baselines while maintaining security under 25% intra-shard Byzantine nodes through cryptographic endorsement chains.",
+      "pdf_url": "https://arxiv.org/pdf/2407.08651.pdf",
+      "relevance_score": 9,
+      "scoring_breakdown": {
+        "topic_match": 3,
+        "methodology_rigor": 3,
+        "citation_potential": 2,
+        "recency": 1
+      },
+      "tags": ["sharding", "cross-shard", "security", "endorsement-protocol"],
+      "citation_count": 8,
+      "notes": "HIGH - 19× throughput with Byzantine tolerance. Cross-shard endorsement protocol applicable to multi-shard DAO governance (e.g., specialized committees for different proposal types). Security under 25% Byzantine critical.",
+      "integration_status": "pending_review",
+      "pdf_stored_locally": false
+    },
+    {
+      "arxiv_id": "2512.17045",
+      "title": "Sedna: Sharding transactions in multiple concurrent proposer blockchains",
+      "authors": ["Ranchal-Pedrosa, Alejandro", "Marsh, Benjamin", "Kokoris-Kogias, Lefteris", "Sonnino, Alberto"],
+      "submitted_date": "2025-12-18",
+      "categories": ["cs.CR", "cs.DC"],
+      "abstract": "Sedna replaces transaction replication with verifiable, rateless coding for multi-proposer blockchains, achieving 2-3× efficiency improvement over naive approaches. The protocol maintains privacy through erasure coding and provides liveness guarantees even when individual proposers fail. Evaluation on 100-node networks shows 45% reduction in bandwidth consumption.",
+      "pdf_url": "https://arxiv.org/pdf/2512.17045.pdf",
+      "relevance_score": 9,
+      "scoring_breakdown": {
+        "topic_match": 3,
+        "methodology_rigor": 3,
+        "citation_potential": 2,
+        "recency": 2
+      },
+      "tags": ["multi-proposer", "erasure-coding", "efficiency", "privacy"],
+      "citation_count": 1,
+      "notes": "HIGH - Multi-proposer design with 2-3× efficiency. Erasure coding for bandwidth reduction applicable to proposal distribution in large DAOs. Privacy guarantees relevant for confidential governance.",
+      "integration_status": "pending_review",
+      "pdf_stored_locally": false
+    },
+    {
+      "arxiv_id": "2511.19450",
+      "title": "AI-driven Predictive Shard Allocation for Scalable Next Generation Blockchains",
+      "authors": ["Haider, M. Zeeshan", "Noreen, Tayyaba", "Assuncao, M. D.", "Zhang, Kaiwen"],
+      "submitted_date": "2025-11-18",
+      "categories": ["cs.DC"],
+      "abstract": "Dynamic shard allocation framework integrating temporal workload forecasting with reinforcement learning, demonstrating 2× throughput improvement and 35% lower latency on heterogeneous datasets. The system predicts transaction patterns using LSTM networks and optimally assigns transactions to shards, adapting to workload shifts in real-time.",
+      "pdf_url": "https://arxiv.org/pdf/2511.19450.pdf",
+      "relevance_score": 8,
+      "scoring_breakdown": {
+        "topic_match": 3,
+        "methodology_rigor": 2,
+        "citation_potential": 2,
+        "recency": 1
+      },
+      "tags": ["ai", "sharding", "dynamic-allocation", "workload-prediction"],
+      "citation_count": 3,
+      "notes": "MEDIUM-HIGH - AI-driven shard allocation with 2× throughput. Workload prediction applicable to governance activity forecasting (proposal surges during contentious votes). Dynamic allocation for optimal resource usage.",
+      "integration_status": "pending_review",
+      "pdf_stored_locally": false
+    },
+    {
+      "arxiv_id": "2509.11006",
+      "title": "A Range-Based Sharding (RBS) Protocol for Scalable Enterprise Blockchain",
+      "authors": ["Haider, M. Z.", "Dias de Assuncao, M.", "Zhang, Kaiwen"],
+      "submitted_date": "2025-09-13",
+      "categories": ["cs.CR", "cs.DC"],
+      "abstract": "RBS implements sharding for private blockchains using commit-reveal scheme for secure and unbiased shard allocation, balancing computational loads and reducing cross-shard transaction delays. The protocol achieves 3.2× throughput in enterprise settings (50-200 nodes) with 18% reduction in cross-shard communication overhead.",
+      "pdf_url": "https://arxiv.org/pdf/2509.11006.pdf",
+      "relevance_score": 8,
+      "scoring_breakdown": {
+        "topic_match": 3,
+        "methodology_rigor": 2,
+        "citation_potential": 2,
+        "recency": 1
+      },
+      "tags": ["private-blockchain", "enterprise", "commit-reveal", "load-balancing"],
+      "citation_count": 5,
+      "notes": "MEDIUM-HIGH - Private blockchain sharding with commit-reveal. Enterprise focus relevant for consortium DAOs. Load balancing techniques applicable to distributed governance infrastructure.",
+      "integration_status": "pending_review",
+      "pdf_stored_locally": false
+    },
+    {
+      "arxiv_id": "2503.23986",
+      "title": "A Practical Rollup Escape Hatch Design",
+      "authors": ["Figueira, Francisco Gomes", "Derka, Martin", "Chiu, Ching Lun", "Gorzny, Jan"],
+      "submitted_date": "2025-03-31",
+      "categories": ["cs.DC", "cs.CR"],
+      "abstract": "We present an escape mechanism using time-based triggers, Merkle proofs, and resolver contracts enabling users to withdraw assets directly from Layer 1 when rollup operators fail or become malicious. The design requires no coordination among users and provides security guarantees under standard cryptographic assumptions. Gas cost for escape: 180K per withdrawal.",
+      "pdf_url": "https://arxiv.org/pdf/2503.23986.pdf",
+      "relevance_score": 8,
+      "scoring_breakdown": {
+        "topic_match": 3,
+        "methodology_rigor": 2,
+        "citation_potential": 2,
+        "recency": 1
+      },
+      "tags": ["rollup", "layer-2", "escape-hatch", "security"],
+      "citation_count": 4,
+      "notes": "MEDIUM-HIGH - Rollup safety mechanism for operator failure. Time-based triggers + Merkle proofs applicable to DAO treasury withdrawals under governance failure scenarios. No-coordination design critical for trustless recovery.",
+      "integration_status": "pending_review",
+      "pdf_stored_locally": false
+    },
+    {
+      "arxiv_id": "2503.05451",
+      "title": "A Decentralized Sequencer and Data Availability Committee for Rollups Using Set Consensus",
+      "authors": ["Capretto, Margarita", "Ceresa, Martín", "Anta, Antonio Fernández", "Moreno-Sánchez, Pedro", "Sánchez, César"],
+      "submitted_date": "2025-03-07",
+      "categories": ["cs.DC"],
+      "abstract": "Decentralized implementation combining sequencer and data availability committee based on Set Byzantine Consensus, eliminating centralized operator control. The protocol provides liveness guarantees under 33% Byzantine nodes and achieves 12,000 TPS with 1.8-second confirmation time in 50-node networks.",
+      "pdf_url": "https://arxiv.org/pdf/2503.05451.pdf",
+      "relevance_score": 8,
+      "scoring_breakdown": {
+        "topic_match": 3,
+        "methodology_rigor": 2,
+        "citation_potential": 2,
+        "recency": 1
+      },
+      "tags": ["rollup", "decentralization", "sequencer", "data-availability"],
+      "citation_count": 6,
+      "notes": "MEDIUM-HIGH - Decentralized sequencer eliminating single point of control. Byzantine consensus (33% tolerance) for committee-based DA. Relevant for decentralized proposal ordering in governance.",
+      "integration_status": "pending_review",
+      "pdf_stored_locally": false
+    },
+    {
+      "arxiv_id": "2501.03126",
+      "title": "CrowdProve: Community Proving for ZK Rollups",
+      "authors": ["Stephan, John", "Pavlovic, Matej", "Locascio, Antonio", "Livshits, Benjamin"],
+      "submitted_date": "2025-01-06",
+      "categories": ["cs.DC"],
+      "abstract": "CrowdProve outsources zero-knowledge proof generation to community hardware, demonstrating performance comparable to centralized solutions (median 45-second proof time for 10K transactions) while reducing infrastructure costs by 73%. The system uses verifiable proof aggregation and incentivizes participants through stake-weighted reward distribution.",
+      "pdf_url": "https://arxiv.org/pdf/2501.03126.pdf",
+      "relevance_score": 7,
+      "scoring_breakdown": {
+        "topic_match": 2,
+        "methodology_rigor": 3,
+        "citation_potential": 1,
+        "recency": 1
+      },
+      "tags": ["zk-rollup", "community-proving", "decentralization", "proof-aggregation"],
+      "citation_count": 7,
+      "notes": "MEDIUM - Community-driven ZK proving with 73% cost reduction. Decentralized computation model applicable to distributed governance verification. Stake-weighted rewards align with token-based governance incentives.",
+      "integration_status": "pending_review",
+      "pdf_stored_locally": false
+    },
+    {
+      "arxiv_id": "2509.02421",
+      "title": "Near-Optimal Stability for Distributed Transaction Processing in Blockchain Sharding",
+      "authors": ["Adhikari, Ramesh", "Busch, Costas", "Kowalski, Dariusz R."],
+      "submitted_date": "2025-09-02",
+      "categories": ["cs.DC"],
+      "abstract": "We present a distributed scheduler achieving stability under injection rates within poly-log factor from optimal, significantly improving previous distributed scheduling results. The algorithm handles cross-shard transactions through asynchronous coordination, maintaining stability under dynamic workloads with 92% efficiency relative to theoretical optimum.",
+      "pdf_url": "https://arxiv.org/pdf/2509.02421.pdf",
+      "relevance_score": 7,
+      "scoring_breakdown": {
+        "topic_match": 2,
+        "methodology_rigor": 3,
+        "citation_potential": 1,
+        "recency": 1
+      },
+      "tags": ["transaction-scheduling", "sharding", "stability", "distributed-algorithms"],
+      "citation_count": 4,
+      "notes": "MEDIUM - Near-optimal transaction scheduling for sharded systems. Stability guarantees under dynamic workloads relevant for governance activity bursts. Asynchronous coordination applicable to cross-committee proposal processing.",
+      "integration_status": "pending_review",
+      "pdf_stored_locally": false
+    },
+    {
+      "arxiv_id": "2405.15015",
+      "title": "Fast Transaction Scheduling in Blockchain Sharding",
+      "authors": ["Adhikari, Ramesh", "Busch, Costas", "Popovic, Miroslav"],
+      "submitted_date": "2024-05-23",
+      "categories": ["cs.DC"],
+      "abstract": "We propose centralized and distributed schedulers providing approximation guarantees for transaction scheduling in sharded blockchains, demonstrating 3× lower latency and 2× higher throughput versus lock-based approaches. The algorithms use conflict graph analysis to identify parallelizable transaction subsets and schedule optimally across shards.",
+      "pdf_url": "https://arxiv.org/pdf/2405.15015.pdf",
+      "relevance_score": 7,
+      "scoring_breakdown": {
+        "topic_match": 2,
+        "methodology_rigor": 3,
+        "citation_potential": 1,
+        "recency": 1
+      },
+      "tags": ["scheduling", "performance", "conflict-resolution", "parallelization"],
+      "citation_count": 9,
+      "notes": "MEDIUM - Scheduling algorithms with 3× latency reduction. Conflict graph analysis for parallelization applicable to concurrent proposal execution. Approximation guarantees provide performance bounds.",
+      "integration_status": "pending_review",
+      "pdf_stored_locally": false
+    },
+    {
+      "arxiv_id": "2410.02029",
+      "title": "XChainWatcher: Monitoring and Identifying Attacks in Cross-Chain Bridges",
+      "authors": ["Augusto, André", "Belchior, Rafael", "Pfannschmidt, Jonas", "Vasconcelos, André", "Correia, Miguel"],
+      "submitted_date": "2024-10-02",
+      "categories": ["cs.CR", "cs.DC"],
+      "abstract": "XChainWatcher detects attacks on cross-chain bridges, having identified exploits causing $611M and $190M in losses across major bridges (Ronin, Poly Network). The system monitors transaction patterns, validates cryptographic proofs, and detects anomalies in bridge operator behavior using machine learning classifiers achieving 94.3% attack detection rate with 2.1% false positives.",
+      "pdf_url": "https://arxiv.org/pdf/2410.02029.pdf",
+      "relevance_score": 9,
+      "scoring_breakdown": {
+        "topic_match": 3,
+        "methodology_rigor": 3,
+        "citation_potential": 2,
+        "recency": 1
+      },
+      "tags": ["bridge-security", "attack-detection", "monitoring", "cross-chain"],
+      "citation_count": 16,
+      "notes": "HIGH - Bridge attack detection with $800M+ exploit identification. 94.3% detection rate validates practical effectiveness. Monitoring techniques applicable to DAO cross-chain governance (if parachain migration). Real-world validation critical.",
+      "integration_status": "pending_review",
+      "pdf_stored_locally": false
+    },
+    {
+      "arxiv_id": "2502.12820",
+      "title": "Atomic Smart Contract Interoperability with High Efficiency via Cross-Chain Integrated Execution",
+      "authors": ["Yin, Chaoyue", "Li, Mingzhe", "Zhang, Jin", "Lin, You", "Wei, Qingsong", "Goh, Siow Mong Rick"],
+      "submitted_date": "2025-02-18",
+      "categories": ["cs.DC"],
+      "abstract": "We propose integrated execution approach reducing up to 61.2% latency for cross-chain smart contract calls by executing contracts on single blockchains rather than coordinating across chains. The protocol uses cryptographic commitments to ensure atomicity and state consistency, with rollback mechanisms handling failures. Throughput: 8,700 TPS in 100-node testnet.",
+      "pdf_url": "https://arxiv.org/pdf/2502.12820.pdf",
+      "relevance_score": 9,
+      "scoring_breakdown": {
+        "topic_match": 3,
+        "methodology_rigor": 3,
+        "citation_potential": 2,
+        "recency": 2
+      },
+      "tags": ["cross-chain", "atomic-execution", "smart-contracts", "interoperability"],
+      "citation_count": 5,
+      "notes": "HIGH - 61% latency reduction for cross-chain contracts. Atomic execution with rollback applicable to cross-chain governance (parachain proposal execution). 8,700 TPS demonstrates practical scalability.",
+      "integration_status": "pending_review",
+      "pdf_stored_locally": false
+    },
+    {
+      "arxiv_id": "2409.14640",
+      "title": "MERCURY: Practical Cross-Chain Exchange via Trusted Hardware",
+      "authors": ["Wen, Xiaoqing", "Feng, Quanbi", "Niu, Jianyu", "Zhang, Yinqian", "Feng, Chen"],
+      "submitted_date": "2024-09-23",
+      "categories": ["cs.CR", "cs.DC"],
+      "abstract": "MERCURY reduces on-chain costs by approximately 67.87% using Trusted Execution Environments (Intel SGX) for cross-chain asset exchanges. The protocol maintains security under TEE compromise through cryptographic commitments and achieves 2,100 exchanges/second with median confirmation time of 8.3 seconds. Security analysis addresses side-channel attacks and enclave vulnerabilities.",
+      "pdf_url": "https://arxiv.org/pdf/2409.14640.pdf",
+      "relevance_score": 8,
+      "scoring_breakdown": {
+        "topic_match": 3,
+        "methodology_rigor": 2,
+        "citation_potential": 2,
+        "recency": 1
+      },
+      "tags": ["tee", "cross-chain", "sgx", "cost-reduction"],
+      "citation_count": 11,
+      "notes": "MEDIUM-HIGH - TEE-based cross-chain with 67% cost reduction. Hardware security enclave for trustless exchanges. Side-channel analysis critical for production deployment. Relevant for secure cross-chain treasury operations.",
+      "integration_status": "pending_review",
+      "pdf_stored_locally": false
+    },
+    {
+      "arxiv_id": "2510.14151",
+      "title": "Privacy-Preserving and Incentive-Driven Relay-Based Framework for Cross-Domain Blockchain Interoperability",
+      "authors": ["Moradi, Saeed", "Khorasani, Koosha Esmaeilzadeh", "Rouhani, Sara"],
+      "submitted_date": "2025-10-15",
+      "categories": ["cs.DC"],
+      "abstract": "Framework bridging permissioned and permissionless blockchains using cryptographic relay network with privacy preservation. The system employs threshold encryption for transaction privacy and incentivizes relayers through stake-weighted rewards. Evaluation shows 4,200 TPS cross-domain throughput with 3.2-second finality.",
+      "pdf_url": "https://arxiv.org/pdf/2510.14151.pdf",
+      "relevance_score": 8,
+      "scoring_breakdown": {
+        "topic_match": 3,
+        "methodology_rigor": 2,
+        "citation_potential": 2,
+        "recency": 1
+      },
+      "tags": ["privacy", "cross-domain", "relay-network", "incentives"],
+      "citation_count": 7,
+      "notes": "MEDIUM-HIGH - Privacy-preserving cross-domain bridging. Threshold encryption for confidential governance. Stake-weighted relay incentives align with DAO tokenomics. Permissioned-permissionless bridging relevant for hybrid governance models.",
+      "integration_status": "pending_review",
+      "pdf_stored_locally": false
+    },
+    {
+      "arxiv_id": "2512.10667",
+      "title": "A Proof of Success and Reward Distribution Protocol for Multi-bridge Architecture in Cross-chain Communication",
+      "authors": ["Oyinloye, Damilare Peter", "Chishti, Mohd Sameen", "Li, Jingyue"],
+      "submitted_date": "2025-12-11",
+      "categories": ["cs.CR", "cs.DC", "cs.ET"],
+      "abstract": "Fair reward distribution system equitably distributing transfer fees among participating bridges in multi-bridge architecture. The protocol uses cryptographic proofs of successful transfers and implements reputation-based fee allocation. Analysis shows 18% improvement in bridge liveness through redundancy and 31% reduction in single-point-of-failure risk.",
+      "pdf_url": "https://arxiv.org/pdf/2512.10667.pdf",
+      "relevance_score": 8,
+      "scoring_breakdown": {
+        "topic_match": 3,
+        "methodology_rigor": 2,
+        "citation_potential": 2,
+        "recency": 2
+      },
+      "tags": ["multi-bridge", "reward-distribution", "redundancy", "fairness"],
+      "citation_count": 2,
+      "notes": "MEDIUM-HIGH - Multi-bridge redundancy with fair reward distribution. 18% liveness improvement through redundant paths. Reputation-based allocation applicable to multi-path governance (fallback proposal execution routes).",
+      "integration_status": "pending_review",
+      "pdf_stored_locally": false
+    }
+  ]
+}
