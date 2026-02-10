@@ -1,0 +1,112 @@
+   Compiling proc-macro2 v1.0.106
+   Compiling quote v1.0.44
+   Compiling unicode-ident v1.0.23
+   Compiling version_check v0.9.5
+   Compiling cfg-if v1.0.4
+   Compiling typenum v1.19.0
+   Compiling serde_core v1.0.228
+   Compiling equivalent v1.0.2
+   Compiling hashbrown v0.16.1
+   Compiling getrandom v0.3.4
+   Compiling zerocopy v0.8.39
+   Compiling serde v1.0.228
+   Compiling shlex v1.3.0
+   Compiling find-msvc-tools v0.1.9
+   Compiling autocfg v1.5.0
+   Compiling getrandom v0.2.17
+   Compiling winnow v0.7.14
+   Compiling rustversion v1.0.22
+   Compiling subtle v2.6.1
+   Compiling rand_core v0.6.4
+   Compiling memchr v2.8.0
+   Compiling generic-array v0.14.9
+   Compiling once_cell v1.21.3
+   Compiling indexmap v2.13.0
+   Compiling toml_datetime v0.7.5+spec-1.1.0
+   Compiling unicode-xid v0.2.6
+   Compiling stable_deref_trait v1.2.1
+   Compiling jobserver v0.1.34
+   Compiling const-oid v0.9.6
+   Compiling arrayvec v0.7.6
+   Compiling cc v1.2.55
+   Compiling toml_parser v1.0.6+spec-1.1.0
+   Compiling anyhow v1.0.101
+   Compiling smallvec v1.15.1
+   Compiling thiserror v1.0.69
+   Compiling toml_edit v0.23.10+spec-1.0.0
+   Compiling libc v0.2.181
+   Compiling windows-link v0.2.1
+   Compiling ahash v0.7.8
+   Compiling zmij v1.0.20
+   Compiling crunchy v0.2.4
+error: could not parse/generate dep info at: C:\dev\DAO\substrate-runtime\target\release\deps\cc-d08ee288dffd6ec4.d
+
+Caused by:
+  failed to write `C:\dev\DAO\substrate-runtime\target\release\.fingerprint\cc-d08ee288dffd6ec4\dep-lib-cc`
+
+Caused by:
+  Le chemin d’accès spécifié est introuvable. (os error 3)
+warning: build failed, waiting for other jobs to finish...
+error: could not parse/generate dep info at: C:\dev\DAO\substrate-runtime\target\release\deps\toml_edit-33c7c70f92bf0820.d
+
+Caused by:
+  failed to write `C:\dev\DAO\substrate-runtime\target\release\.fingerprint\toml_edit-33c7c70f92bf0820\dep-lib-toml_edit`
+
+Caused by:
+  Le chemin d’accès spécifié est introuvable. (os error 3)
+error: failed to write `C:\dev\DAO\substrate-runtime\target\release\.fingerprint\rustversion-87982e9407e5d122\build-script-build-script-build`
+
+Caused by:
+  Le chemin d’accès spécifié est introuvable. (os error 3)
+error: failed to write `C:\dev\DAO\substrate-runtime\target\release\.fingerprint\libc-65cc11da64212c99\build-script-build-script-build`
+
+Caused by:
+  Le chemin d’accès spécifié est introuvable. (os error 3)
+error: failed to write `C:\dev\DAO\substrate-runtime\target\release\.fingerprint\generic-array-3c24545f1df500e9\build-script-build-script-build`
+
+Caused by:
+  Le chemin d’accès spécifié est introuvable. (os error 3)
+error: failed to write `C:\dev\DAO\substrate-runtime\target\release\.fingerprint\zmij-7e427dcddafaeb9d\build-script-build-script-build`
+
+Caused by:
+  Le chemin d’accès spécifié est introuvable. (os error 3)
+error: failed to write `C:\dev\DAO\substrate-runtime\target\release\.fingerprint\ahash-7236f5e203b7bfd9\build-script-build-script-build`
+
+Caused by:
+  Le chemin d’accès spécifié est introuvable. (os error 3)
+error: failed to write `C:\dev\DAO\substrate-runtime\target\release\.fingerprint\zerocopy-3e90191c8454809b\build-script-build-script-build`
+
+Caused by:
+  Le chemin d’accès spécifié est introuvable. (os error 3)
+error: failed to write `C:\dev\DAO\substrate-runtime\target\release\.fingerprint\serde_core-6b714442e00d07d0\build-script-build-script-build`
+
+Caused by:
+  Le chemin d’accès spécifié est introuvable. (os error 3)
+error: failed to write `C:\dev\DAO\substrate-runtime\target\release\.fingerprint\thiserror-9f5108c8205206b2\build-script-build-script-build`
+
+Caused by:
+  Le chemin d’accès spécifié est introuvable. (os error 3)
+error: failed to write `C:\dev\DAO\substrate-runtime\target\release\.fingerprint\quote-b90161ea893918ff\build-script-build-script-build`
+
+Caused by:
+  Le chemin d’accès spécifié est introuvable. (os error 3)
+error: failed to write `C:\dev\DAO\substrate-runtime\target\release\.fingerprint\crunchy-348ab95e7e5f94ca\build-script-build-script-build`
+
+Caused by:
+  Le chemin d’accès spécifié est introuvable. (os error 3)
+error: failed to write `C:\dev\DAO\substrate-runtime\target\release\.fingerprint\serde-7ed6150ef3a0d68e\build-script-build-script-build`
+
+Caused by:
+  Le chemin d’accès spécifié est introuvable. (os error 3)
+error: failed to write `C:\dev\DAO\substrate-runtime\target\release\.fingerprint\serde_core-92b9f6adaa8b0296\build-script-build-script-build`
+
+Caused by:
+  Le chemin d’accès spécifié est introuvable. (os error 3)
+error: failed to write `C:\dev\DAO\substrate-runtime\target\release\.fingerprint\anyhow-0a94b29048bd415c\build-script-build-script-build`
+
+Caused by:
+  Le chemin d’accès spécifié est introuvable. (os error 3)
+error: failed to write `C:\dev\DAO\substrate-runtime\target\release\.fingerprint\generic-array-62c0c5abc8bc7c08\build-script-build-script-build`
+
+Caused by:
+  Le chemin d’accès spécifié est introuvable. (os error 3)

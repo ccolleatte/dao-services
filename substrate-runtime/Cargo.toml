@@ -1,0 +1,68 @@
+[workspace]
+resolver = "2"
+members = [
+    "runtime",
+    "pallets/membership",
+    "pallets/treasury",
+    "pallets/governance",
+    "pallets/marketplace",
+    "pallets/payment-splitter",
+]
+
+[workspace.package]
+authors = ["DAO Services Team"]
+edition = "2021"
+license = "MIT"
+repository = "https://github.com/ccolleatte/DAO"
+
+[workspace.dependencies]
+# Substrate primitives
+sp-core = { version = "31.0.0", default-features = false }
+sp-runtime = { version = "34.0.0", default-features = false }
+sp-std = { version = "14.0.0", default-features = false }
+sp-io = { version = "33.0.0", default-features = false }
+sp-consensus-aura = { version = "0.35.0", default-features = false }
+sp-consensus-grandpa = { version = "16.0.0", default-features = false }
+sp-inherents = { version = "29.0.0", default-features = false }
+sp-offchain = { version = "29.0.0", default-features = false }
+sp-session = { version = "30.0.0", default-features = false }
+sp-transaction-pool = { version = "29.0.0", default-features = false }
+sp-version = { version = "32.0.0", default-features = false }
+sp-block-builder = { version = "29.0.0", default-features = false }
+sp-api = { version = "29.0.0", default-features = false }
+
+# FRAME dependencies
+frame-support = { version = "31.0.0", default-features = false }
+frame-system = { version = "31.0.0", default-features = false }
+frame-executive = { version = "31.0.0", default-features = false }
+frame-benchmarking = { version = "31.0.0", default-features = false }
+frame-system-benchmarking = { version = "31.0.0", default-features = false }
+frame-try-runtime = { version = "0.37.0", default-features = false }
+
+# FRAME pallets (standard)
+pallet-aura = { version = "30.0.0", default-features = false }
+pallet-balances = { version = "31.0.0", default-features = false }
+pallet-grandpa = { version = "31.0.0", default-features = false }
+pallet-sudo = { version = "31.0.0", default-features = false }
+pallet-timestamp = { version = "30.0.0", default-features = false }
+pallet-transaction-payment = { version = "31.0.0", default-features = false }
+pallet-transaction-payment-rpc-runtime-api = { version = "31.0.0", default-features = false }
+
+# Custom pallets (workspace members)
+pallet-membership = { path = "pallets/membership", default-features = false }
+pallet-treasury = { path = "pallets/treasury", default-features = false }
+pallet-governance = { path = "pallets/governance", default-features = false }
+pallet-marketplace = { path = "pallets/marketplace", default-features = false }
+pallet-payment-splitter = { path = "pallets/payment-splitter", default-features = false }
+
+# Utility
+codec = { package = "parity-scale-codec", version = "3.6.12", default-features = false, features = ["derive"] }
+scale-info = { version = "2.11.3", default-features = false, features = ["derive"] }
+log = { version = "0.4.22", default-features = false }
+serde = { version = "1.0", default-features = false, features = ["derive", "alloc"] }
+
+[profile.release]
+panic = "unwind"
+opt-level = 3
+lto = true
+codegen-units = 1

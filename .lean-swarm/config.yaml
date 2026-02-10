@@ -1,0 +1,193 @@
+# Lean Swarm Configuration - DAO Services Project
+# Version: 0.5.0 (Phase 0.5 - Blockchain Adaptation)
+
+project:
+  name: "DAO Services AI"
+  version: "0.1.0-alpha"
+  target_path: "C:\\dev\\dao"
+  setup_date: "2026-02-10"
+  context: "Blockchain (Solidity, Foundry, Polkadot)"
+
+# Active Lenses (Phase 0.5 - Blockchain Focus)
+lenses:
+  active:
+    - name: "specs"
+      path: ".lean-swarm/lenses/specs.md"
+      priority: 1
+      triggers:
+        - "Write"
+        - "Edit"
+        - "Smart contract deployment"
+        - "Blockchain operation"
+      context: "Negative specifications for Solidity contracts"
+
+    - name: "complexity"
+      path: ".lean-swarm/lenses/complexity.md"
+      priority: 2
+      triggers:
+        - "Write"
+        - "Edit"
+      thresholds:
+        lines_per_function: 50  # Solidity functions (stricter than TypeScript)
+        responsibilities: 3     # Smart contracts (single responsibility)
+        cyclomatic_complexity: 4 # Lower for security-critical code
+        duplication_count: 2    # Blockchain code (DRY critical for gas)
+
+    - name: "sandbox"
+      path: ".lean-swarm/lenses/sandbox.md"
+      priority: 3
+      triggers:
+        - "Pre-commit"
+        - "Post-implementation"
+      thresholds:
+        coverage_lines: 80      # Blockchain (higher standard)
+        coverage_branches: 70   # Security-critical
+        regressions_allowed: 0
+
+# 5 Lean Swarm Modes
+modes:
+  analytique:
+    enabled: true
+    purpose: "Reformuler problème, identifier contraintes blockchain"
+    triggers:
+      - "Nouvelle feature"
+      - "Bug report"
+      - "Gas optimization"
+      - "Security issue"
+
+  contextuel:
+    enabled: true
+    purpose: "Code Inventory First - chercher patterns existants"
+    triggers:
+      - "Avant création contract/fonction"
+      - "Duplication détectée"
+
+  generatif:
+    enabled: true
+    purpose: "Générer solution respectant specs négatives"
+    triggers:
+      - "Après phase analytique"
+      - "Solution validée"
+
+  evaluatif:
+    enabled: true
+    purpose: "Mesurer qualité, gas efficiency, sécurité"
+    triggers:
+      - "Après implémentation"
+      - "Pre-commit"
+      - "Gas profiling"
+
+  abductif:
+    enabled: true
+    purpose: "Identifier effets de second ordre (security, economic)"
+    triggers:
+      - "Security-sensitive changes"
+      - "Governance decisions"
+      - "Tokenomics changes"
+
+# Integration Points (Blockchain-specific)
+integration:
+  tools:
+    foundry:
+      enabled: true
+      commands:
+        test: "forge test -vv"
+        coverage: "forge coverage --report summary"
+        snapshot: "forge snapshot --check"
+    solhint:
+      enabled: true
+      command: "solhint 'contracts/src/**/*.sol'"
+
+  hooks:
+    pre_write:
+      enabled: true
+      checks:
+        - "specs.md validation"
+        - "complexity.md thresholds"
+        - "Gas estimation"
+
+    pre_commit:
+      enabled: true
+      checks:
+        - "sandbox.md TDD validation"
+        - "0 regressions check"
+        - "forge test passing"
+        - "Gas snapshot diff"
+
+# ROI Tracking (Blockchain Focus)
+roi:
+  setup_time_actual: null  # To be measured
+  setup_time_estimated: "2-4h"
+
+  patterns:
+    p1_gas_optimization:
+      baseline: "Manual profiling (8-12h)"
+      target: "4-6h with lenses"
+      target_gain: "-40%"
+    p2_security_patterns:
+      baseline: "Ad-hoc review"
+      target: "Structured audit with specs.md"
+      target_gain: "100% detection rate"
+    p3_code_duplication:
+      baseline: "3+ duplicates common"
+      target: "Extract libraries/modifiers"
+      target_gain: "-30% gas costs"
+
+  metrics:
+    track:
+      - "Time per contract optimization"
+      - "Regressions count"
+      - "Tests passing rate"
+      - "Gas cost delta"
+      - "Security issues detected"
+
+# Phase Roadmap (Blockchain MVP)
+phases:
+  phase_0_5:
+    status: "active"
+    scope: "Validate Lean Swarm for blockchain project"
+    lenses: ["specs", "complexity", "sandbox"]
+    estimated_duration: "2-4h setup"
+    target_contracts:
+      - "DAOMembership.sol"
+      - "DAOGovernor.sol"
+      - "DAOTreasury.sol"
+
+  phase_1:
+    status: "conditional"
+    scope: "Full adoption if Phase 0.5 successful"
+    condition: "ROI > 0 AND regressions = 0"
+    additional_contracts:
+      - "ServiceMarketplace.sol"
+      - "MissionEscrow.sol"
+      - "HybridPaymentSplitter.sol"
+
+# Validation (Blockchain-specific)
+validation:
+  criteria:
+    - "Setup < 4h"
+    - "Contract validation < 3h per contract"
+    - "0 regressions introduced"
+    - "Tests 100% passing (forge test)"
+    - "Gas costs not increased"
+
+  success_threshold:
+    roi_positive: true
+    time_saved: ">20%"
+    gas_optimized: true
+    security_improved: true
+
+# Confidence Scores
+confidence:
+  pattern_detection: 0.90  # Blockchain patterns well-defined
+  prevention_effectiveness: 0.92  # Security-critical domain
+  overhead_estimate: 0.85  # Similar to TypeScript projects
+  roi_prediction: 0.80  # Blockchain = different context
+
+# Notes
+notes:
+  - "Phase 0.5 = Proof of concept pour projets blockchain"
+  - "Adaptation lentilles pour Solidity (gas, security, immutability)"
+  - "Thresholds stricter que TypeScript (security-critical domain)"
+  - "Gas optimization = métrique clé blockchain"
+  - "Validation via forge test + forge snapshot"
