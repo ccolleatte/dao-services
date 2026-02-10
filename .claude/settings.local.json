@@ -122,7 +122,8 @@
       "Bash(Select-Object -Last 30)",
       "Bash(Start-Sleep -Seconds 30)",
       "Skill(reflect)",
-      "Bash(wc:*)"
+      "Bash(wc:*)",
+      "Bash(git check-ignore:*)"
     ]
   }
 }
