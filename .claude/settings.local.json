@@ -121,7 +121,8 @@
       "Bash(Get-Content \"C:\\\\Users\\\\ccoll\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\C--dev-dao\\\\tasks\\\\b47b1e9.output\")",
       "Bash(Select-Object -Last 30)",
       "Bash(Start-Sleep -Seconds 30)",
-      "Skill(reflect)"
+      "Skill(reflect)",
+      "Bash(wc:*)"
     ]
   }
 }
