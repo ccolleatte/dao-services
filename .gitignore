@@ -53,3 +53,6 @@ broadcast/
 .claude/skills/
 .claude/logs/
 .claude/settings.local.json
+
+# Lean Swarm — memoire locale
+.claude/swarm/memory/retrospective.md
