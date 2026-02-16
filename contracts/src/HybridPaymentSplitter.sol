@@ -57,6 +57,10 @@ contract HybridPaymentSplitter is AccessControl, ReentrancyGuard {
     error UnauthorizedMeter();
     error InsufficientFunds();
     error ContributorNotFound();
+    error TransferFailed();
+    error InvalidIndex(uint256 index, uint256 max);
+    error NoFundsToWithdraw();
+    error WithdrawalFailed();
 
     constructor(
         uint256 _missionId,
@@ -138,7 +142,7 @@ contract HybridPaymentSplitter is AccessControl, ReentrancyGuard {
 
             if (share > 0 && share <= remainingAmount) {
                 bool success = daosToken.transfer(contributor.account, share);
-                require(success, "Transfer failed");
+                if (!success) revert TransferFailed();
 
                 contributor.totalEarned += share;
                 remainingAmount -= share;
@@ -150,7 +154,7 @@ contract HybridPaymentSplitter is AccessControl, ReentrancyGuard {
         // Transfer any remaining dust to admin (rounding errors)
         if (remainingAmount > 0) {
             bool success = daosToken.transfer(msg.sender, remainingAmount);
-            require(success, "Dust transfer failed");
+            if (!success) revert TransferFailed();
         }
     }
 
@@ -235,7 +239,9 @@ contract HybridPaymentSplitter is AccessControl, ReentrancyGuard {
         uint256 percentageBps,
         uint256 totalEarned
     ) {
-        require(index < contributors.length, "Invalid index");
+        if (index >= contributors.length) {
+            revert InvalidIndex(index, contributors.length);
+        }
 
         Contributor storage contributor = contributors[index];
 
@@ -296,10 +302,10 @@ contract HybridPaymentSplitter is AccessControl, ReentrancyGuard {
      */
     function emergencyWithdraw() external onlyRole(ADMIN_ROLE) nonReentrant {
         uint256 balance = daosToken.balanceOf(address(this));
-        require(balance > 0, "No funds to withdraw");
+        if (balance == 0) revert NoFundsToWithdraw();
 
         bool success = daosToken.transfer(msg.sender, balance);
-        require(success, "Withdrawal failed");
+        if (!success) revert WithdrawalFailed();
     }
 
     /**
