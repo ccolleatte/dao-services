@@ -194,7 +194,7 @@ contract DAOMembership is AccessControl {
         external
         onlyRole(MEMBER_MANAGER_ROLE)
     {
-        require(isMember(_member), "Not a member");
+        if (!isMember(_member)) revert NotAMember(_member);
         members[_member].active = _active;
 
         if (_active) {
@@ -228,12 +228,12 @@ contract DAOMembership is AccessControl {
         view
         returns (uint256 weight)
     {
-        require(isMember(_member), "Not a member");
+        if (!isMember(_member)) revert NotAMember(_member);
         Member memory member = members[_member];
-        require(member.active, "Member inactive");
+        if (!member.active) revert MemberInactive(_member);
 
         // If member's rank is below minimum, revert
-        require(member.rank >= _minRank, "Rank too low for this proposal");
+        if (member.rank < _minRank) revert RankTooLow(member.rank, _minRank);
 
         // Standard triangular number (absolute rank, no minRank adjustment)
         // weight = rank × (rank + 1) / 2
@@ -280,7 +280,7 @@ contract DAOMembership is AccessControl {
      * @return member Struct Member complet
      */
     function getMemberInfo(address _member) external view returns (Member memory) {
-        require(isMember(_member), "Not a member");
+        if (!isMember(_member)) revert NotAMember(_member);
         return members[_member];
     }
 
@@ -302,7 +302,7 @@ contract DAOMembership is AccessControl {
         view
         returns (address[] memory)
     {
-        require(_rank <= 4, "Invalid rank");
+        if (_rank > 4) revert InvalidRank(_rank);
 
         // Compter d'abord
         uint256 count = 0;

@@ -50,14 +50,14 @@ contract DAOMembershipTest is Test {
         vm.startPrank(admin);
         membership.addMember(alice, 0, "alice-github");
 
-        vm.expectRevert("Already a member");
+        vm.expectRevert(abi.encodeWithSelector(DAOMembership.AlreadyMember.selector, alice));
         membership.addMember(alice, 1, "alice-github-2");
         vm.stopPrank();
     }
 
     function test_AddMemberRevertsIfInvalidRank() public {
         vm.prank(admin);
-        vm.expectRevert("Invalid rank (max 4)");
+        vm.expectRevert(abi.encodeWithSelector(DAOMembership.InvalidRank.selector, 5));
         membership.addMember(alice, 5, "alice-github");
     }
 
@@ -82,7 +82,7 @@ contract DAOMembershipTest is Test {
         membership.addMember(alice, 0, "alice-github");
 
         // Essayer de promouvoir immédiatement (< 90 jours)
-        vm.expectRevert("Minimum duration not met");
+        vm.expectRevert(abi.encodeWithSelector(DAOMembership.InsufficientTimeSincePromotion.selector, 0, 90 days));
         membership.promoteMember(alice);
         vm.stopPrank();
     }
@@ -91,7 +91,7 @@ contract DAOMembershipTest is Test {
         vm.startPrank(admin);
         membership.addMember(alice, 4, "alice-github");
 
-        vm.expectRevert("Already at max rank");
+        vm.expectRevert(abi.encodeWithSelector(DAOMembership.AlreadyAtMaxRank.selector, alice));
         membership.promoteMember(alice);
         vm.stopPrank();
     }
@@ -113,7 +113,7 @@ contract DAOMembershipTest is Test {
         vm.startPrank(admin);
         membership.addMember(alice, 0, "alice-github");
 
-        vm.expectRevert("Already at min rank");
+        vm.expectRevert(abi.encodeWithSelector(DAOMembership.AlreadyAtMinRank.selector, alice));
         membership.demoteMember(alice);
         vm.stopPrank();
     }
@@ -174,7 +174,7 @@ contract DAOMembershipTest is Test {
         vm.prank(admin);
         membership.addMember(alice, 0, "alice-github");
 
-        vm.expectRevert("Rank too low for this proposal");
+        vm.expectRevert(abi.encodeWithSelector(DAOMembership.RankTooLow.selector, 0, 2));
         membership.calculateVoteWeight(alice, 2);
     }
 
@@ -225,7 +225,7 @@ contract DAOMembershipTest is Test {
         membership.setMemberActive(alice, false);
         vm.stopPrank();
 
-        vm.expectRevert("Member inactive");
+        vm.expectRevert(abi.encodeWithSelector(DAOMembership.MemberInactive.selector, alice));
         membership.calculateVoteWeight(alice, 0);
     }
 
