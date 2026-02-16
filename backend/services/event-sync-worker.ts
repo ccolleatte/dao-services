@@ -9,10 +9,10 @@
  * - ✅ Structured logging (pino)
  * - ✅ Retry logic for blockchain calls
  * - ✅ Custom error types
- * - ✅ TODOs resolved → GitHub issues created
+ * - ✅ TODOs resolved → GitHub issues #19-22 created
  *
  * TypeScript Checking Disabled:
- * - Supabase types not generated yet (see backend/TODO-SUPABASE-TYPES.md)
+ * - Supabase types not generated yet (see GitHub issue #21)
  * - Will be re-enabled after proper type generation
  * - Runtime validation still active (validation.js)
  */
@@ -401,7 +401,7 @@ async function handleDisputeRaised(
         milestone_id: milestone.id,
         mission_id: milestone.mission_id,
         initiator_wallet: initiator.toLowerCase(),
-        reason: 'Dispute raised on-chain', // TODO: Fetch from contract
+        reason: 'Dispute raised on-chain', // GitHub issue #20
         status: 'voting',
         voting_deadline: new Date(Date.now() + 72 * 60 * 60 * 1000).toISOString(), // 72h
       });
@@ -444,11 +444,11 @@ async function handlePaymentDistributed(
 
     const contributorTypeMap = ['human', 'ai', 'compute'];
 
-    // TODO: Find mission associated with this splitter contract
+    // GitHub issue #20: Find mission associated with this splitter contract
     // For now, we'll skip mission_id (can be NULL)
 
     await supabase.from('payments').insert({
-      mission_id: null, // TODO: Resolve from splitter contract
+      mission_id: null, // GitHub issue #20: Resolve from splitter contract
       recipient_wallet: recipient.toLowerCase(),
       amount_daos: ethers.formatEther(amount),
       contributor_type: contributorTypeMap[contributorType] || 'human',
@@ -542,7 +542,7 @@ export async function startEventSyncWorker() {
   );
 
   // NOTE: MissionEscrow and HybridPaymentSplitter events deferred to Phase 2
-  // Tracking: GitHub issue #TODO-EVENT-SYNC-01 (requires factory event listeners)
+  // Tracking: GitHub issue #20 (requires factory event listeners)
 
   logger.info('Event sync worker started successfully');
 }

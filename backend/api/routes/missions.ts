@@ -395,11 +395,11 @@ router.post('/:id/cancel', async (req, res) => {
 
     if (error) throw error;
 
-    // TODO: Create notification for consultant if selected
+    // GitHub issue #19: Create notification for consultant if selected
     if (mission.selected_consultant_wallet) {
       await supabase.from('notifications').insert({
         recipient_wallet: mission.selected_consultant_wallet,
-        notification_type: 'mission_published', // TODO: Add 'mission_cancelled' type
+        notification_type: 'mission_published', // GitHub issue #19: Add 'mission_cancelled' type
         title: 'Mission Cancelled',
         message: `Mission has been cancelled by the client${reason ? ': ' + reason : ''}`,
         link_url: `/missions/${id}`,

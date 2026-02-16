@@ -195,7 +195,7 @@ router.post('/', async (req, res) => {
       });
     }
 
-    // Verify consultant rank (TODO: Call membership contract)
+    // Verify consultant rank (GitHub issue #19: Smart Contract Integration)
     const { data: profile } = await supabase
       .from('profiles')
       .select('on_chain_rank')
@@ -396,7 +396,7 @@ router.delete('/:id', async (req, res) => {
 /**
  * POST /api/applications/:id/calculate-match-score
  * Calculate on-chain match score (admin/cron only)
- * TODO: Call smart contract calculateMatchScore function
+ * GitHub issue #19: Call smart contract calculateMatchScore function
  */
 router.post('/:id/calculate-match-score', async (req, res) => {
   try {
@@ -415,7 +415,7 @@ router.post('/:id/calculate-match-score', async (req, res) => {
       });
     }
 
-    // TODO: Call smart contract ServiceMarketplace.calculateMatchScore()
+    // GitHub issue #19: Call smart contract ServiceMarketplace.calculateMatchScore()
     // For now, use mock score
     const mockScore = Math.floor(Math.random() * 40) + 60; // 60-100
 
@@ -433,7 +433,7 @@ router.post('/:id/calculate-match-score', async (req, res) => {
       mission_id: application.mission_id,
       consultant_wallet: application.consultant_wallet,
       total_score: mockScore,
-      // TODO: Add breakdown scores from smart contract
+      // GitHub issue #19: Add breakdown scores from smart contract
     });
 
     return res.json({
