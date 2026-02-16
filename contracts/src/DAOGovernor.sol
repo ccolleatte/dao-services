@@ -121,7 +121,7 @@ contract DAOGovernor is
         Track track
     ) public returns (uint256) {
         // Verify proposer rank
-        (uint8 proposerRank,,,, bool active) = membership.members(msg.sender);
+        (uint8 proposerRank,,,, bool active,,) = membership.members(msg.sender);
         require(active, "Member not active");
         TrackConfig memory config = trackConfigs[track];
 
@@ -179,7 +179,7 @@ contract DAOGovernor is
         TrackConfig memory config = trackConfigs[track];
 
         // Calculate vote weight based on DAOMembership
-        (uint8 memberRank,,,, bool active) = membership.members(account);
+        (uint8 memberRank,,,, bool active,,) = membership.members(account);
 
         // Only count votes from active members meeting minimum rank
         if (!active || memberRank < config.minRank) {

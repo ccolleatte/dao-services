@@ -115,7 +115,7 @@ contract DAOTreasury is AccessControl, ReentrancyGuard {
         string memory category
     ) external returns (uint256) {
         // Verify proposer is active DAO member with rank > 0
-        (uint8 rank,,,, bool active) = membership.members(msg.sender);
+        (uint8 rank,,,, bool active,,) = membership.members(msg.sender);
         if (!active || rank == 0) {
             revert Unauthorized();
         }

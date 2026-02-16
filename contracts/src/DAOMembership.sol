@@ -33,6 +33,9 @@ contract DAOMembership is AccessControl {
         uint256 lastPromotedAt;  // Timestamp dernière promotion
         string githubHandle;     // Identifiant GitHub (optionnel)
         bool active;             // Statut actif/inactif
+        string[] skills;         // Compétences du consultant (max 20)
+        uint256 completedMissions; // Nombre de missions complétées
+        uint256 averageRating;   // Rating moyen (0-100)
     }
 
     // ===== State Variables =====
@@ -48,6 +51,10 @@ contract DAOMembership is AccessControl {
         547 days    // Rang 3→4: 18 mois
     ];
 
+    // Constantes pour validation
+    uint256 public constant MAX_SKILLS = 20;
+    uint256 public constant MAX_RATING = 100;
+
     // ===== Events =====
     event MemberAdded(address indexed member, uint8 rank, string githubHandle);
     event MemberPromoted(address indexed member, uint8 oldRank, uint8 newRank);
@@ -55,6 +62,8 @@ contract DAOMembership is AccessControl {
     event MemberRemoved(address indexed member);
     event MemberActivated(address indexed member);
     event MemberDeactivated(address indexed member);
+    event SkillsUpdated(address indexed member, uint256 skillCount);
+    event TrackRecordUpdated(address indexed member, uint256 completedMissions, uint256 averageRating);
 
     // ===== Constructor =====
     constructor() {
@@ -92,7 +101,10 @@ contract DAOMembership is AccessControl {
             joinedAt: block.timestamp,
             lastPromotedAt: block.timestamp,
             githubHandle: _githubHandle,
-            active: true
+            active: true,
+            skills: new string[](0),
+            completedMissions: 0,
+            averageRating: 0
         });
 
         memberAddresses.push(_member);
@@ -363,5 +375,88 @@ contract DAOMembership is AccessControl {
         // Return vote weight with minRank=0 (all members eligible)
         uint256 rank = uint256(member.rank);
         return rank * (rank + 1) / 2;
+    }
+
+    // ===== Skills & Track Record Management =====
+
+    /**
+     * @notice Définir les compétences d'un consultant
+     * @param _member Adresse du membre
+     * @param _skills Liste des compétences (max 20)
+     */
+    function setSkills(address _member, string[] calldata _skills)
+        external
+        onlyRole(MEMBER_MANAGER_ROLE)
+    {
+        require(isMember(_member), "Not a member");
+        require(_skills.length <= MAX_SKILLS, "Too many skills (max 20)");
+
+        // Delete old skills first
+        delete members[_member].skills;
+
+        // Copy new skills element by element (nested dynamic array)
+        for (uint256 i = 0; i < _skills.length; i++) {
+            members[_member].skills.push(_skills[i]);
+        }
+
+        emit SkillsUpdated(_member, _skills.length);
+    }
+
+    /**
+     * @notice Obtenir les compétences d'un consultant
+     * @param _member Adresse du membre
+     * @return skills Liste des compétences
+     */
+    function getSkills(address _member)
+        external
+        view
+        returns (string[] memory)
+    {
+        require(isMember(_member), "Not a member");
+        return members[_member].skills;
+    }
+
+    /**
+     * @notice Mettre à jour le track record après une mission complétée
+     * @param _member Adresse du membre
+     * @param _missionRating Rating de la mission (0-100)
+     * @dev Appelé par le contract MissionEscrow après completion
+     */
+    function updateTrackRecord(address _member, uint256 _missionRating)
+        external
+        onlyRole(MEMBER_MANAGER_ROLE)
+    {
+        require(isMember(_member), "Not a member");
+        require(_missionRating <= MAX_RATING, "Invalid rating (max 100)");
+
+        Member storage member = members[_member];
+
+        // Calculer nouveau rating moyen
+        uint256 totalMissions = member.completedMissions;
+        uint256 currentAverage = member.averageRating;
+
+        // Formule: newAverage = (currentAverage × totalMissions + newRating) / (totalMissions + 1)
+        uint256 newAverage = (currentAverage * totalMissions + _missionRating) / (totalMissions + 1);
+
+        member.completedMissions += 1;
+        member.averageRating = newAverage;
+
+        emit TrackRecordUpdated(_member, member.completedMissions, member.averageRating);
+    }
+
+    /**
+     * @notice Obtenir le track record d'un consultant
+     * @param _member Adresse du membre
+     * @return completedMissions Nombre de missions complétées
+     * @return averageRating Rating moyen (0-100)
+     */
+    function getTrackRecord(address _member)
+        external
+        view
+        returns (uint256 completedMissions, uint256 averageRating)
+    {
+        require(isMember(_member), "Not a member");
+        Member memory member = members[_member];
+        return (member.completedMissions, member.averageRating);
     }
 }

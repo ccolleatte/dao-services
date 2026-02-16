@@ -256,4 +256,127 @@ contract DAOMembershipTest is Test {
         assertEq(membership.getMemberCount(), 2);
         vm.stopPrank();
     }
+
+    // ===== Test Skills Management =====
+
+    function test_SetSkills() public {
+        vm.startPrank(admin);
+        membership.addMember(alice, 2, "alice-github");
+
+        string[] memory skills = new string[](3);
+        skills[0] = "Solidity";
+        skills[1] = "React";
+        skills[2] = "Node.js";
+
+        membership.setSkills(alice, skills);
+
+        string[] memory retrievedSkills = membership.getSkills(alice);
+        assertEq(retrievedSkills.length, 3);
+        assertEq(retrievedSkills[0], "Solidity");
+        assertEq(retrievedSkills[1], "React");
+        assertEq(retrievedSkills[2], "Node.js");
+        vm.stopPrank();
+    }
+
+    function test_SetSkillsRevertsIfTooMany() public {
+        vm.startPrank(admin);
+        membership.addMember(alice, 2, "alice-github");
+
+        // Créer 21 skills (> MAX_SKILLS = 20)
+        string[] memory skills = new string[](21);
+        for (uint256 i = 0; i < 21; i++) {
+            skills[i] = "Skill";
+        }
+
+        vm.expectRevert("Too many skills (max 20)");
+        membership.setSkills(alice, skills);
+        vm.stopPrank();
+    }
+
+    function test_SetSkillsReplacesOldSkills() public {
+        vm.startPrank(admin);
+        membership.addMember(alice, 2, "alice-github");
+
+        // Set initial skills
+        string[] memory skills1 = new string[](2);
+        skills1[0] = "Solidity";
+        skills1[1] = "React";
+        membership.setSkills(alice, skills1);
+
+        // Replace with new skills
+        string[] memory skills2 = new string[](3);
+        skills2[0] = "Rust";
+        skills2[1] = "Python";
+        skills2[2] = "Go";
+        membership.setSkills(alice, skills2);
+
+        string[] memory retrievedSkills = membership.getSkills(alice);
+        assertEq(retrievedSkills.length, 3);
+        assertEq(retrievedSkills[0], "Rust");
+        assertEq(retrievedSkills[1], "Python");
+        assertEq(retrievedSkills[2], "Go");
+        vm.stopPrank();
+    }
+
+    function test_GetSkillsRevertsIfNotMember() public {
+        vm.expectRevert("Not a member");
+        membership.getSkills(bob);
+    }
+
+    // ===== Test Track Record Management =====
+
+    function test_UpdateTrackRecord() public {
+        vm.startPrank(admin);
+        membership.addMember(alice, 2, "alice-github");
+
+        // Première mission : rating 85
+        membership.updateTrackRecord(alice, 85);
+
+        (uint256 completedMissions, uint256 averageRating) = membership.getTrackRecord(alice);
+        assertEq(completedMissions, 1);
+        assertEq(averageRating, 85);
+        vm.stopPrank();
+    }
+
+    function test_UpdateTrackRecordCalculatesAverage() public {
+        vm.startPrank(admin);
+        membership.addMember(alice, 2, "alice-github");
+
+        // Mission 1 : rating 80
+        membership.updateTrackRecord(alice, 80);
+        // Mission 2 : rating 90
+        membership.updateTrackRecord(alice, 90);
+        // Mission 3 : rating 85
+        membership.updateTrackRecord(alice, 85);
+
+        (uint256 completedMissions, uint256 averageRating) = membership.getTrackRecord(alice);
+        assertEq(completedMissions, 3);
+        // Average : (80 + 90 + 85) / 3 = 85
+        assertEq(averageRating, 85);
+        vm.stopPrank();
+    }
+
+    function test_UpdateTrackRecordRevertsIfInvalidRating() public {
+        vm.startPrank(admin);
+        membership.addMember(alice, 2, "alice-github");
+
+        // Rating > MAX_RATING (100)
+        vm.expectRevert("Invalid rating (max 100)");
+        membership.updateTrackRecord(alice, 101);
+        vm.stopPrank();
+    }
+
+    function test_GetTrackRecordRevertsIfNotMember() public {
+        vm.expectRevert("Not a member");
+        membership.getTrackRecord(bob);
+    }
+
+    function test_TrackRecordInitiallyZero() public {
+        vm.prank(admin);
+        membership.addMember(alice, 2, "alice-github");
+
+        (uint256 completedMissions, uint256 averageRating) = membership.getTrackRecord(alice);
+        assertEq(completedMissions, 0);
+        assertEq(averageRating, 0);
+    }
 }
