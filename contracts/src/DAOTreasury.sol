@@ -81,6 +81,7 @@ contract DAOTreasury is AccessControl, ReentrancyGuard {
     error BudgetExceeded();
     error InvalidProposal();
     error Unauthorized();
+    error TransferFailed();
 
     /**
      * @notice Constructor
@@ -227,7 +228,7 @@ contract DAOTreasury is AccessControl, ReentrancyGuard {
 
         // Transfer funds
         (bool success, ) = proposal.beneficiary.call{value: proposal.amount}("");
-        require(success, "Transfer failed");
+        if (!success) revert TransferFailed();
 
         emit ProposalExecuted(proposalId, proposal.amount);
     }

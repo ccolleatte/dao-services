@@ -78,6 +78,9 @@ contract MilestoneEscrow is ReentrancyGuard {
     error CannotCancelAfterConsultantSelected();
     error InsufficientFunds();
     error InvalidMilestoneCount();
+    error EscrowTransferFailed();
+    error FundReleaseFailed();
+    error RefundFailed();
 
     /*//////////////////////////////////////////////////////////////
                             CONSTRUCTOR
@@ -144,7 +147,7 @@ contract MilestoneEscrow is ReentrancyGuard {
 
         // Lock funds in escrow
         bool success = daosToken.transferFrom(msg.sender, address(this), totalAmount);
-        require(success, "Escrow transfer failed");
+        if (!success) revert EscrowTransferFailed();
 
         escrowBalances[missionId] = EscrowBalance({
             totalLocked: totalAmount,
@@ -197,7 +200,7 @@ contract MilestoneEscrow is ReentrancyGuard {
         // Release funds to consultant
         address consultant = IMarketplace(marketplaceContract).getMissionConsultant(missionId);
         bool success = daosToken.transfer(consultant, milestone.amount);
-        require(success, "Fund release failed");
+        if (!success) revert FundReleaseFailed();
 
         // Update escrow balance
         escrowBalances[missionId].released += milestone.amount;
@@ -243,7 +246,7 @@ contract MilestoneEscrow is ReentrancyGuard {
 
         // Refund client
         bool success = daosToken.transfer(msg.sender, refundAmount);
-        require(success, "Refund failed");
+        if (!success) revert RefundFailed();
 
         balance.refunded += refundAmount;
         balance.finalized = true;
@@ -269,7 +272,7 @@ contract MilestoneEscrow is ReentrancyGuard {
         // Release funds
         address consultant = IMarketplace(marketplaceContract).getMissionConsultant(missionId);
         bool success = daosToken.transfer(consultant, milestone.amount);
-        require(success, "Fund release failed");
+        if (!success) revert FundReleaseFailed();
 
         escrowBalances[missionId].released += milestone.amount;
 

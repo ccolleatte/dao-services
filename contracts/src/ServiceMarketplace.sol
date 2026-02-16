@@ -113,6 +113,9 @@ contract ServiceMarketplace is AccessControl, ReentrancyGuard {
     error InvalidProposal();
     error NotActiveMember();
     error ApplicationNotFound();
+    error BudgetTransferFailed();
+    error RefundTransferFailed();
+    error ConsultantNotActive();
 
     // ===== Constructor =====
 
@@ -192,7 +195,7 @@ contract ServiceMarketplace is AccessControl, ReentrancyGuard {
 
         // Lock budget in contract (client must approve first)
         bool success = daosToken.transferFrom(msg.sender, address(this), mission.budget);
-        require(success, "Budget transfer failed");
+        if (!success) revert BudgetTransferFailed();
 
         // Update status to Active
         mission.status = MissionStatus.Active;
@@ -299,7 +302,7 @@ contract ServiceMarketplace is AccessControl, ReentrancyGuard {
         // Refund locked budget to client (only if Active, OnHold means escrow not created yet)
         if (mission.status == MissionStatus.Active || mission.status == MissionStatus.OnHold) {
             bool success = daosToken.transfer(mission.client, mission.budget);
-            require(success, "Refund transfer failed");
+            if (!success) revert RefundTransferFailed();
         }
 
         // Update status to Cancelled
@@ -323,7 +326,7 @@ contract ServiceMarketplace is AccessControl, ReentrancyGuard {
     ) public view returns (uint256) {
         Mission memory mission = missions[missionId];
         (uint8 consultantRank,,,, bool active,,) = membership.members(consultant);
-        require(active, "Consultant not active");
+        if (!active) revert ConsultantNotActive();
 
         // Calculate scores inline to avoid stack too deep
         uint256 score = 0;

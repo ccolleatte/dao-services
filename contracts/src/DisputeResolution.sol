@@ -75,6 +75,7 @@ contract DisputeResolution {
     error AlreadyVoted();
     error NotDisputeInitiator();
     error DisputeNotOpen();
+    error NotEnoughEligibleArbiters();
 
     /*//////////////////////////////////////////////////////////////
                             CONSTRUCTOR
@@ -227,7 +228,7 @@ contract DisputeResolution {
     function _selectArbiters() internal view returns (address[3] memory) {
         // MVP: Select first 3 eligible arbiters
         // In production, use Chainlink VRF for true randomness
-        require(eligibleArbiters.length >= 3, "Not enough eligible arbiters");
+        if (eligibleArbiters.length < 3) revert NotEnoughEligibleArbiters();
 
         address[3] memory selected;
         selected[0] = eligibleArbiters[0];

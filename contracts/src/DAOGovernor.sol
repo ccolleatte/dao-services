@@ -60,6 +60,7 @@ contract DAOGovernor is
     error InsufficientRank(uint8 required, uint8 actual);
     error InvalidTrack();
     error InvalidQuorumPercent();
+    error MemberNotActive();
 
     /**
      * @notice Constructor
@@ -122,7 +123,7 @@ contract DAOGovernor is
     ) public returns (uint256) {
         // Verify proposer rank
         (uint8 proposerRank,,,, bool active,,) = membership.members(msg.sender);
-        require(active, "Member not active");
+        if (!active) revert MemberNotActive();
         TrackConfig memory config = trackConfigs[track];
 
         if (proposerRank < config.minRank) {
