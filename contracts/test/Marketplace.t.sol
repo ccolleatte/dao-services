@@ -3,6 +3,7 @@ pragma solidity ^0.8.20;
 
 import "forge-std/Test.sol";
 import "../src/ServiceMarketplace.sol";
+import "../src/ComplianceRegistry.sol";
 import "../src/MissionEscrow.sol";
 import "../src/HybridPaymentSplitter.sol";
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
@@ -68,6 +69,7 @@ contract MockMembership {
 
 contract ServiceMarketplaceTest is Test {
     ServiceMarketplace public marketplace;
+    ComplianceRegistry public complianceRegistry;
     MockDAOS public daosToken;
     MockMembership public membership;
 
@@ -76,13 +78,18 @@ contract ServiceMarketplaceTest is Test {
     address public consultant1 = address(0x3);
     address public consultant2 = address(0x4);
 
+    // Helper: Empty compliance requirements (backward compatibility)
+    ComplianceRegistry.AttestationType[] emptyCompliance;
+
     function setUp() public {
         daosToken = new MockDAOS();
         membership = new MockMembership();
+        complianceRegistry = new ComplianceRegistry();
 
         marketplace = new ServiceMarketplace(
             address(daosToken),
             address(membership),
+            address(complianceRegistry),
             admin
         );
 
@@ -123,7 +130,8 @@ contract ServiceMarketplaceTest is Test {
             "Smart Contract Audit",
             1000 ether,
             2,
-            requiredSkills
+            requiredSkills,
+            emptyCompliance
         );
 
         assertEq(missionId, 1);
@@ -162,7 +170,8 @@ contract ServiceMarketplaceTest is Test {
             "Smart Contract Audit",
             1000 ether,
             2,
-            requiredSkills
+            requiredSkills,
+            emptyCompliance
         );
         vm.stopPrank();
 
@@ -204,7 +213,8 @@ contract ServiceMarketplaceTest is Test {
             "Smart Contract Audit",
             1000 ether,
             2,
-            requiredSkills
+            requiredSkills,
+            emptyCompliance
         );
         vm.stopPrank();
 
@@ -232,7 +242,8 @@ contract ServiceMarketplaceTest is Test {
             "Smart Contract Audit",
             1000 ether,
             2,
-            requiredSkills
+            requiredSkills,
+            emptyCompliance
         );
         vm.stopPrank();
 
@@ -269,7 +280,8 @@ contract ServiceMarketplaceTest is Test {
             "Smart Contract Audit",
             1000 ether,
             4, // Require rank 4
-            requiredSkills
+            requiredSkills,
+            emptyCompliance
         );
         vm.stopPrank();
 
@@ -291,7 +303,8 @@ contract ServiceMarketplaceTest is Test {
             "Smart Contract Audit",
             1000 ether,
             2,
-            requiredSkills
+            requiredSkills,
+            emptyCompliance
         );
         vm.stopPrank();
 

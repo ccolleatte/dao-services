@@ -4,6 +4,7 @@ pragma solidity ^0.8.20;
 import "@openzeppelin/contracts/access/AccessControl.sol";
 import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import "./ComplianceRegistry.sol";
 
 /**
  * @title ServiceMarketplace
@@ -50,6 +51,10 @@ contract ServiceMarketplace is AccessControl, ReentrancyGuard {
     IERC20 public immutable daosToken;
     address public membershipContract;
     address public escrowFactory;
+    ComplianceRegistry public complianceRegistry;
+
+    // Mission compliance requirements
+    mapping(uint256 => ComplianceRegistry.AttestationType[]) public missionRequirements;
 
     // Events
     event MissionCreated(uint256 indexed missionId, address indexed client, uint256 budget);
@@ -68,10 +73,12 @@ contract ServiceMarketplace is AccessControl, ReentrancyGuard {
     constructor(
         address _daosToken,
         address _membershipContract,
+        address _complianceRegistry,
         address _admin
     ) {
         daosToken = IERC20(_daosToken);
         membershipContract = _membershipContract;
+        complianceRegistry = ComplianceRegistry(_complianceRegistry);
         _grantRole(DEFAULT_ADMIN_ROLE, _admin);
         _grantRole(ADMIN_ROLE, _admin);
     }
@@ -82,12 +89,14 @@ contract ServiceMarketplace is AccessControl, ReentrancyGuard {
      * @param budget Total budget in DAOS tokens
      * @param minRank Minimum DAO rank required (0-4)
      * @param requiredSkills Array of required skill identifiers
+     * @param requiredAttestations Array of required compliance attestations (Phase 1 KYC)
      */
     function createMission(
         string memory title,
         uint256 budget,
         uint8 minRank,
-        string[] memory requiredSkills
+        string[] memory requiredSkills,
+        ComplianceRegistry.AttestationType[] memory requiredAttestations
     ) external nonReentrant returns (uint256) {
         if (budget == 0) revert InsufficientBudget();
 
@@ -109,6 +118,9 @@ contract ServiceMarketplace is AccessControl, ReentrancyGuard {
             createdAt: block.timestamp,
             updatedAt: block.timestamp
         });
+
+        // Store compliance requirements (Phase 1 KYC)
+        missionRequirements[missionId] = requiredAttestations;
 
         emit MissionCreated(missionId, msg.sender, budget);
 
@@ -183,6 +195,16 @@ contract ServiceMarketplace is AccessControl, ReentrancyGuard {
 
         if (msg.sender != mission.client) revert UnauthorizedClient();
         if (mission.status != MissionStatus.Active) revert InvalidMissionStatus();
+
+        // **Phase 1 KYC - Compliance verification**
+        // Verify consultant has all required attestations (KBIS, URSSAF, etc.)
+        ComplianceRegistry.AttestationType[] memory required = missionRequirements[missionId];
+        for (uint256 i = 0; i < required.length; i++) {
+            require(
+                complianceRegistry.hasValidAttestation(consultant, required[i]),
+                "Missing required attestation"
+            );
+        }
 
         // Find application
         uint256[] memory apps = missionApplications[missionId];
@@ -352,5 +374,13 @@ contract ServiceMarketplace is AccessControl, ReentrancyGuard {
      */
     function setEscrowFactory(address _escrowFactory) external onlyRole(ADMIN_ROLE) {
         escrowFactory = _escrowFactory;
+    }
+
+    /**
+     * @notice Set compliance registry address (admin only - Phase 1 KYC)
+     * @param _complianceRegistry New compliance registry address
+     */
+    function setComplianceRegistry(address _complianceRegistry) external onlyRole(ADMIN_ROLE) {
+        complianceRegistry = ComplianceRegistry(_complianceRegistry);
     }
 }
