@@ -401,8 +401,8 @@ contract DAOMembership is AccessControl {
         external
         onlyRole(MEMBER_MANAGER_ROLE)
     {
-        require(isMember(_member), "Not a member");
-        require(_skills.length <= MAX_SKILLS, "Too many skills (max 20)");
+        if (!isMember(_member)) revert NotAMember(_member);
+        if (_skills.length > MAX_SKILLS) revert TooManySkills(_skills.length, MAX_SKILLS);
 
         // Delete old skills first
         delete members[_member].skills;
@@ -425,7 +425,7 @@ contract DAOMembership is AccessControl {
         view
         returns (string[] memory)
     {
-        require(isMember(_member), "Not a member");
+        if (!isMember(_member)) revert NotAMember(_member);
         return members[_member].skills;
     }
 
@@ -439,8 +439,8 @@ contract DAOMembership is AccessControl {
         external
         onlyRole(MEMBER_MANAGER_ROLE)
     {
-        require(isMember(_member), "Not a member");
-        require(_missionRating <= MAX_RATING, "Invalid rating (max 100)");
+        if (!isMember(_member)) revert NotAMember(_member);
+        if (_missionRating > MAX_RATING) revert InvalidRating(_missionRating, MAX_RATING);
 
         Member storage member = members[_member];
 
@@ -468,7 +468,7 @@ contract DAOMembership is AccessControl {
         view
         returns (uint256 completedMissions, uint256 averageRating)
     {
-        require(isMember(_member), "Not a member");
+        if (!isMember(_member)) revert NotAMember(_member);
         Member memory member = members[_member];
         return (member.completedMissions, member.averageRating);
     }

@@ -288,7 +288,7 @@ contract DAOMembershipTest is Test {
             skills[i] = "Skill";
         }
 
-        vm.expectRevert("Too many skills (max 20)");
+        vm.expectRevert(abi.encodeWithSelector(DAOMembership.TooManySkills.selector, 21, 20));
         membership.setSkills(alice, skills);
         vm.stopPrank();
     }
@@ -319,7 +319,7 @@ contract DAOMembershipTest is Test {
     }
 
     function test_GetSkillsRevertsIfNotMember() public {
-        vm.expectRevert("Not a member");
+        vm.expectRevert(abi.encodeWithSelector(DAOMembership.NotAMember.selector, bob));
         membership.getSkills(bob);
     }
 
@@ -361,13 +361,13 @@ contract DAOMembershipTest is Test {
         membership.addMember(alice, 2, "alice-github");
 
         // Rating > MAX_RATING (100)
-        vm.expectRevert("Invalid rating (max 100)");
+        vm.expectRevert(abi.encodeWithSelector(DAOMembership.InvalidRating.selector, 101, 100));
         membership.updateTrackRecord(alice, 101);
         vm.stopPrank();
     }
 
     function test_GetTrackRecordRevertsIfNotMember() public {
-        vm.expectRevert("Not a member");
+        vm.expectRevert(abi.encodeWithSelector(DAOMembership.NotAMember.selector, bob));
         membership.getTrackRecord(bob);
     }
 
