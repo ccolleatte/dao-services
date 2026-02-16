@@ -132,7 +132,13 @@
       "Bash(npm run test:backend:coverage:*)",
       "Bash(npx tsc:*)",
       "WebFetch(domain:openguild.wtf)",
-      "WebFetch(domain:faucet.polkadot.io)"
+      "WebFetch(domain:faucet.polkadot.io)",
+      "Skill(it-project-manager)",
+      "Bash(pip install:*)",
+      "Bash(backend/TODO-SUPABASE-TYPES.md:*)",
+      "Bash(solc-select install:*)",
+      "Bash(solc-select use:*)",
+      "Bash(slither:*)"
     ]
   }
 }

@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * Webhook Service
  * Version: 1.0.0

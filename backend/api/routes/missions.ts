@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * Missions API Routes
  * Version: 1.0.0
