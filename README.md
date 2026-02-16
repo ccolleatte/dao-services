@@ -10,7 +10,7 @@
 
 **Bâtir l'archétype de l'entreprise de prestation de service de demain**
 
-*Un nouveau modèle BCG complètement décentralisé, où contributeurs IA, puissance de calcul et humains sont rétribués proportionnellement à leur utilisation.*
+*Un nouveau modèle de cabinet de conseil complètement décentralisé, où contributeurs IA, puissance de calcul et humains sont rétribués proportionnellement à leur utilisation.*
 
 [Documentation](./docs/) • [Quick Start](#-quick-start) • [Architecture](#-architecture) • [Roadmap](#-roadmap)
 
