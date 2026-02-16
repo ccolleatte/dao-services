@@ -6,6 +6,9 @@
   "scripts": {
     "test": "forge test",
     "test:coverage": "forge coverage",
+    "test:backend": "vitest run",
+    "test:backend:watch": "vitest",
+    "test:backend:coverage": "vitest run --coverage",
     "build": "forge build",
     "deploy:testnet": "forge script contracts/script/Deploy.s.sol --rpc-url polkadot_hub_paseo --broadcast",
     "lint": "solhint 'contracts/src/**/*.sol'",
@@ -13,9 +16,10 @@
     "frontend:dev": "cd frontend && npm run dev",
     "frontend:build": "cd frontend && npm run build"
   },
-  "dependencies": {},
   "devDependencies": {
-    "solhint": "^4.1.1"
+    "@vitest/coverage-v8": "^4.0.18",
+    "solhint": "^4.1.1",
+    "vitest": "^4.0.18"
   },
   "keywords": [
     "polkadot",
