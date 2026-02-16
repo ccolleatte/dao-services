@@ -322,6 +322,66 @@ contract MilestoneEscrowTest is Test {
         vm.prank(client);
         escrow.setupMilestones(missionId, milestones);
     }
+
+    /// @notice Test: P0 Fix - Revert if milestone count exceeds 20 (DoS prevention)
+    function test_RevertIf_TooManyMilestones() public {
+        marketplace.setMissionClient(missionId, client);
+        marketplace.setMissionBudget(missionId, 10000 ether);
+
+        // Create 21 milestones (exceeds limit of 20)
+        MilestoneEscrow.MilestoneInput[] memory milestones = new MilestoneEscrow.MilestoneInput[](21);
+        for (uint256 i = 0; i < 21; i++) {
+            milestones[i] = MilestoneEscrow.MilestoneInput({
+                description: "Milestone",
+                acceptanceCriteriaHash: keccak256("criteria"),
+                amount: 100 ether
+            });
+        }
+
+        // Expect revert with InvalidMilestoneCount
+        vm.expectRevert(MilestoneEscrow.InvalidMilestoneCount.selector);
+        vm.prank(client);
+        escrow.setupMilestones(missionId, milestones);
+    }
+
+    /// @notice Test: P0 Fix - Revert if zero milestones (invalid)
+    function test_RevertIf_ZeroMilestones() public {
+        marketplace.setMissionClient(missionId, client);
+        marketplace.setMissionBudget(missionId, 1000 ether);
+
+        // Create empty milestones array
+        MilestoneEscrow.MilestoneInput[] memory milestones = new MilestoneEscrow.MilestoneInput[](0);
+
+        // Expect revert with InvalidMilestoneCount
+        vm.expectRevert(MilestoneEscrow.InvalidMilestoneCount.selector);
+        vm.prank(client);
+        escrow.setupMilestones(missionId, milestones);
+    }
+
+    /// @notice Test: P0 Fix - Accept exactly 20 milestones (boundary)
+    function test_Accept_ExactlyTwentyMilestones() public {
+        marketplace.setMissionClient(missionId, client);
+        marketplace.setMissionBudget(missionId, 10000 ether);
+
+        // Create exactly 20 milestones (valid)
+        MilestoneEscrow.MilestoneInput[] memory milestones = new MilestoneEscrow.MilestoneInput[](20);
+        for (uint256 i = 0; i < 20; i++) {
+            milestones[i] = MilestoneEscrow.MilestoneInput({
+                description: "Milestone",
+                acceptanceCriteriaHash: keccak256("criteria"),
+                amount: 100 ether
+            });
+        }
+
+        // Should succeed (20 is the limit)
+        vm.prank(client);
+        escrow.setupMilestones(missionId, milestones);
+
+        // Verify milestones created
+        (,,uint256 amount, MilestoneEscrow.MilestoneStatus status,,,,) = escrow.missionMilestones(missionId, 0);
+        assertEq(amount, 100 ether);
+        assertEq(uint256(status), uint256(MilestoneEscrow.MilestoneStatus.Pending));
+    }
 }
 
 /*//////////////////////////////////////////////////////////////

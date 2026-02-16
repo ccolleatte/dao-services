@@ -1,0 +1,10 @@
+C:\dev\DAO\substrate\target\debug\deps\ed25519_zebra-998c81169d79d0c3.d: C:\Users\ccoll\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\ed25519-zebra-4.1.0\src\lib.rs C:\Users\ccoll\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\ed25519-zebra-4.1.0\src\batch.rs C:\Users\ccoll\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\ed25519-zebra-4.1.0\src\error.rs C:\Users\ccoll\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\ed25519-zebra-4.1.0\src\signing_key.rs C:\Users\ccoll\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\ed25519-zebra-4.1.0\src\verification_key.rs C:\Users\ccoll\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\ed25519-zebra-4.1.0\src\../README.md
+
+C:\dev\DAO\substrate\target\debug\deps\libed25519_zebra-998c81169d79d0c3.rmeta: C:\Users\ccoll\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\ed25519-zebra-4.1.0\src\lib.rs C:\Users\ccoll\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\ed25519-zebra-4.1.0\src\batch.rs C:\Users\ccoll\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\ed25519-zebra-4.1.0\src\error.rs C:\Users\ccoll\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\ed25519-zebra-4.1.0\src\signing_key.rs C:\Users\ccoll\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\ed25519-zebra-4.1.0\src\verification_key.rs C:\Users\ccoll\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\ed25519-zebra-4.1.0\src\../README.md
+
+C:\Users\ccoll\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\ed25519-zebra-4.1.0\src\lib.rs:
+C:\Users\ccoll\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\ed25519-zebra-4.1.0\src\batch.rs:
+C:\Users\ccoll\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\ed25519-zebra-4.1.0\src\error.rs:
+C:\Users\ccoll\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\ed25519-zebra-4.1.0\src\signing_key.rs:
+C:\Users\ccoll\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\ed25519-zebra-4.1.0\src\verification_key.rs:
+C:\Users\ccoll\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\ed25519-zebra-4.1.0\src\../README.md:

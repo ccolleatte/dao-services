@@ -452,4 +452,90 @@ contract ComplianceRegistryTest is Test {
             90
         );
     }
+
+    /*//////////////////////////////////////////////////////////////
+                    P1 FIX - DOS PREVENTION TESTS
+    //////////////////////////////////////////////////////////////*/
+
+    /// @notice Test: P1 Fix - Revert if max attestations reached (50 limit)
+    function test_RevertIf_MaxAttestationsReached() public {
+        // Issue 50 attestations (max limit)
+        for (uint256 i = 0; i < 50; i++) {
+            vm.prank(verifier1);
+            registry.issueAttestation(
+                consultant,
+                ComplianceRegistry.AttestationType.KBIS,
+                keccak256(abi.encodePacked("KBIS", i)),
+                90
+            );
+        }
+
+        // Verify 50 attestations exist
+        ComplianceRegistry.Attestation[] memory attestations = registry.getConsultantAttestations(consultant);
+        assertEq(attestations.length, 50);
+
+        // Attempt to issue 51st attestation (should revert)
+        vm.expectRevert(ComplianceRegistry.MaxAttestationsReached.selector);
+        vm.prank(verifier1);
+        registry.issueAttestation(
+            consultant,
+            ComplianceRegistry.AttestationType.KBIS,
+            keccak256("KBIS_51"),
+            90
+        );
+    }
+
+    /// @notice Test: P1 Fix - Accept exactly 50 attestations (boundary)
+    function test_Accept_ExactlyFiftyAttestations() public {
+        // Issue exactly 50 attestations (max limit)
+        for (uint256 i = 0; i < 50; i++) {
+            vm.prank(verifier1);
+            registry.issueAttestation(
+                consultant,
+                ComplianceRegistry.AttestationType.KBIS,
+                keccak256(abi.encodePacked("KBIS", i)),
+                90
+            );
+        }
+
+        // Verify 50 attestations exist
+        ComplianceRegistry.Attestation[] memory attestations = registry.getConsultantAttestations(consultant);
+        assertEq(attestations.length, 50);
+
+        // Verify last attestation is valid
+        assertEq(attestations[49].documentHash, keccak256(abi.encodePacked("KBIS", uint256(49))));
+        assertEq(attestations[49].verifier, verifier1);
+    }
+
+    /// @notice Test: P1 Fix - Revoked attestations still count toward limit
+    function test_RevokedAttestationsCountTowardLimit() public {
+        // Issue 50 attestations
+        for (uint256 i = 0; i < 50; i++) {
+            vm.prank(verifier1);
+            registry.issueAttestation(
+                consultant,
+                ComplianceRegistry.AttestationType.KBIS,
+                keccak256(abi.encodePacked("KBIS", i)),
+                90
+            );
+        }
+
+        // Revoke first attestation
+        vm.prank(verifier1);
+        registry.revokeAttestation(consultant, 0, "Test revocation");
+
+        // Verify attestation is revoked
+        ComplianceRegistry.Attestation[] memory attestations = registry.getConsultantAttestations(consultant);
+        assertTrue(attestations[0].revoked);
+
+        // Attempt to issue new attestation (should still revert - revoked count toward limit)
+        vm.expectRevert(ComplianceRegistry.MaxAttestationsReached.selector);
+        vm.prank(verifier1);
+        registry.issueAttestation(
+            consultant,
+            ComplianceRegistry.AttestationType.KBIS,
+            keccak256("KBIS_NEW"),
+            90
+        );
+    }
 }

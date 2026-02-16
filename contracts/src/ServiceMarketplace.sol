@@ -4,168 +4,239 @@ pragma solidity ^0.8.20;
 import "@openzeppelin/contracts/access/AccessControl.sol";
 import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
-import "./ComplianceRegistry.sol";
+import "./DAOMembership.sol";
 
 /**
  * @title ServiceMarketplace
- * @notice Core marketplace for mission publication, consultant application, and matching
- * @dev Implements on-chain scoring algorithm for transparent consultant selection
+ * @notice Phase 3.1 - Transparent on-chain matching with public scoring algorithm
+ * @dev Implements mission lifecycle (Draft → Active → OnHold → Completed/Cancelled)
+ *      5-criteria match score: Rank (25%), Skills (25%), Budget (20%), Track Record (15%), Responsiveness (15%)
  */
 contract ServiceMarketplace is AccessControl, ReentrancyGuard {
     bytes32 public constant ADMIN_ROLE = keccak256("ADMIN_ROLE");
 
-    // Mission status enum
-    enum MissionStatus { Draft, Active, OnHold, Disputed, Completed, Cancelled }
+    // ===== Enums =====
 
-    // Mission struct
+    enum MissionStatus {
+        Draft,      // Created but not posted (budget not locked)
+        Active,     // Posted, accepting applications (budget locked)
+        OnHold,     // Consultant selected, awaiting escrow creation
+        Disputed,   // Active dispute in escrow system
+        Completed,  // All milestones completed
+        Cancelled   // Cancelled by client or system
+    }
+
+    // ===== Structs =====
+
     struct Mission {
         uint256 id;
         address client;
-        string title;
+        string title;                    // Max 200 chars
+        string description;              // Max 2000 chars (Phase 3.1 requirement)
         uint256 budget;
-        uint8 minRank; // 0-4 (DAO rank requirement)
+        uint8 minRank;                   // 0-4 (DAO rank requirement)
+        string[] requiredSkills;         // Max 10 skills
         MissionStatus status;
         address selectedConsultant;
-        string[] requiredSkills;
         uint256 createdAt;
         uint256 updatedAt;
     }
 
-    // Application struct
     struct Application {
         uint256 missionId;
         address consultant;
-        string proposal; // IPFS hash
+        string proposal;                 // IPFS hash (46 chars)
         uint256 proposedBudget;
         uint256 submittedAt;
-        uint256 matchScore; // 0-100 calculated on-chain
+        uint256 matchScore;              // 0-100 calculated on-chain
     }
 
-    // State variables
-    uint256 public missionCounter;
+    // ===== State Variables =====
+
+    uint256 public nextMissionId;
     mapping(uint256 => Mission) public missions;
-    mapping(uint256 => Application) public applications;
-    mapping(uint256 => uint256[]) public missionApplications; // missionId => applicationIds
-    mapping(address => uint256[]) public consultantApplications; // consultant => applicationIds
+
+    // Applications: composite key keccak256(abi.encodePacked(missionId, consultant))
+    mapping(bytes32 => Application) public applications;
+
+    // Index for querying applications by mission
+    mapping(uint256 => address[]) public missionApplicants;
 
     IERC20 public immutable daosToken;
-    address public membershipContract;
-    address public escrowFactory;
-    ComplianceRegistry public complianceRegistry;
+    DAOMembership public immutable membership;
 
-    // Mission compliance requirements
-    mapping(uint256 => ComplianceRegistry.AttestationType[]) public missionRequirements;
+    // ===== Events =====
 
-    // Events
-    event MissionCreated(uint256 indexed missionId, address indexed client, uint256 budget);
-    event ApplicationSubmitted(uint256 indexed applicationId, uint256 indexed missionId, address indexed consultant);
-    event ConsultantSelected(uint256 indexed missionId, address indexed consultant, uint256 matchScore);
-    event MissionStatusUpdated(uint256 indexed missionId, MissionStatus newStatus);
+    event MissionCreated(
+        uint256 indexed missionId,
+        address indexed client,
+        uint256 budget,
+        uint8 minRank
+    );
 
-    // Errors
-    error InsufficientBudget();
+    event MissionPosted(
+        uint256 indexed missionId,
+        uint256 budgetLocked
+    );
+
+    event ApplicationSubmitted(
+        uint256 indexed missionId,
+        address indexed consultant,
+        uint256 matchScore
+    );
+
+    event ConsultantSelected(
+        uint256 indexed missionId,
+        address indexed consultant,
+        uint256 matchScore
+    );
+
+    event MissionCancelled(
+        uint256 indexed missionId,
+        address indexed client
+    );
+
+    // ===== Errors =====
+
+    error InvalidBudget();
+    error InvalidTitle();
+    error InvalidDescription();
+    error InvalidMinRank();
+    error TooManySkills();
+    error MissionNotDraft();
     error MissionNotActive();
     error AlreadyApplied();
     error InsufficientRank();
     error UnauthorizedClient();
     error InvalidMissionStatus();
+    error ProposedBudgetTooHigh();
+    error InvalidProposal();
+    error NotActiveMember();
+    error ApplicationNotFound();
+
+    // ===== Constructor =====
 
     constructor(
         address _daosToken,
-        address _membershipContract,
-        address _complianceRegistry,
+        address _membership,
         address _admin
     ) {
         daosToken = IERC20(_daosToken);
-        membershipContract = _membershipContract;
-        complianceRegistry = ComplianceRegistry(_complianceRegistry);
+        membership = DAOMembership(_membership);
         _grantRole(DEFAULT_ADMIN_ROLE, _admin);
         _grantRole(ADMIN_ROLE, _admin);
     }
 
+    // ===== Core Functions =====
+
     /**
-     * @notice Create a new mission
-     * @param title Mission title
-     * @param budget Total budget in DAOS tokens
-     * @param minRank Minimum DAO rank required (0-4)
-     * @param requiredSkills Array of required skill identifiers
-     * @param requiredAttestations Array of required compliance attestations (Phase 1 KYC)
+     * @notice Create a new mission (Draft status, budget not locked)
+     * @param title Mission title (max 200 chars)
+     * @param description Detailed description (max 2000 chars)
+     * @param budget Total budget in DAOS tokens (wei)
+     * @param minRank Minimum consultant rank required (0-4)
+     * @param requiredSkills Required skills (max 10)
      */
     function createMission(
         string memory title,
+        string memory description,
         uint256 budget,
         uint8 minRank,
-        string[] memory requiredSkills,
-        ComplianceRegistry.AttestationType[] memory requiredAttestations
-    ) external nonReentrant returns (uint256) {
-        if (budget == 0) revert InsufficientBudget();
+        string[] memory requiredSkills
+    ) external returns (uint256) {
+        // Verify caller is active DAO member
+        if (!membership.isMember(msg.sender)) revert NotActiveMember();
+        (,,,, bool active,,) = membership.members(msg.sender);
+        if (!active) revert NotActiveMember();
 
-        // Lock budget in contract (client must approve first)
-        bool success = daosToken.transferFrom(msg.sender, address(this), budget);
-        require(success, "Budget transfer failed");
+        // Validate inputs
+        if (budget == 0) revert InvalidBudget();
+        if (bytes(title).length == 0 || bytes(title).length > 200) revert InvalidTitle();
+        if (bytes(description).length == 0 || bytes(description).length > 2000) revert InvalidDescription();
+        if (minRank > 4) revert InvalidMinRank();
+        if (requiredSkills.length > 10) revert TooManySkills();
 
-        uint256 missionId = ++missionCounter;
+        uint256 missionId = nextMissionId++;
 
         missions[missionId] = Mission({
             id: missionId,
             client: msg.sender,
             title: title,
+            description: description,
             budget: budget,
             minRank: minRank,
-            status: MissionStatus.Active,
-            selectedConsultant: address(0),
             requiredSkills: requiredSkills,
+            status: MissionStatus.Draft,  // Phase 3.1: Draft status, budget NOT locked
+            selectedConsultant: address(0),
             createdAt: block.timestamp,
             updatedAt: block.timestamp
         });
 
-        // Store compliance requirements (Phase 1 KYC)
-        missionRequirements[missionId] = requiredAttestations;
-
-        emit MissionCreated(missionId, msg.sender, budget);
+        emit MissionCreated(missionId, msg.sender, budget, minRank);
 
         return missionId;
     }
 
     /**
+     * @notice Post mission (activate + lock budget)
+     * @param missionId Mission to activate
+     */
+    function postMission(uint256 missionId) external nonReentrant {
+        Mission storage mission = missions[missionId];
+
+        // Verify caller is mission client
+        if (msg.sender != mission.client) revert UnauthorizedClient();
+
+        // Verify mission is in Draft status
+        if (mission.status != MissionStatus.Draft) revert MissionNotDraft();
+
+        // Lock budget in contract (client must approve first)
+        bool success = daosToken.transferFrom(msg.sender, address(this), mission.budget);
+        require(success, "Budget transfer failed");
+
+        // Update status to Active
+        mission.status = MissionStatus.Active;
+        mission.updatedAt = block.timestamp;
+
+        emit MissionPosted(missionId, mission.budget);
+    }
+
+    /**
      * @notice Apply to a mission as consultant
      * @param missionId Mission to apply to
-     * @param proposal IPFS hash of proposal document
+     * @param proposal IPFS hash of proposal document (46 chars)
      * @param proposedBudget Consultant's proposed budget
      */
     function applyToMission(
         uint256 missionId,
         string memory proposal,
         uint256 proposedBudget
-    ) external nonReentrant returns (uint256) {
+    ) external nonReentrant {
         Mission storage mission = missions[missionId];
 
+        // Verify mission is active
         if (mission.status != MissionStatus.Active) revert MissionNotActive();
-        if (proposedBudget > mission.budget) revert InsufficientBudget();
+
+        // Verify proposed budget
+        if (proposedBudget == 0 || proposedBudget > mission.budget) revert ProposedBudgetTooHigh();
+
+        // Verify proposal is IPFS hash (46 chars)
+        if (bytes(proposal).length != 46) revert InvalidProposal();
 
         // Check if already applied
-        uint256[] memory existingApps = missionApplications[missionId];
-        for (uint256 i = 0; i < existingApps.length; i++) {
-            if (applications[existingApps[i]].consultant == msg.sender) {
-                revert AlreadyApplied();
-            }
-        }
+        bytes32 applicationKey = keccak256(abi.encodePacked(missionId, msg.sender));
+        if (applications[applicationKey].consultant != address(0)) revert AlreadyApplied();
 
-        // Get consultant rank from membership contract
-        (bool success, bytes memory data) = membershipContract.staticcall(
-            abi.encodeWithSignature("getRank(address)", msg.sender)
-        );
-        require(success, "Rank check failed");
-        uint8 consultantRank = abi.decode(data, (uint8));
-
+        // Get consultant rank and verify eligibility
+        (uint8 consultantRank,,,, bool active,,) = membership.members(msg.sender);
+        if (!active) revert NotActiveMember();
         if (consultantRank < mission.minRank) revert InsufficientRank();
 
-        uint256 applicationId = missionApplications[missionId].length;
-
         // Calculate match score on-chain
-        uint256 matchScore = calculateMatchScore(missionId, msg.sender, proposedBudget, consultantRank);
+        uint256 matchScore = calculateMatchScore(missionId, msg.sender, proposedBudget);
 
-        applications[applicationId] = Application({
+        // Store application
+        applications[applicationKey] = Application({
             missionId: missionId,
             consultant: msg.sender,
             proposal: proposal,
@@ -174,12 +245,10 @@ contract ServiceMarketplace is AccessControl, ReentrancyGuard {
             matchScore: matchScore
         });
 
-        missionApplications[missionId].push(applicationId);
-        consultantApplications[msg.sender].push(applicationId);
+        // Add to applicants index
+        missionApplicants[missionId].push(msg.sender);
 
-        emit ApplicationSubmitted(applicationId, missionId, msg.sender);
-
-        return applicationId;
+        emit ApplicationSubmitted(missionId, msg.sender, matchScore);
     }
 
     /**
@@ -193,43 +262,51 @@ contract ServiceMarketplace is AccessControl, ReentrancyGuard {
     ) external nonReentrant {
         Mission storage mission = missions[missionId];
 
+        // Verify caller is mission client
         if (msg.sender != mission.client) revert UnauthorizedClient();
+
+        // Verify mission is active
         if (mission.status != MissionStatus.Active) revert InvalidMissionStatus();
 
-        // **Phase 1 KYC - Compliance verification**
-        // Verify consultant has all required attestations (KBIS, URSSAF, etc.)
-        ComplianceRegistry.AttestationType[] memory required = missionRequirements[missionId];
-        for (uint256 i = 0; i < required.length; i++) {
-            require(
-                complianceRegistry.hasValidAttestation(consultant, required[i]),
-                "Missing required attestation"
-            );
-        }
-
-        // Find application
-        uint256[] memory apps = missionApplications[missionId];
-        Application memory selectedApp;
-        bool found = false;
-
-        for (uint256 i = 0; i < apps.length; i++) {
-            if (applications[apps[i]].consultant == consultant) {
-                selectedApp = applications[apps[i]];
-                found = true;
-                break;
-            }
-        }
-
-        require(found, "Application not found");
+        // Verify application exists
+        bytes32 applicationKey = keccak256(abi.encodePacked(missionId, consultant));
+        Application memory selectedApp = applications[applicationKey];
+        if (selectedApp.consultant == address(0)) revert ApplicationNotFound();
 
         // Update mission
         mission.selectedConsultant = consultant;
-        mission.status = MissionStatus.OnHold; // Wait for escrow creation
+        mission.status = MissionStatus.OnHold; // Await escrow creation
         mission.updatedAt = block.timestamp;
 
-        // Transfer locked budget to escrow contract (to be created by factory)
-        // Note: In production, this would trigger escrow factory
-
         emit ConsultantSelected(missionId, consultant, selectedApp.matchScore);
+    }
+
+    /**
+     * @notice Cancel mission and refund budget
+     * @param missionId Mission to cancel
+     */
+    function cancelMission(uint256 missionId) external nonReentrant {
+        Mission storage mission = missions[missionId];
+
+        // Verify caller is mission client
+        if (msg.sender != mission.client) revert UnauthorizedClient();
+
+        // Verify mission is Active or OnHold (before escrow creation)
+        if (mission.status != MissionStatus.Active && mission.status != MissionStatus.OnHold) {
+            revert InvalidMissionStatus();
+        }
+
+        // Refund locked budget to client (only if Active, OnHold means escrow not created yet)
+        if (mission.status == MissionStatus.Active || mission.status == MissionStatus.OnHold) {
+            bool success = daosToken.transfer(mission.client, mission.budget);
+            require(success, "Refund transfer failed");
+        }
+
+        // Update status to Cancelled
+        mission.status = MissionStatus.Cancelled;
+        mission.updatedAt = block.timestamp;
+
+        emit MissionCancelled(missionId, mission.client);
     }
 
     /**
@@ -238,71 +315,51 @@ contract ServiceMarketplace is AccessControl, ReentrancyGuard {
      * @param missionId Mission ID
      * @param consultant Consultant address
      * @param proposedBudget Consultant's proposed budget
-     * @param consultantRank Consultant's DAO rank (0-4)
      */
     function calculateMatchScore(
         uint256 missionId,
         address consultant,
-        uint256 proposedBudget,
-        uint8 consultantRank
+        uint256 proposedBudget
     ) public view returns (uint256) {
         Mission memory mission = missions[missionId];
+        (uint8 consultantRank,,,, bool active,,) = membership.members(consultant);
+        require(active, "Consultant not active");
 
-        uint256 totalScore = 0;
+        // Calculate scores inline to avoid stack too deep
+        uint256 score = 0;
 
-        // 1. Rank match (25 points max)
-        // Linear scaling: Rank 0 = 0 points, Rank 4 = 25 points
-        uint256 rankScore = (uint256(consultantRank) * 25) / 4;
-        totalScore += rankScore;
+        // 1. Rank match (25 points max): Linear scaling Rank 0-4 → 0-25 points
+        score += (uint256(consultantRank) * 25) / 4;
 
         // 2. Skills overlap (25 points max)
-        // Get consultant skills from membership contract
-        (bool success, bytes memory data) = membershipContract.staticcall(
-            abi.encodeWithSignature("getSkills(address)", consultant)
-        );
-
-        if (success) {
-            string[] memory consultantSkills = abi.decode(data, (string[]));
+        {
+            string[] memory consultantSkills = membership.getSkills(consultant);
             uint256 matchingSkills = countMatchingSkills(mission.requiredSkills, consultantSkills);
-            uint256 skillsScore = mission.requiredSkills.length > 0
+            score += mission.requiredSkills.length > 0
                 ? (matchingSkills * 25) / mission.requiredSkills.length
                 : 0;
-            totalScore += skillsScore;
         }
 
-        // 3. Budget competitiveness (20 points max)
-        // Lower proposed budget = higher score (inverse relationship)
-        // If proposed == mission.budget → 0 points
-        // If proposed == 0 → 20 points (unrealistic, but for demo)
-        uint256 budgetScore = mission.budget > 0
-            ? 20 - ((proposedBudget * 20) / mission.budget)
-            : 0;
-        totalScore += budgetScore;
-
-        // 4. Track record (15 points max)
-        // Get completed missions + average rating from membership contract
-        (bool trackSuccess, bytes memory trackData) = membershipContract.staticcall(
-            abi.encodeWithSignature("getTrackRecord(address)", consultant)
-        );
-
-        if (trackSuccess) {
-            (uint256 completedMissions, uint256 averageRating) = abi.decode(trackData, (uint256, uint256));
-            uint256 missionsScore = completedMissions > 10 ? 10 : completedMissions; // Max 10 points
-            uint256 ratingScore = (averageRating * 5) / 100; // Max 5 points (rating 0-100 → 0-5 points)
-            totalScore += missionsScore + ratingScore;
+        // 3. Budget competitiveness (20 points max): Lower budget = higher score
+        {
+            uint256 budgetRatio = (proposedBudget * 100) / mission.budget;
+            score += budgetRatio <= 100 ? 20 - ((budgetRatio * 20) / 100) : 0;
         }
 
-        // 5. Responsiveness (15 points max)
-        // Early application = higher score
-        // Assumes mission created recently, decay over 7 days
-        uint256 timeElapsed = block.timestamp - mission.createdAt;
-        uint256 totalTime = 7 days;
-        uint256 responsivenessScore = timeElapsed < totalTime
-            ? 15 - ((timeElapsed * 15) / totalTime)
-            : 0;
-        totalScore += responsivenessScore;
+        // 4. Track record (15 points max): Missions (max 10) + Rating (max 5)
+        {
+            (uint256 completedMissions, uint256 averageRating) = membership.getTrackRecord(consultant);
+            uint256 missionsScore = completedMissions > 10 ? 10 : completedMissions;
+            score += missionsScore + ((averageRating * 5) / 100);
+        }
 
-        return totalScore > 100 ? 100 : totalScore;
+        // 5. Responsiveness (15 points max): Early application = higher score, linear decay over 7 days
+        {
+            uint256 timeElapsed = block.timestamp - mission.createdAt;
+            score += timeElapsed < 7 days ? 15 - ((timeElapsed * 15) / 7 days) : 0;
+        }
+
+        return score > 100 ? 100 : score;
     }
 
     /**
@@ -328,59 +385,23 @@ contract ServiceMarketplace is AccessControl, ReentrancyGuard {
         return count;
     }
 
-    /**
-     * @notice Update mission status (admin only)
-     * @param missionId Mission ID
-     * @param newStatus New status
-     */
-    function updateMissionStatus(
-        uint256 missionId,
-        MissionStatus newStatus
-    ) external onlyRole(ADMIN_ROLE) {
-        Mission storage mission = missions[missionId];
-        mission.status = newStatus;
-        mission.updatedAt = block.timestamp;
+    // ===== View Functions =====
 
-        emit MissionStatusUpdated(missionId, newStatus);
+    /**
+     * @notice Get applicants for a mission
+     * @param missionId Mission ID
+     */
+    function getMissionApplicants(uint256 missionId) external view returns (address[] memory) {
+        return missionApplicants[missionId];
     }
 
     /**
-     * @notice Get applications for a mission
+     * @notice Get application for consultant on mission
      * @param missionId Mission ID
-     */
-    function getMissionApplications(uint256 missionId) external view returns (uint256[] memory) {
-        return missionApplications[missionId];
-    }
-
-    /**
-     * @notice Get consultant's applications
      * @param consultant Consultant address
      */
-    function getConsultantApplications(address consultant) external view returns (uint256[] memory) {
-        return consultantApplications[consultant];
-    }
-
-    /**
-     * @notice Set membership contract address (admin only)
-     * @param _membershipContract New membership contract address
-     */
-    function setMembershipContract(address _membershipContract) external onlyRole(ADMIN_ROLE) {
-        membershipContract = _membershipContract;
-    }
-
-    /**
-     * @notice Set escrow factory address (admin only)
-     * @param _escrowFactory New escrow factory address
-     */
-    function setEscrowFactory(address _escrowFactory) external onlyRole(ADMIN_ROLE) {
-        escrowFactory = _escrowFactory;
-    }
-
-    /**
-     * @notice Set compliance registry address (admin only - Phase 1 KYC)
-     * @param _complianceRegistry New compliance registry address
-     */
-    function setComplianceRegistry(address _complianceRegistry) external onlyRole(ADMIN_ROLE) {
-        complianceRegistry = ComplianceRegistry(_complianceRegistry);
+    function getApplication(uint256 missionId, address consultant) external view returns (Application memory) {
+        bytes32 applicationKey = keccak256(abi.encodePacked(missionId, consultant));
+        return applications[applicationKey];
     }
 }

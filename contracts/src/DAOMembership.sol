@@ -55,6 +55,19 @@ contract DAOMembership is AccessControl {
     uint256 public constant MAX_SKILLS = 20;
     uint256 public constant MAX_RATING = 100;
 
+    // ===== Custom Errors =====
+    error NotAMember(address account);
+    error MemberInactive(address account);
+    error InvalidAddress();
+    error InvalidRank(uint8 rank);
+    error AlreadyMember(address account);
+    error AlreadyAtMaxRank(address member);
+    error AlreadyAtMinRank(address member);
+    error InsufficientTimeSincePromotion(uint256 timeElapsed, uint256 required);
+    error RankTooLow(uint8 currentRank, uint8 requiredRank);
+    error TooManySkills(uint256 provided, uint256 max);
+    error InvalidRating(uint256 rating, uint256 max);
+
     // ===== Events =====
     event MemberAdded(address indexed member, uint8 rank, string githubHandle);
     event MemberPromoted(address indexed member, uint8 oldRank, uint8 newRank);
@@ -74,8 +87,8 @@ contract DAOMembership is AccessControl {
 
     // ===== Modifiers =====
     modifier onlyActiveMember() {
-        require(isMember(msg.sender), "Not a member");
-        require(members[msg.sender].active, "Member inactive");
+        if (!isMember(msg.sender)) revert NotAMember(msg.sender);
+        if (!members[msg.sender].active) revert MemberInactive(msg.sender);
         _;
     }
 
@@ -92,9 +105,9 @@ contract DAOMembership is AccessControl {
         uint8 _rank,
         string calldata _githubHandle
     ) external onlyRole(MEMBER_MANAGER_ROLE) {
-        require(_member != address(0), "Invalid address");
-        require(_rank <= 4, "Invalid rank (max 4)");
-        require(!isMember(_member), "Already a member");
+        if (_member == address(0)) revert InvalidAddress();
+        if (_rank > 4) revert InvalidRank(_rank);
+        if (isMember(_member)) revert AlreadyMember(_member);
 
         members[_member] = Member({
             rank: _rank,
@@ -117,17 +130,17 @@ contract DAOMembership is AccessControl {
      * @param _member Adresse du membre
      */
     function promoteMember(address _member) external onlyRole(MEMBER_MANAGER_ROLE) {
-        require(isMember(_member), "Not a member");
+        if (!isMember(_member)) revert NotAMember(_member);
         Member storage member = members[_member];
-        require(member.rank < 4, "Already at max rank");
+        if (member.rank >= 4) revert AlreadyAtMaxRank(_member);
 
         // Vérifier durée minimale au rang actuel
         uint8 currentRank = member.rank;
         uint256 timeAtRank = block.timestamp - member.lastPromotedAt;
-        require(
-            timeAtRank >= minRankDuration[currentRank + 1],
-            "Minimum duration not met"
-        );
+        uint256 requiredTime = minRankDuration[currentRank + 1];
+        if (timeAtRank < requiredTime) {
+            revert InsufficientTimeSincePromotion(timeAtRank, requiredTime);
+        }
 
         uint8 oldRank = member.rank;
         member.rank += 1;
@@ -141,9 +154,9 @@ contract DAOMembership is AccessControl {
      * @param _member Adresse du membre
      */
     function demoteMember(address _member) external onlyRole(ADMIN_ROLE) {
-        require(isMember(_member), "Not a member");
+        if (!isMember(_member)) revert NotAMember(_member);
         Member storage member = members[_member];
-        require(member.rank > 0, "Already at min rank");
+        if (member.rank == 0) revert AlreadyAtMinRank(_member);
 
         uint8 oldRank = member.rank;
         member.rank -= 1;
@@ -156,7 +169,7 @@ contract DAOMembership is AccessControl {
      * @param _member Adresse du membre
      */
     function removeMember(address _member) external onlyRole(ADMIN_ROLE) {
-        require(isMember(_member), "Not a member");
+        if (!isMember(_member)) revert NotAMember(_member);
 
         delete members[_member];
 

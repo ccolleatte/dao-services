@@ -77,6 +77,7 @@ contract MilestoneEscrow is ReentrancyGuard {
     error InvalidMilestoneStatus();
     error CannotCancelAfterConsultantSelected();
     error InsufficientFunds();
+    error InvalidMilestoneCount();
 
     /*//////////////////////////////////////////////////////////////
                             CONSTRUCTOR
@@ -116,6 +117,9 @@ contract MilestoneEscrow is ReentrancyGuard {
         uint256 missionId,
         MilestoneInput[] calldata milestones
     ) external onlyClient(missionId) nonReentrant {
+        // P0 Fix: Prevent DoS via unbounded loop (limit to 20 milestones)
+        if (milestones.length == 0 || milestones.length > 20) revert InvalidMilestoneCount();
+
         uint256 totalAmount = 0;
 
         // Calculate total and create milestones

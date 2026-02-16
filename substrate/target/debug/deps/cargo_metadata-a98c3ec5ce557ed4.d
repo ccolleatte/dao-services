@@ -1,0 +1,11 @@
+C:\dev\DAO\substrate\target\debug\deps\cargo_metadata-a98c3ec5ce557ed4.d: C:\Users\ccoll\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\cargo_metadata-0.15.4\src\lib.rs C:\Users\ccoll\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\cargo_metadata-0.15.4\src\dependency.rs C:\Users\ccoll\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\cargo_metadata-0.15.4\src\diagnostic.rs C:\Users\ccoll\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\cargo_metadata-0.15.4\src\errors.rs C:\Users\ccoll\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\cargo_metadata-0.15.4\src\messages.rs
+
+C:\dev\DAO\substrate\target\debug\deps\libcargo_metadata-a98c3ec5ce557ed4.rlib: C:\Users\ccoll\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\cargo_metadata-0.15.4\src\lib.rs C:\Users\ccoll\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\cargo_metadata-0.15.4\src\dependency.rs C:\Users\ccoll\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\cargo_metadata-0.15.4\src\diagnostic.rs C:\Users\ccoll\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\cargo_metadata-0.15.4\src\errors.rs C:\Users\ccoll\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\cargo_metadata-0.15.4\src\messages.rs
+
+C:\dev\DAO\substrate\target\debug\deps\libcargo_metadata-a98c3ec5ce557ed4.rmeta: C:\Users\ccoll\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\cargo_metadata-0.15.4\src\lib.rs C:\Users\ccoll\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\cargo_metadata-0.15.4\src\dependency.rs C:\Users\ccoll\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\cargo_metadata-0.15.4\src\diagnostic.rs C:\Users\ccoll\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\cargo_metadata-0.15.4\src\errors.rs C:\Users\ccoll\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\cargo_metadata-0.15.4\src\messages.rs
+
+C:\Users\ccoll\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\cargo_metadata-0.15.4\src\lib.rs:
+C:\Users\ccoll\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\cargo_metadata-0.15.4\src\dependency.rs:
+C:\Users\ccoll\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\cargo_metadata-0.15.4\src\diagnostic.rs:
+C:\Users\ccoll\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\cargo_metadata-0.15.4\src\errors.rs:
+C:\Users\ccoll\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\cargo_metadata-0.15.4\src\messages.rs:

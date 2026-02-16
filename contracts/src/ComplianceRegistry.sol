@@ -101,6 +101,9 @@ contract ComplianceRegistry is AccessControl {
     /// @notice Attestation index out of bounds
     error InvalidAttestationIndex();
 
+    /// @notice Maximum attestations per consultant reached (limit: 50)
+    error MaxAttestationsReached();
+
     /*//////////////////////////////////////////////////////////////
                             CONSTRUCTOR
     //////////////////////////////////////////////////////////////*/
@@ -144,6 +147,9 @@ contract ComplianceRegistry is AccessControl {
         if (consultant == address(0)) revert InvalidConsultant();
         if (documentHash == bytes32(0)) revert InvalidDocumentHash();
         if (validityDays == 0 || validityDays > 730) revert InvalidValidityPeriod();
+
+        // P1 Fix: Prevent DoS via unbounded array (limit to 50 attestations)
+        if (consultantAttestations[consultant].length >= 50) revert MaxAttestationsReached();
 
         // Calculate expiry date
         uint256 expiryDate = block.timestamp + (validityDays * 1 days);

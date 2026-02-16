@@ -123,7 +123,16 @@
       "Bash(Start-Sleep -Seconds 30)",
       "Skill(reflect)",
       "Bash(wc:*)",
-      "Bash(git check-ignore:*)"
+      "Bash(git check-ignore:*)",
+      "Bash(Get-ChildItem -Path \"C:\\\\dev\\\\_templates\\\\lean-swarm-v3.2\" -Recurse -File)",
+      "Bash(Select-Object -ExpandProperty FullName)",
+      "Bash(Select-String \"ink\\\\|Substrate\\\\|Solidity\")",
+      "Bash(Select-Object -First 10)",
+      "Bash(npm run test:backend:*)",
+      "Bash(npm run test:backend:coverage:*)",
+      "Bash(npx tsc:*)",
+      "WebFetch(domain:openguild.wtf)",
+      "WebFetch(domain:faucet.polkadot.io)"
     ]
   }
 }

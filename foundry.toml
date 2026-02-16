@@ -38,6 +38,6 @@ tab_width = 4
 bracket_spacing = true
 
 [rpc_endpoints]
-polkadot_hub_paseo = "https://paseo-rpc.polkadot.io"
+passet_hub = "https://services.polkadothub-rpc.com/testnet"
 
 # Dependencies installed via forge install (see lib/ directory)
