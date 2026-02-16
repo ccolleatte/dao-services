@@ -389,7 +389,7 @@ contract MissionEscrow is AccessControl, ReentrancyGuard {
 
             bool success1 = daosToken.transfer(consultant, milestone.amount / 2);
             bool success2 = daosToken.transfer(client, milestone.amount / 2);
-            require(success1 && success2, "Payment transfer failed");
+            if (!success1 || !success2) revert PaymentTransferFailed();
 
             releasedFunds += milestone.amount / 2;
 
@@ -444,7 +444,9 @@ contract MissionEscrow is AccessControl, ReentrancyGuard {
      * @param milestoneId Milestone index
      */
     function getMilestone(uint256 milestoneId) external view returns (Milestone memory) {
-        require(milestoneId < milestones.length, "Invalid milestone ID");
+        if (milestoneId >= milestones.length) {
+            revert InvalidMilestoneId(milestoneId, milestones.length);
+        }
         return milestones[milestoneId];
     }
 
@@ -471,9 +473,9 @@ contract MissionEscrow is AccessControl, ReentrancyGuard {
 
         uint256 remaining = totalBudget - releasedFunds;
 
-        require(remaining > 0, "No funds to withdraw");
+        if (remaining == 0) revert NoFundsToWithdraw();
 
         bool success = daosToken.transfer(client, remaining);
-        require(success, "Withdrawal failed");
+        if (!success) revert WithdrawalFailed();
     }
 }
