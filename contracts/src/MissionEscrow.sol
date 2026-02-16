@@ -85,6 +85,17 @@ contract MissionEscrow is AccessControl, ReentrancyGuard {
     error NotJuror();
     error DisputeNotVoting();
     error VotingPeriodNotEnded();
+    error PreviousMilestoneNotApproved();
+    error PaymentTransferFailed();
+    error AutoReleaseDelayNotMet(uint256 currentTime, uint256 requiredTime);
+    error NotAJurorForThisDispute();
+    error DisputeNotInVotingStatus();
+    error VotingNotConcluded();
+    error FailedToGetJurors();
+    error InsufficientEligibleJurors(uint256 available, uint256 required);
+    error InvalidMilestoneId(uint256 id, uint256 max);
+    error NoFundsToWithdraw();
+    error WithdrawalFailed();
 
     constructor(
         uint256 _missionId,
@@ -151,10 +162,9 @@ contract MissionEscrow is AccessControl, ReentrancyGuard {
         // Sequential validation: Cannot submit milestone N+1 if milestone N not approved
         if (milestoneId > 0) {
             Milestone storage prevMilestone = milestones[milestoneId - 1];
-            require(
-                prevMilestone.status == MilestoneStatus.Approved,
-                "Previous milestone must be approved"
-            );
+            if (prevMilestone.status != MilestoneStatus.Approved) {
+                revert PreviousMilestoneNotApproved();
+            }
         }
 
         milestone.status = MilestoneStatus.Submitted;
@@ -180,7 +190,7 @@ contract MissionEscrow is AccessControl, ReentrancyGuard {
 
         // Release payment to consultant
         bool success = daosToken.transfer(consultant, milestone.amount);
-        require(success, "Payment transfer failed");
+        if (!success) revert PaymentTransferFailed();
 
         releasedFunds += milestone.amount;
 
@@ -217,21 +227,19 @@ contract MissionEscrow is AccessControl, ReentrancyGuard {
 
         Milestone storage milestone = milestones[milestoneId];
 
-        require(
-            milestone.status == MilestoneStatus.Submitted,
-            "Milestone not submitted"
-        );
+        if (milestone.status != MilestoneStatus.Submitted) {
+            revert MilestoneNotSubmitted();
+        }
 
-        require(
-            block.timestamp >= milestone.submittedAt + AUTO_RELEASE_DELAY,
-            "Auto-release delay not met"
-        );
+        if (block.timestamp < milestone.submittedAt + AUTO_RELEASE_DELAY) {
+            revert AutoReleaseDelayNotMet(block.timestamp, milestone.submittedAt + AUTO_RELEASE_DELAY);
+        }
 
         milestone.status = MilestoneStatus.Approved;
 
         // Release payment to consultant
         bool success = daosToken.transfer(consultant, milestone.amount);
-        require(success, "Payment transfer failed");
+        if (!success) revert PaymentTransferFailed();
 
         releasedFunds += milestone.amount;
 
@@ -254,7 +262,7 @@ contract MissionEscrow is AccessControl, ReentrancyGuard {
         if (milestoneId >= milestones.length) revert InvalidMilestone();
 
         // Require 100 DAOS deposit (refunded if won)
-        require(msg.value >= DISPUTE_DEPOSIT, "Insufficient deposit");
+        if (msg.value < DISPUTE_DEPOSIT) revert InsufficientDeposit();
 
         Milestone storage milestone = milestones[milestoneId];
         milestone.status = MilestoneStatus.Disputed;
@@ -307,7 +315,7 @@ contract MissionEscrow is AccessControl, ReentrancyGuard {
             }
         }
 
-        require(isJuror, "Not a juror for this dispute");
+        if (!isJuror) revert NotAJurorForThisDispute();
 
         dispute.hasVoted[msg.sender] = true;
 
@@ -332,15 +340,13 @@ contract MissionEscrow is AccessControl, ReentrancyGuard {
     function resolveDispute(uint256 disputeId) public nonReentrant {
         Dispute storage dispute = disputes[disputeId];
 
-        require(
-            dispute.status == DisputeStatus.Voting,
-            "Dispute not in voting status"
-        );
+        if (dispute.status != DisputeStatus.Voting) {
+            revert DisputeNotInVotingStatus();
+        }
 
-        require(
-            dispute.votesFor >= 3 || dispute.votesAgainst >= 3 || block.timestamp >= dispute.votingDeadline,
-            "Voting not concluded"
-        );
+        if (dispute.votesFor < 3 && dispute.votesAgainst < 3 && block.timestamp < dispute.votingDeadline) {
+            revert VotingNotConcluded();
+        }
 
         dispute.status = DisputeStatus.Resolved;
 
@@ -358,7 +364,7 @@ contract MissionEscrow is AccessControl, ReentrancyGuard {
 
             // Release payment to consultant
             bool success = daosToken.transfer(consultant, milestone.amount);
-            require(success, "Payment transfer failed");
+            if (!success) revert PaymentTransferFailed();
 
             releasedFunds += milestone.amount;
 
@@ -412,11 +418,13 @@ contract MissionEscrow is AccessControl, ReentrancyGuard {
             abi.encodeWithSignature("getEligibleJurors(address,address)", client, consultant)
         );
 
-        require(success, "Failed to get jurors");
+        if (!success) revert FailedToGetJurors();
 
         address[] memory eligibleJurors = abi.decode(data, (address[]));
 
-        require(eligibleJurors.length >= JURY_SIZE, "Insufficient eligible jurors");
+        if (eligibleJurors.length < JURY_SIZE) {
+            revert InsufficientEligibleJurors(eligibleJurors.length, JURY_SIZE);
+        }
 
         address[] memory selectedJurors = new address[](JURY_SIZE);
 
