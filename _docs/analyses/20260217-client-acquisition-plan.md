@@ -55,6 +55,76 @@ Chaque mission pilote doit valider ces 5 points. C'est le **filtre d'acceptation
 
 ---
 
+## Packaging : "Produits de Connaissance" avec Quality Card
+
+> **Origine** : Vague 2 §A.1 — "Transformer chaque offre en 'produit de connaissance'
+> avec spec et DoD explicites." §A.2 — "Afficher des critères objectivables de qualité
+> sous forme de 'Quality Card'."
+
+### Pourquoi ce packaging est critique pour les ETI
+
+Une ETI n'achète pas "du conseil". Elle achète un **résultat documenté**. Le problème de toutes les marketplaces (Malt, Upwork) : le client ne sait pas ce qu'il achète avant de l'avoir reçu. La Quality Card résout cette asymétrie d'information **avant achat**.
+
+### Definition of Done (DoD) par type de livrable
+
+Chaque offre sur la marketplace est un "produit de connaissance" avec une spec publique :
+
+| Type de livrable | Structure attendue | Profondeur | Sources | Hors-scope (explicite) | Délai type |
+|------------------|--------------------|------------|---------|------------------------|------------|
+| **Audit concurrentiel** | Executive summary + matrice + fiches acteurs + recommandations | 5-10 acteurs, 3 axes d'analyse min. | Publiques uniquement (Crunchbase, presse, rapports) | Pas de données propriétaires, pas de pricing confidentiel | 5-10 jours |
+| **Note de cadrage stratégique** | Contexte + enjeux + options + recommandation argumentée | 1 décision, 3-5 options évaluées | Entretiens internes + benchmark externe | Pas de business plan, pas de chiffrage financier détaillé | 3-5 jours |
+| **Étude de marché** | Sizing + segmentation + tendances + opportunités | TAM/SAM/SOM + 3 segments min. | Études publiques + données marché | Pas d'enquête terrain, pas de panel consommateurs | 7-15 jours |
+| **Analyse de risques** | Matrice risques + probabilité/impact + mitigations | 10-20 risques identifiés | Documentation projet + entretiens | Pas d'audit technique, pas de pen-testing | 3-7 jours |
+| **Livrable IA (Parcours B)** | Brut IA + rapport de curation + sources + limites déclarées | Dépend du brief | Sources autorisées de l'agent uniquement | Ce que l'agent ne sait pas faire (cf. Agent Listing Standard) | 2-48h |
+
+### Quality Card (visible avant achat)
+
+Chaque livrable publié ou mis en vente affiche une **Quality Card** avec 4 critères objectivables :
+
+```
+┌─────────────────────────────────────────────────┐
+│              QUALITY CARD                        │
+│                                                  │
+│  📋 Traçabilité        ████████░░  8/10         │
+│     Sources citées, hypothèses explicites,       │
+│     limites déclarées, versioning                │
+│                                                  │
+│  📖 Clarté             █████████░  9/10         │
+│     Executive summary, plan structuré,           │
+│     annexes séparées                             │
+│                                                  │
+│  ✅ Adéquation          ███████░░░  7/10         │
+│     Couverture du brief : 7/10 exigences         │
+│     remplies (checklist publique)                │
+│                                                  │
+│  ♻️  Réutilisabilité    ██████░░░░  6/10         │
+│     Templates réutilisables, assets extractibles │
+│                                                  │
+│  Curé par : Marie L. (REP 92)                   │
+│  Méthode : Humain supervisé (Parcours A)        │
+│  Taux de rework : 0% (1ère soumission acceptée) │
+└─────────────────────────────────────────────────┘
+```
+
+**Qui remplit la Quality Card ?**
+- **Gate 1 (auto)** : Traçabilité (comptage sources, détection limites) + Adéquation (matching brief ↔ livrable)
+- **Gate 2 (curateur)** : Clarté (jugement humain) + Réutilisabilité (évaluation assets) + score global
+- **Post-mission (client)** : Feedback qui ajuste les scores (NPS + évaluation par critère)
+
+**Métriques de robustesse** (pas seulement la "beauté") :
+
+> **Origine** : Vague 2 §B.5 — "Mesurer la robustesse (répétabilité),
+> le taux de rework, la traçabilité — pas seulement la beauté."
+
+| Métrique | Définition | Cible | Alerte |
+|----------|------------|-------|--------|
+| **Taux de rework** | % de livrables renvoyés pour correction | < 20% | > 40% |
+| **Répétabilité** (agents IA) | Score moyen sur 3 exécutions du même brief | ≥ 7/10 | < 5/10 |
+| **Taux de traçabilité** | % de claims avec source citée | > 80% | < 50% |
+| **Taux d'adéquation brief** | % d'exigences du brief couvertes | > 85% | < 60% |
+
+---
+
 ## Phase 0 : Validation Terrain (Semaine 1-4)
 
 ### Cible : 3-5 clients pilotes, 1 mission complétée manuellement
@@ -370,17 +440,41 @@ GATE 1 — Contrôle automatisé (M3+)
     v
 GATE 2 — Curation humaine (obligatoire au MVP)
     - Un curateur qualifié (REP > seuil) review le livrable
-    - Checklist : conformité brief, qualité rédactionnelle, sources citées,
-      conclusions justifiées, pas de données sensibles exposées
+    - Checklist : Guild Quality Rubric (conformité brief, structure,
+      traçabilité, opérabilité — cf. section Quality Card)
     - Curateur approuve, demande correction, ou rejette
     → Si approuvé → livraison au client
     → Si rejeté → feedback à l'opérateur de l'agent
     |
     v
+GATE 2b — Champion métier (livrables à enjeu uniquement)
+    - Activé si : livrable stratégie, finance, juridique, ou > 5k EUR
+    - Un champion de la Guild concernée valide la pertinence métier
+      (même 10-15 minutes : "est-ce que c'est solide sur le fond ?")
+    → Si OK → livraison au client
+    → Si KO → retour au curateur avec feedback métier
+    |
+    v
 Client reçoit le livrable avec mention "curated by [curateur]"
++ Quality Card remplie (4 critères + score)
 ```
 
 **Rémunération curateur** : 10% du montant de la mission IA (prélevé sur la commission plateforme, pas en supplément pour le client).
+
+**Option "Human Refinement"** (systématique sur Parcours B) :
+
+> **Origine** : Vague 2 §A.1 — "Mettre un filet de sécurité : option 'raffinement humain'
+> si le brut IA n'est pas suffisant."
+
+Si le client le souhaite ou si le curateur le recommande, un consultant humain affine le livrable IA brut. Le surcoût est transparent :
+
+| Mode | Livrable | Délai | Prix indicatif |
+|------|----------|-------|----------------|
+| **IA brut + curation** | Livrable automatisé, curé | 2-48h | 500-2 000 EUR |
+| **IA brut + human refinement** | Livrable IA revu et enrichi par un consultant | 3-5 jours | 1 500-5 000 EUR |
+| **100% humain (Parcours A)** | Mission classique | 5-15 jours | 5 000-15 000 EUR |
+
+L'option human refinement est le **convertisseur ETI** : les entreprises hésitantes peuvent tester avec filet de sécurité, puis migrer progressivement vers le pur Parcours B une fois la confiance établie.
 
 ---
 
@@ -487,36 +581,170 @@ Client reçoit le livrable avec mention "curated by [curateur]"
 
 ---
 
-## Protection Communautaire : Anti-Sybil et Anti-Gaming
+## Guild Métier : Structuration Communautaire et Onboarding
 
-> **Origine** : Vague 1 §5 — "Attention aux dynamiques classiques : sybil/farming
-> de réputation, mercenariat, guerres de gouvernance."
+> **Origine** : Vague 2 §B + Vague 3 §1-6 — "Structurer la communauté métier comme
+> une Guild. Une guild = un référentiel de qualité et des champions."
+> Vague 1 §5 — "Attention sybil/farming/capture de gouvernance."
 
-### Principes de lancement
+### Pourquoi des Guilds (et pas juste une "communauté")
 
-**Communauté fermée d'abord, ouverte ensuite.** Le MVP démarre sur invitation uniquement.
+Pour une ETI, **"la guild est la marque de confiance"** : l'entreprise n'achète pas une promesse individuelle, elle achète un livrable passé par des règles métier. La guild est l'unité organisationnelle qui :
+- Définit les standards (templates, DoD, grille qualité)
+- Valide les entrants (cooptation + tests)
+- Cure les livrables (champions métier)
+- Anime la communauté (rituels, lessons learned)
 
-| Phase | Accès | Mécanisme |
-|-------|-------|-----------|
-| M0-M3 | **Invitation** : cohorte de 10-20 contributeurs qualifiés | Fondateurs sélectionnent sur CV + entretien |
-| M3-M6 | **Parrainage** : un membre existant (REP > 50) invite un nouveau | 1 parrain = 1 invité max/mois |
-| M6+ | **Ouvert avec vérification** : inscription libre + vérification d'identité | KYC léger (email pro + LinkedIn) pour rôles clés |
+### Guild Pilote : "Org & SI" (Conseil en Organisation et Systèmes d'Information)
 
-### 3 règles anti-gaming
+> **Origine** : Vague 3 §1-3 — "Conseil en organisation et SI = hyper productisable."
 
-| Vecteur d'attaque | Règle | Sanction |
-|--------------------|-------|----------|
-| **Sybil** (faux comptes pour farmer REP) | Identité vérifiée obligatoire pour : curateur, auteur d'agent, votant gouvernance. 1 humain = 1 compte. | Burn de tous les REP + ban permanent |
-| **Auto-validation** (faux clients, faux achats de licences) | Les missions requièrent un escrow réel (fiat ou crypto). Pas de mission "gratuite" comptabilisée. Le client et le consultant doivent être des entités distinctes vérifiées. | Annulation des REP gagnés + mission invalidée |
-| **Capture de gouvernance** (petit groupe monopolise les votes) | Quorum minimum 30%. Plafond de voting power : aucune adresse ne peut représenter > 10% des votes. Délai de révocation du Président (15 jours). | Mécanisme de veto communautaire (33% des membres) |
+**Pourquoi ce métier en premier** :
+- Le plus standardisable (livrables cadrés : TOM, SDSI, Diagnostic, RACI)
+- Le plus facile à évaluer (grille qualité applicable)
+- Le meilleur entonnoir vers des missions plus complexes (TOM → SDSI → transformation)
+- Forte demande ETI (toute ETI en croissance a besoin d'un schéma directeur SI)
+
+**4 lignes de produits** :
+
+| # | Ligne | Livrable type | Délai | Prix indicatif |
+|---|-------|---------------|-------|----------------|
+| 1 | **Diagnostic SI & Gouvernance 360** | Support de lancement, plan d'audit, guides d'entretiens, diagnostic maturité, analyse d'écart, recommandations + plan d'actions priorisé | 10-15 jours | 8 000-15 000 EUR |
+| 2 | **TOM IT (niveau 0/1)** | Modèle de capacités, gouvernance, organisation, processus/outils (IT4IT), RH/compétences, KPI, roadmap macro | 10-20 jours | 10 000-20 000 EUR |
+| 3 | **SDSI Express (cible 3 ans)** | Diagnostic, cible SI, trajectoire, gouvernance d'architecture | 15-25 jours | 15 000-30 000 EUR |
+| 4 | **Gouvernance & RACI** | Clarification rôles/responsabilités, comitologie, RACI présentable en COMEX | 5-10 jours | 5 000-10 000 EUR |
+
+**Pack MVP de lancement** : démarrer avec la ligne 1 (Diagnostic SI & Gouvernance 360) car :
+- Le plus standardisable (liste de livrables déjà cadrée)
+- Le plus facile à évaluer (rubric applicable)
+- Le meilleur entonnoir vers TOM/SDSI (upsell naturel)
+
+### Guild Quality Rubric (grille d'évaluation unique)
+
+> **Origine** : Vague 2 §A.2 + Vague 3 §3.1 — "Critères objectivables : structure,
+> clarté, réponse aux exigences, traçabilité. Logique bonus/malus."
+
+**4 critères, notés 0-3 chacun** (score max = 12) :
+
+| Critère | 0 (insuffisant) | 1 (partiel) | 2 (conforme) | 3 (excellent) |
+|---------|-----------------|-------------|---------------|---------------|
+| **Conformité au brief** | < 50% exigences couvertes | 50-70% | 70-90% | > 90% + hors-scope explicite |
+| **Structure & lisibilité** | Pas de plan, pas de synthèse | Plan présent mais confus | Exec summary + plan + annexes | Livrable autonome, compréhensible sans contexte |
+| **Traçabilité** | Pas de sources ni d'hypothèses | Sources partielles | Hypothèses + sources + limites documentées | Alternatives évaluées + décisions justifiées |
+| **Opérabilité** | Pas de recommandations actionnables | Recommandations vagues | Actions concrètes + owners + timeline | Roadmap macro réaliste + quick wins identifiés |
+
+**Usage de la rubric** :
+- **Onboarding** : le candidat doit scorer ≥ 8/12 sur son test d'admission
+- **Curation** : chaque livrable est évalué avant livraison client
+- **Réputation** : le score moyen alimente le REP du contributeur
+- **Marketplace** : le score est visible dans la Quality Card du livrable
+
+### Onboarding en 3 Paliers
+
+> **Origine** : Vague 2 §B.1 + Vague 3 §2.1 — "Pipeline d'entrée en 3 niveaux,
+> simple, lisible, scalable."
+
+| Palier | Nom | Accès | Comment y arriver | Durée typique |
+|--------|-----|-------|-------------------|---------------|
+| **N0** | **Coopté** | Missions à faible criticité (Diagnostic partiel, RACI simple). Sous supervision. | Coopté par un membre N1/N2. Identité vérifiée. | M0-M3 : invitation fondateurs. M3+ : parrainage. |
+| **N1** | **Vérifié** | Toutes missions Guild. Peut contribuer à la curation. | 1 test standard réussi (rubric ≥ 8/12) + 1 livrable accepté en mission réelle. | 2-4 semaines après entrée N0 |
+| **N2** | **Certifié Guild** | Missions sensibles (TOM, SDSI). Peut publier des assets/livrables réutilisables. Peut être champion métier. | Validé par le Guild Acceptance Board (3 missions N1 + score moyen ≥ 9/12 + vote GAB). | 2-3 mois après entrée N1 |
+
+**Tests standardisés par ligne de produit** (exemples Guild Org & SI) :
+
+| Test | Brief | Livrable attendu | Durée | Rubric appliquée |
+|------|-------|-------------------|-------|------------------|
+| Test Diagnostic | "Auditer l'organisation IT d'une PME de 200 personnes (cas fictif)" | Mini-diagnostic 5 pages + 5 recommandations | 4h | Les 4 critères |
+| Test TOM | "Produire les principes directeurs + risques + macro-roadmap d'un TOM IT" | 3 pages structurées | 3h | Les 4 critères |
+| Test RACI | "Produire un RACI Demand/Delivery/Service management présentable en COMEX" | Matrice RACI + note d'accompagnement 1 page | 2h | Les 4 critères |
+
+### Cooptation "Sponsor/Vouch" (Réputation Symétrique)
+
+> **Origine** : Vague 2 §B.2 + Vague 3 §2.2 — "Quand A coopte B, A met sa
+> réputation en garantie sur B pendant 3 premières missions."
+
+**Mécanisme** :
+
+```
+Membre N1/N2 ("Sponsor") parraine un candidat ("Entrant")
+    |
+    v
+Entrant rejoint au niveau N0
+    |
+    v
+Pendant les 3 premières missions de l'Entrant :
+    |
+    ├─ Si Entrant performe (rubric ≥ 8/12 + acceptation client) :
+    │     → Sponsor : +5 REP par mission réussie
+    │     → Sponsor : débloque droit de parrainage supplémentaire
+    │
+    └─ Si Entrant sous-performe (rubric < 6/12 OU rejet client) :
+          → Sponsor : -10 REP par mission ratée
+          → Sponsor : perd le droit de parrainage pendant 3 mois
+          → Entrant : reste N0, doit repasser le test
+          |
+          └─ Si 2 échecs consécutifs de l'Entrant :
+                → Entrant désactivé
+                → Sponsor : -20 REP + review par Guild Acceptance Board
+```
+
+**Pourquoi c'est puissant** : la communauté **s'auto-filtre**. Les bons recruteurs sont récompensés, les mauvais sont pénalisés. Pas besoin d'un comité central de vérification — le skin in the game fait le travail.
+
+**Limites** : 1 parrainage actif maximum par sponsor (pas de mass-onboarding). Sponsor doit être N1+ avec REP > 50.
+
+### Guild Acceptance Board (GAB)
+
+> **Origine** : Vague 3 §4 — "Créer un Guild Acceptance Board (3-5 personnes)
+> qui valide l'entrée N2, tranche les litiges, maintient le référentiel."
+
+**Composition** : 3-5 membres N2 de la Guild, élus par les membres N1+N2 (mandat 6 mois, renouvelable).
+
+**Attributions** :
+
+| Décision | Quorum | Fréquence |
+|----------|--------|-----------|
+| Promotion N1 → N2 (Certifié Guild) | 3/5 | Sur candidature |
+| Litige qualité (rejet contesté par contributeur ou client) | 3/5 | À la demande |
+| Évolution de la rubric / des templates | 4/5 | Trimestrielle |
+| Exclusion d'un membre (manquement grave) | 5/5 (unanimité) | Exceptionnelle |
+
+**Au MVP** : le GAB = les fondateurs + 1-2 premiers contributeurs N2. Il se formalise quand la Guild atteint 10+ membres.
+
+### Guild Operator (Rôle d'Animation)
+
+> **Origine** : Vague 3 §5 — "Une communauté ne tient pas sans animation structurée.
+> Prévoir un 'Guild Operator'."
+
+**1 personne** (fondateur au MVP, puis rôle dédié) responsable de :
+
+| Rituel | Fréquence | Contenu |
+|--------|-----------|---------|
+| **Weekly Review** | Hebdomadaire (30 min) | Revue des livrables de la semaine, scores rubric, lessons learned |
+| **Catalogue Maintenance** | Continue | Mise à jour des templates, DoD, grille qualité |
+| **Onboarding Support** | À chaque nouvelle entrée | Accompagnement N0, explication process, attribution de test |
+| **Scoreboard Publication** | Mensuelle | Taux d'acceptation, NPS, taux de rework, top contributeurs |
+| **Retrospective** | Mensuelle | Ce qui a marché, ce qui a échoué, ajustements process |
+
+**Coût** : 0 EUR M0-M3 (fondateur). ~500-1 000 EUR/mois M3+ (si rôle délégué à un contributeur rémunéré en CRED ou fiat).
+
+### Règles Anti-Gaming (intégrées dans le modèle Guild)
+
+| Vecteur d'attaque | Protection | Sanction |
+|--------------------|-----------|----------|
+| **Sybil** (faux comptes) | Identité vérifiée obligatoire pour N1+. 1 humain = 1 compte. REP soulbound (ERC-5484). | Burn REP + ban permanent |
+| **Auto-validation** (faux clients) | Escrow réel requis. Client et consultant = entités distinctes vérifiées. | Annulation REP + mission invalidée |
+| **Capture de gouvernance** | Quorum 30%. Plafond voting power 10%. GAB = élection. | Veto communautaire (33%) |
+| **Farming de parrainage** | 1 parrainage actif max. Sponsor perd REP si entrant échoue. | Perte droit de parrainage 3-6 mois |
+| **Complaisance de curation** | Curateur audité aléatoirement (1/10 livrables re-reviewé par GAB). | Perte rôle curateur + REP |
 
 ### Transparence des incentives
 
 Tout mécanisme d'incentive est **publié et auditable** :
 - Tableau de distribution des commissions (visible on-chain)
-- Historique de curation (qui a validé quoi, avec quel score)
+- Historique de curation (qui a validé quoi, avec quel score rubric)
 - Historique de vote (qui a voté quoi, visible on-chain)
 - Pénalités appliquées (visibles dans le registre REP)
+- Scoreboard Guild (mensuel, public)
 
 ---
 
@@ -529,5 +757,5 @@ Tout mécanisme d'incentive est **publié et auditable** :
 
 ---
 
-**Version** : 2.0.0 (renforcé vague 1)
+**Version** : 3.0.0 (renforcé vagues 1+2+3)
 **Date** : 2026-02-17

@@ -32,6 +32,8 @@
 | **Curation (Parcours B)** | **0-500 EUR** | **0 M0-M3 (fondateurs curent), 10% rev. missions IA M3+** |
 | **Assurance RC Pro (extension IA/prime contractor)** | **165-335 EUR** | **Surcoût estimé +500 EUR/an vs RC Pro standard** |
 | **IP Registry (templates licences, CGV)** | **85-170 EUR (amortissement)** | **1 000-2 000 EUR one-shot M1-M2** |
+| **Guild Operator** | **0-1 000 EUR** | **0 M0-M3 (fondateurs), 500-1 000 M3+ (contributeur rémunéré)** |
+| **Guild templates & tests** | **0-100 EUR (amortissement)** | **Temps fondateurs M0, 500-1 000 EUR one-shot M1 si externalisation** |
 | **Développement** | **Bénévolat/fondateurs M0-M6** | Pas de salaires avant Gate 2 |
 
 **Hypothèse critique** : Pas de salaires M0-M6. Les fondateurs/développeurs travaillent sans rémunération jusqu'à Gate 2. C'est réaliste pour un projet early-stage mais constitue un risque de rétention si la traction tarde.
@@ -307,6 +309,8 @@
 | **Budget moyen mission** (5k → 8k ou 3k) | +/- 60% sur GMV | Segment client (PME vs startup vs grand compte) |
 | **Nombre de missions/mois** | Proportionnel aux revenus | Marketing + produit + bouche-à-oreille |
 | **Revenus licences** (Parcours C) | +50% revenus à M12 si activé | Développement IPRegistry, curation |
+| **Human refinement** (Parcours B upsell) | +30-50% GMV par mission IA convertie | Taux de conversion IA brut → human refinement |
+| **Coûts Guild Operator** (M3+) | -500-1 000 EUR/mois sur marge | Nécessaire pour qualité et rétention |
 | **Coûts marketing** | Marge directement impactée | Efficacité acquisition (CAC) |
 
 ### Scénario catastrophe : que se passe-t-il si...
@@ -324,6 +328,6 @@
 
 ---
 
-**Version** : 2.0.0 (renforcé vague 1)
+**Version** : 3.0.0 (renforcé vagues 1+2+3)
 **Date** : 2026-02-17
 **Actualisation** : Recalculer à chaque Gate (M3, M6, M12) avec les données réelles
