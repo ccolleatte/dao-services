@@ -138,7 +138,8 @@
       "Bash(backend/TODO-SUPABASE-TYPES.md:*)",
       "Bash(solc-select install:*)",
       "Bash(solc-select use:*)",
-      "Bash(slither:*)"
+      "Bash(slither:*)",
+      "Bash(npm test:*)"
     ]
   }
 }
