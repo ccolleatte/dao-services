@@ -8,7 +8,7 @@
 ![Solidity](https://img.shields.io/badge/solidity-0.8.20-363636.svg)
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
 
-**Bâtir l'archétype de l'entreprise de prestation de service de demain**
+**Bâtir l'archétype de l'entreprise de prestation de services de demain**
 
 *Un nouveau modèle de cabinet de conseil complètement décentralisé, où contributeurs IA, puissance de calcul et humains sont rétribués proportionnellement à leur utilisation.*
 
@@ -35,11 +35,11 @@ Réviser complètement la **théorie de la firme** en exploitant les protocoles 
 
 ### Principes Fondamentaux
 
-- **🤖 Contributeurs Hybrides** : Agents IA, puissance de calcul, experts humains
-- **💰 Rétribution Proportionnelle** : Chaque contributeur est payé à hauteur de son utilisation
+- **🤖 Contributeurs hybrides** : Agents IA, puissance de calcul, experts humains
+- **💰 Rétribution proportionnelle** : Chaque contributeur est payé à hauteur de la qualité de ses contributions
 - **🗳️ Gouvernance On-Chain** : Décisions techniques, stratégiques et commerciales via vote pondéré
 - **🪙 Tokenomics** : Token utilitaire pour les paiements et la gouvernance
-- **🎯 Marché de Services** : Matching automatique offre/demande
+- **🎯 Marché de services** : matching automatique offre/demande
 
 ---
 
@@ -75,7 +75,7 @@ Réviser complètement la **théorie de la firme** en exploitant les protocoles 
 - ✅ **Coverage** : ~75% estimé (target 80%)
 - ✅ **Integration tests** : Vote weights flow, Treasury governance, Multi-track proposals
 
-#### Infrastructure
+#### Infrastructures
 
 - ✅ Deployment scripts (Foundry + PowerShell automation)
 - ✅ Paseo testnet ready ([DEPLOYMENT.md](./contracts/DEPLOYMENT.md))
