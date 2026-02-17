@@ -15,6 +15,46 @@ Le plan d'acquisition **précède** le développement. L'objectif n'est pas de c
 
 ---
 
+## Positionnement : Ce Qu'on Vend (et Ce Qu'on Ne Vend Pas)
+
+> **Origine** : Vague 1 §3 — "Le libellé 'cabinet 100% blockchain' déclenche chez
+> l'entreprise : peur juridique, peur conformité, peur procurement, peur réputation."
+
+### Le Reframing Enterprise
+
+**Ce qu'on NE dit PAS** : "Cabinet de conseil 100% blockchain" / "DAO de consultants" / "Marketplace décentralisée"
+
+**Ce qu'on DIT** : **"Cabinet d'expertise composable et productisé"**
+
+| Terme | Ce que l'entreprise comprend | Pourquoi c'est bon |
+|-------|------------------------------|---------------------|
+| **Composable** | "Je choisis les compétences dont j'ai besoin, pas un package" | Différenciation vs. cabinet classique |
+| **Productisé** | "J'achète un résultat, pas du temps" | Différenciation vs. Malt/Upwork |
+| **Expertise** | "C'est du conseil sérieux, pas un side-project" | Crédibilité enterprise |
+
+La blockchain = **couche de confiance invisible**. Le client achète un livrable, pas un token.
+
+### Le Test de Réalité Enterprise (5 critères)
+
+> **Origine** : Vague 1 §7 — "Votre proposition marche si une entreprise peut acheter
+> un livrable/mission : sans changer son SI, avec une responsabilité claire, avec des
+> droits IP non ambigus, avec une qualité fiable, et avec une expérience aussi simple
+> qu'un SaaS."
+
+Chaque mission pilote doit valider ces 5 points. C'est le **filtre d'acceptation** :
+
+| # | Critère | Comment on le garantit dès le MVP |
+|---|---------|-----------------------------------|
+| 1 | **Sans changer son SI** | Onboarding = email + brief. Pas d'API, pas de wallet, pas de token. Blockchain invisible. |
+| 2 | **Responsabilité claire** | La SAS est le prime contractor. Un interlocuteur unique, un contrat de prestation en droit français. |
+| 3 | **Droits IP non ambigus** | 3 modèles de licence standard (L1/L2/L3). Conditions off-chain signées + hash on-chain. |
+| 4 | **Qualité fiable** | Curation gate obligatoire sur tout livrable IA. Matching transparent sur 5 critères. Dispute resolution en 3 niveaux. |
+| 5 | **Expérience SaaS** | Interface Web2 : dashboard, suivi mission, paiement CB/virement. Zéro friction crypto. |
+
+**Usage** : Intégrer ce test dans le **feedback client** (Semaine 4). Poser explicitement : "Sur une échelle de 1-5, à quel point chacun de ces critères est satisfait ?" Si un critère < 3 → action corrective immédiate.
+
+---
+
 ## Phase 0 : Validation Terrain (Semaine 1-4)
 
 ### Cible : 3-5 clients pilotes, 1 mission complétée manuellement
@@ -301,8 +341,75 @@ En parallèle des missions classiques (Parcours A), tester le différenciateur :
 | Client prêt à payer (même réduit) | > 50% | < 20% |
 | NPS livrable IA | ≥ 6/10 | < 4/10 |
 
-**Si Go** → Développer AIAgentRegistry.sol
+**Si Go** → Développer AIAgentRegistry.sol + Agent Listing Standard
 **Si Pivot** → Focus exclusif Parcours A (missions classiques augmentées)
+
+---
+
+### Curation Gate Obligatoire (Parcours B)
+
+> **Origine** : Vague 1 §4.1 — "Un agent qui 'livre vite' mais parfois faux abîme
+> la confiance plus vite qu'il ne crée de la valeur."
+> §4.2 — "Pas d'agent sans 'preuve de spécialisation'."
+
+**Règle non négociable** : Aucun livrable IA "brut" ne peut être vendu/livré au client sans passer par un contrôle qualité (automatisé + humain).
+
+**Pipeline de curation (avant livraison client)** :
+
+```
+Agent IA produit un livrable brut
+    |
+    v
+GATE 1 — Contrôle automatisé (M3+)
+    - Détection de plagiat (similarity check vs corpus existant)
+    - Vérification de cohérence (le livrable répond-il au brief ?)
+    - Détection d'hallucinations (claims vérifiables → fact-check)
+    → Score de confiance automatique (0-100)
+    → Si score < 60 → rejet automatique, retour à l'agent
+    |
+    v
+GATE 2 — Curation humaine (obligatoire au MVP)
+    - Un curateur qualifié (REP > seuil) review le livrable
+    - Checklist : conformité brief, qualité rédactionnelle, sources citées,
+      conclusions justifiées, pas de données sensibles exposées
+    - Curateur approuve, demande correction, ou rejette
+    → Si approuvé → livraison au client
+    → Si rejeté → feedback à l'opérateur de l'agent
+    |
+    v
+Client reçoit le livrable avec mention "curated by [curateur]"
+```
+
+**Rémunération curateur** : 10% du montant de la mission IA (prélevé sur la commission plateforme, pas en supplément pour le client).
+
+---
+
+### Agent Listing Standard (Anti-GPT-Wrapper)
+
+> **Origine** : Vague 1 §4.2 — "Créez un 'Agent Listing Standard' :
+> fiches obligatoires + tests minimaux + disclosure des sources/outils."
+
+**Règle** : Pas d'agent enregistré sur la marketplace sans remplir la fiche suivante.
+
+**Fiche obligatoire pour chaque agent** :
+
+| Champ | Obligatoire | Exemple |
+|-------|-------------|---------|
+| **Nom** | Oui | "MarketScope Analyst" |
+| **Domaine de spécialisation** | Oui | "Analyse concurrentielle B2B SaaS" |
+| **Périmètre** | Oui | "Marchés européens, secteur tech, données publiques uniquement" |
+| **Limites déclarées** | Oui | "Ne traite pas les données financières non publiques. Pas d'analyse juridique." |
+| **Stack technique** | Oui | "Claude Sonnet 4.5 + web search + templates propriétaires" |
+| **Sources autorisées** | Oui | "Crunchbase, LinkedIn, rapports SEC, presse spécialisée" |
+| **Cas de tests passés** | Oui (min. 3) | "Brief X → livrable Y → score qualité Z" |
+| **Opérateur** | Oui | "Jean Dupont (contributeur vérifié, REP 85)" |
+| **Historique** | Auto-généré | "12 missions, NPS moyen 7.8, taux d'acceptation 78%" |
+
+**Admission** :
+- L'agent doit passer 3 cas de tests standardisés (briefs types du domaine)
+- Un curateur (REP > 70) valide la fiche et les résultats de tests
+- L'opérateur stake un montant symbolique (CRED ou fiat) comme engagement qualité
+- Si NPS < 5 sur 3 missions consécutives → agent désactivé + review obligatoire
 
 ---
 
@@ -380,6 +487,39 @@ En parallèle des missions classiques (Parcours A), tester le différenciateur :
 
 ---
 
+## Protection Communautaire : Anti-Sybil et Anti-Gaming
+
+> **Origine** : Vague 1 §5 — "Attention aux dynamiques classiques : sybil/farming
+> de réputation, mercenariat, guerres de gouvernance."
+
+### Principes de lancement
+
+**Communauté fermée d'abord, ouverte ensuite.** Le MVP démarre sur invitation uniquement.
+
+| Phase | Accès | Mécanisme |
+|-------|-------|-----------|
+| M0-M3 | **Invitation** : cohorte de 10-20 contributeurs qualifiés | Fondateurs sélectionnent sur CV + entretien |
+| M3-M6 | **Parrainage** : un membre existant (REP > 50) invite un nouveau | 1 parrain = 1 invité max/mois |
+| M6+ | **Ouvert avec vérification** : inscription libre + vérification d'identité | KYC léger (email pro + LinkedIn) pour rôles clés |
+
+### 3 règles anti-gaming
+
+| Vecteur d'attaque | Règle | Sanction |
+|--------------------|-------|----------|
+| **Sybil** (faux comptes pour farmer REP) | Identité vérifiée obligatoire pour : curateur, auteur d'agent, votant gouvernance. 1 humain = 1 compte. | Burn de tous les REP + ban permanent |
+| **Auto-validation** (faux clients, faux achats de licences) | Les missions requièrent un escrow réel (fiat ou crypto). Pas de mission "gratuite" comptabilisée. Le client et le consultant doivent être des entités distinctes vérifiées. | Annulation des REP gagnés + mission invalidée |
+| **Capture de gouvernance** (petit groupe monopolise les votes) | Quorum minimum 30%. Plafond de voting power : aucune adresse ne peut représenter > 10% des votes. Délai de révocation du Président (15 jours). | Mécanisme de veto communautaire (33% des membres) |
+
+### Transparence des incentives
+
+Tout mécanisme d'incentive est **publié et auditable** :
+- Tableau de distribution des commissions (visible on-chain)
+- Historique de curation (qui a validé quoi, avec quel score)
+- Historique de vote (qui a voté quoi, visible on-chain)
+- Pénalités appliquées (visibles dans le registre REP)
+
+---
+
 ## Ce Plan Ne Couvre Pas (Explicitement)
 
 - **SEO** : Trop long cycle (6-12 mois) pour être pertinent M0-M6. À lancer M3+ en parallèle.
@@ -389,5 +529,5 @@ En parallèle des missions classiques (Parcours A), tester le différenciateur :
 
 ---
 
-**Version** : 1.0.0
+**Version** : 2.0.0 (renforcé vague 1)
 **Date** : 2026-02-17

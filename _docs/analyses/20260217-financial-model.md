@@ -29,9 +29,17 @@
 | Juridique (avocat + comptable) | 500-1 000 EUR (amortissement) | Pic M0-M3 puis maintenance |
 | RC Pro | 125-250 EUR (amortissement annuel) | 1 500-3 000 EUR/an |
 | Marketing (M3+) | 0-5 000 EUR | 0 M0-M3, puis croissant |
+| **Curation (Parcours B)** | **0-500 EUR** | **0 M0-M3 (fondateurs curent), 10% rev. missions IA M3+** |
+| **Assurance RC Pro (extension IA/prime contractor)** | **165-335 EUR** | **Surcoût estimé +500 EUR/an vs RC Pro standard** |
+| **IP Registry (templates licences, CGV)** | **85-170 EUR (amortissement)** | **1 000-2 000 EUR one-shot M1-M2** |
 | **Développement** | **Bénévolat/fondateurs M0-M6** | Pas de salaires avant Gate 2 |
 
 **Hypothèse critique** : Pas de salaires M0-M6. Les fondateurs/développeurs travaillent sans rémunération jusqu'à Gate 2. C'est réaliste pour un projet early-stage mais constitue un risque de rétention si la traction tarde.
+
+> **Nouveautés v2 (vague 1)** : Ajout des coûts de curation (Parcours B),
+> de l'extension RC Pro pour couverture IA/prime contractor, et de
+> l'amortissement du cadre juridique IP. Ces postes augmentent les
+> coûts fixes de ~250-1 000 EUR/mois mais sont requis pour l'enterprise readiness.
 
 ---
 
@@ -189,25 +197,30 @@
 | Audit sécurité Solidity (pré-mainnet) | 5 000-15 000 EUR | M3-M4 |
 | Audit backend (léger) | 3 000-5 000 EUR | M3 |
 | Enregistrement PSAN (si nécessaire) | 3 000-5 000 EUR | M3-M4 |
-| **Total one-shot** | **15 200 - 33 100 EUR** | M0-M4 |
+| **Templates licences IP + CGV (3 modèles)** | **1 000-2 000 EUR** | **M1-M2** |
+| **Pacte contributeurs (rédaction avocat)** | **500-1 000 EUR** | **M1** |
+| **Extension RC Pro couverture IA** | **500-1 000 EUR** | **M1** |
+| **Total one-shot** | **17 200 - 37 100 EUR** | M0-M4 |
 
 ### Runway par scénario (hors salaires)
 
 | Scénario | Cash nécessaire M0-M6 | Cash généré M0-M12 | Résultat net M12 |
 |----------|----------------------|--------------------|--------------------|
-| **Pessimiste** | ~18 000 - 36 000 EUR (one-shot + pertes) | ~33 200 EUR | ~+300 EUR |
-| **Réaliste** | ~15 700 - 33 600 EUR (one-shot seulement) | ~82 825 EUR | ~+38 775 EUR |
-| **Optimiste** | ~15 200 - 33 100 EUR (one-shot seulement) | ~283 750 EUR | ~+230 000 EUR |
+| **Pessimiste** | ~20 000 - 40 000 EUR (one-shot + pertes) | ~30 000 EUR | ~-3 000 EUR |
+| **Réaliste** | ~17 700 - 37 600 EUR (one-shot seulement) | ~78 000 EUR | ~+34 000 EUR |
+| **Optimiste** | ~17 200 - 37 100 EUR (one-shot seulement) | ~275 000 EUR | ~+220 000 EUR |
+
+*v2 : One-shot augmenté de ~2-4k EUR (IP, pacte, RC Pro étendue). Coûts opérationnels augmentés de ~250-500 EUR/mois (curation, amortissement IP). Les revenus sont légèrement réduits car la commission curateur (10% des missions IA) est un coût interne.*
 
 ### Besoin de financement
 
 | Scénario | Financement externe nécessaire | Source recommandée |
 |----------|-------------------------------|--------------------|
-| **Pessimiste** | 30 000 - 40 000 EUR | Apport fondateurs ou love money |
-| **Réaliste** | 15 000 - 35 000 EUR | Apport fondateurs (couvre le one-shot) |
-| **Optimiste** | 15 000 - 35 000 EUR | Apport fondateurs → autofinancement M3+ |
+| **Pessimiste** | 35 000 - 45 000 EUR | Apport fondateurs ou love money |
+| **Réaliste** | 17 000 - 38 000 EUR | Apport fondateurs (couvre le one-shot) |
+| **Optimiste** | 17 000 - 38 000 EUR | Apport fondateurs → autofinancement M3+ |
 
-**Point critique** : Dans tous les scénarios, il faut ~15 000-35 000 EUR de cash initial pour les frais juridiques, RC Pro et audits. C'est le ticket d'entrée incompressible.
+**Point critique** : Dans tous les scénarios, il faut ~17 000-38 000 EUR de cash initial pour les frais juridiques, RC Pro étendue, cadre IP, et audits. C'est le ticket d'entrée incompressible. Le surcoût de ~2-4k EUR par rapport à la v1 est le **prix de l'enterprise readiness** — sans lequel aucune PME/ETI ne signera.
 
 ---
 
@@ -305,9 +318,12 @@
 | Régulation PSAN bloquante | +3-6 mois délai mainnet, +5k EUR | Plan B : escrow fiat via SAS |
 | Polkadot Hub non opérationnel | Retard deploy, coût migration L2 | Plan B : Moonbeam ou Base |
 | Fondateur quitte | Perte 50% capacité dev | Documentation code + succession plan |
+| Litige IP sur livrable IA (vague 1 §2.3) | 5-15k EUR frais juridiques + réputation | Cadre IP hybride + pacte contributeur + RC Pro étendue |
+| Sybil attack / farming REP (vague 1 §5) | Perte de crédibilité communauté | Communauté fermée M0-M3 + identité vérifiée + plafond voting power |
+| Agent IA livre du contenu faux/hallucinations (vague 1 §4.1) | Perte client + NPS effondré | Curation gate obligatoire + Agent Listing Standard + pénalité REP |
 
 ---
 
-**Version** : 1.0.0
+**Version** : 2.0.0 (renforcé vague 1)
 **Date** : 2026-02-17
 **Actualisation** : Recalculer à chaque Gate (M3, M6, M12) avec les données réelles

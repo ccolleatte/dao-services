@@ -170,6 +170,196 @@ générale extraordinaire est convoquée dans les 15 jours.
 
 ---
 
+### Semaine 6-8 (en parallèle) : Cadre IP et Licensing des Livrables
+
+> **Origine** : Vague 1 §2.3 — "Posséder un NFT ≠ posséder les droits IP par défaut.
+> Il faut que la licence soit explicitement définie."
+
+**Problème** : Le Parcours C (marketplace de livrables tokenisés) repose sur la vente de licences d'usage. Or un NFT on-chain ne confère **aucun droit de propriété intellectuelle** par défaut. Sans cadre juridique explicite, chaque vente de licence est un litige potentiel.
+
+**Objectif** : Produire un cadre de licensing hybride (off-chain terms + hash on-chain) utilisable dès le MVP.
+
+| Action | Livrable | Coût | Délai |
+|--------|----------|------|-------|
+| Définir 3 modèles de licence standard (voir ci-dessous) | Templates de licence | 1 000 - 2 000 EUR (avocat) | 1 semaine |
+| Rédiger les CGV/CGU incluant la clause IP | CGV mises à jour | Inclus | 1 semaine |
+| Valider la compatibilité avec le droit français (CPI) et le droit européen (directive copyright) | Avis écrit | Inclus dans consultation | — |
+| Implémenter le hash on-chain des conditions de licence | Spec technique pour `purchaseLicense()` | 0 EUR (dev) | 2 jours |
+
+**3 modèles de licence standard** :
+
+| Licence | Usage | Dérivés | Redistribution | Exclusivité | Prix indicatif |
+|---------|-------|---------|----------------|-------------|----------------|
+| **L1 — Interne** | Usage interne uniquement | Non | Non | Non | 100-500 EUR |
+| **L2 — Commerciale** | Usage interne + intégration dans offre client | Autorisés avec attribution | Non | Non | 500-2 000 EUR |
+| **L3 — Exclusive** | Tous usages | Autorisés | Autorisée | Oui (territoire/durée) | 2 000-10 000 EUR |
+
+**Mécanisme hybride off-chain + on-chain** :
+
+```
+1. Conditions de licence rédigées en droit français (off-chain, PDF signé)
+2. Hash SHA-256 du document de licence stocké on-chain (IPRegistry)
+3. purchaseLicense(deliverableId, licenseType) → émet un NFT-licence
+   qui référence le hash des conditions
+4. Le NFT prouve l'achat ; le PDF prouve les droits
+5. En cas de litige → le PDF fait foi (droit civil français, art. 1366 C.civ)
+```
+
+**Ce que ça ne couvre PAS (explicitement)** :
+- Les livrables produits par un agent IA : qui est l'auteur ? L'opérateur de l'agent ? Le client qui a fourni le brief ? Le droit français (CPI L.111-1) ne reconnaît pas l'IA comme auteur. → L'auteur juridique est **l'opérateur de l'agent** (personne physique ou morale qui l'a paramétré et supervisé).
+- Le plagiat / la contrefaçon dans un livrable : → Clause de garantie dans les CGV ("le contributeur garantit que le livrable est original et ne porte pas atteinte aux droits de tiers").
+
+---
+
+### Semaine 6-8 (en parallèle) : Pacte Contributeurs
+
+> **Origine** : Vague 1 §6.A — "Créer un 'pacte' contributeurs :
+> droits, devoirs, confidentialité, conflit d'intérêt, réutilisation."
+
+**Problème** : Sans cadre contractuel entre la plateforme et les contributeurs (consultants, auteurs d'agents, curateurs), la responsabilité est diffuse et l'enterprise n'achètera pas.
+
+**Objectif** : Rédiger un pacte contributeur applicable à l'onboarding.
+
+| Action | Livrable | Coût | Délai |
+|--------|----------|------|-------|
+| Rédiger le pacte contributeur (avec avocat) | Document type | 500 - 1 000 EUR | 1 semaine |
+| Intégrer la signature du pacte dans le workflow d'onboarding | Spec produit | 0 EUR | 1 jour |
+
+**Contenu obligatoire du pacte** :
+
+```
+1. CONFIDENTIALITÉ
+   - Le contributeur s'engage à ne pas divulguer les informations client
+     (brief, données, résultats) à des tiers
+   - Exception : les livrables rendus publics par le client ou via IPRegistry
+
+2. PROPRIÉTÉ INTELLECTUELLE
+   - Le contributeur cède à la plateforme (SAS) une licence non-exclusive
+     de reproduction et de distribution des livrables aux fins de licensing
+   - Le contributeur conserve le droit moral (attribution)
+   - Le contributeur garantit l'originalité du livrable
+
+3. CONFLIT D'INTÉRÊT
+   - Le contributeur déclare ne pas être en situation de conflit d'intérêt
+     avec le client de la mission
+   - Obligation de déclaration si conflit survient en cours de mission
+
+4. QUALITÉ ET RESPONSABILITÉ
+   - Le contributeur s'engage à livrer un travail conforme au brief
+   - En cas de défaut avéré : la SAS (prime contractor) assume la
+     responsabilité vis-à-vis du client et exerce son recours contre
+     le contributeur
+   - Limitation de responsabilité du contributeur : plafonnée au montant
+     de sa rémunération sur la mission
+
+5. GOUVERNANCE
+   - Le contributeur accepte les décisions de gouvernance de l'Association
+   - Le contributeur peut participer aux votes (si membre de l'Association)
+
+6. RÉSILIATION
+   - Le pacte est résiliable à tout moment par le contributeur
+   - Les obligations de confidentialité survivent 2 ans après résiliation
+```
+
+---
+
+### Semaine 8-10 (en parallèle) : Modèle de Responsabilité "Prime Contractor"
+
+> **Origine** : Vague 1 §4.3 — "L'entreprise acheteuse voudra un interlocuteur
+> responsable (un 'prime contractor') — au moins au démarrage."
+
+**Problème** : Une DAO n'a pas de responsabilité juridique en droit français. L'entreprise cliente ne peut pas poursuivre un smart contract. Il faut un interlocuteur identifié.
+
+**Solution** : La SAS est le **prime contractor**. Elle porte la responsabilité contractuelle vis-à-vis du client. La redistribution on-chain est un mécanisme interne.
+
+**Articulation juridique** :
+
+```
+CLIENT ←→ SAS (contrat de prestation, droit français)
+              |
+              ├→ Consultant (sous-traitance, pacte contributeur)
+              ├→ Agent IA (opéré par un contributeur identifié)
+              └→ Curateur (vérification qualité)
+
+Responsabilité :
+- Vis-à-vis du CLIENT : SAS responsable (contrat + RC Pro)
+- Vis-à-vis du CONTRIBUTEUR : SAS → recours contractuel
+- Paiement : SAS reçoit le paiement fiat → smart contract distribue on-chain
+```
+
+**Questions à valider avec l'avocat S1** (à ajouter aux 5 existantes) :
+
+6. **Responsabilité prime contractor** : La SAS peut-elle contractuellement assumer la responsabilité d'un livrable produit par un consultant indépendant ou un agent IA, tout en limitant sa responsabilité au montant de la mission ?
+7. **Sous-traitance IA** : Si un agent IA produit un livrable défectueux, qui est responsable juridiquement ? L'opérateur de l'agent ? La SAS ? Le client qui a approuvé ?
+8. **Assurance RC Pro** : La RC Pro standard couvre-t-elle les livrables IA ? Faut-il une extension spécifique ?
+
+---
+
+### Semaine 8-10 (en parallèle) : Mécanisme de Dispute Resolution
+
+> **Origine** : Vague 1 §4.3 — "Comment se gère un litige
+> (acceptation/rejet abusif, non-conformité, plagiat) ?"
+
+**Problème** : Le smart contract d'escrow a un mécanisme `raiseDispute()` mais pas de cadre juridique pour la résolution.
+
+**Mécanisme en 3 niveaux** :
+
+| Niveau | Déclencheur | Résolution | Délai | Coût |
+|--------|-------------|------------|-------|------|
+| **1. Médiation interne** | Client ou consultant conteste | Curateur évalue le livrable vs. brief | 5 jours | 0 EUR (curateur rémunéré via commission) |
+| **2. Arbitrage DAO** | Médiation échouée | Vote des membres (stake-weighted, quorum 30%) | 7 jours | 0 EUR |
+| **3. Arbitrage juridique** | Arbitrage DAO contesté | Tribunal de commerce de Paris (clause attributive) | Variable | Frais judiciaires |
+
+**Clause contractuelle** (à intégrer dans les CGV) :
+
+```
+Article [N] — Résolution des litiges
+
+En cas de litige relatif à l'exécution ou la qualité d'une mission,
+les parties s'engagent à suivre la procédure suivante :
+
+1. Médiation : le litige est soumis à un curateur qualifié désigné
+   par la plateforme. Le curateur rend un avis motivé sous 5 jours
+   ouvrés. L'avis est consultatif.
+
+2. Arbitrage communautaire : si la médiation échoue, le litige est
+   soumis au vote des membres de l'Association, selon le protocole
+   de gouvernance. La décision est exécutoire entre les parties.
+
+3. Juridiction : à défaut d'accord, les parties conviennent de la
+   compétence exclusive du Tribunal de commerce de Paris.
+```
+
+**Cas d'usage types** :
+
+| Cas | Niveau | Résolution attendue |
+|-----|--------|---------------------|
+| Client refuse le livrable sans motif | 1 (curateur) | Curateur valide le livrable → paiement libéré |
+| Livrable non conforme au brief | 1 (curateur) | Curateur demande correction → nouveau délai |
+| Plagiat avéré | 2 (DAO vote) | Contributeur sanctionné (REP burn), client remboursé |
+| Consultant disparaît en cours de mission | 1 (auto) | Timer expiré → escrow retourné au client |
+| Client refuse de payer malgré livrable validé | 3 (tribunal) | Tribunal de commerce |
+
+---
+
+## Budget Total Workstream Juridique (Mis à Jour)
+
+| Poste | Estimation basse | Estimation haute |
+|-------|-----------------|-----------------|
+| Consultation avocat Web3 (initiale, 8 questions) | 800 EUR | 1 200 EUR |
+| Rédaction statuts SAS (avec avocat) | 2 000 EUR | 4 000 EUR |
+| Immatriculation SAS + annonce légale | 200 EUR | 300 EUR |
+| Convention de mandat | 1 000 EUR | 2 000 EUR |
+| **Templates licences IP (3 modèles)** | **1 000 EUR** | **2 000 EUR** |
+| **Pacte contributeurs** | **500 EUR** | **1 000 EUR** |
+| RC Pro (annuel, extension IA si nécessaire) | 2 000 EUR | 4 000 EUR |
+| Accompagnement PSAN (si nécessaire) | 3 000 EUR | 5 000 EUR |
+| **Total** | **10 500 EUR** | **19 500 EUR** |
+
+*Delta vs. version 1.0 : +2 300 EUR (basse) / +4 400 EUR (haute) pour IP + pacte + RC Pro étendue*
+
+---
+
 ## Synchronisation avec la Roadmap Technique
 
 | Jalon technique | Prérequis juridique | Gate |
@@ -205,10 +395,13 @@ générale extraordinaire est convoquée dans les 15 jours.
 | Avocat injoignable (délais) | 15% | Retard 2-4 semaines | Contacter 3 cabinets en parallèle |
 | Coût > budget | 10% | Dépassement 5-10k EUR | Prioriser : avocat Web3 seul (pas de gros cabinet) |
 | Législation DAO France adoptée | 5% (2026) | Simplification possible | Veille juridique continue |
+| Litige IP sur livrable IA (auteur indéterminé) | 30% | Litige client | Pacte contributeur + clause "opérateur = auteur" + garantie d'originalité |
+| RC Pro ne couvre pas livrables IA | 25% | Gap assurance | Vérifier extension IA dès S1 + assurance complémentaire si nécessaire |
+| Client conteste la responsabilité SAS (prime contractor) | 20% | Risque judiciaire | Clause de limitation de responsabilité + médiation 3 niveaux |
 
 ---
 
 **Prochaine action immédiate** : Contacter 2-3 cabinets spécialisés Web3 cette semaine pour la consultation flash.
 
-**Version** : 1.0.0
+**Version** : 2.0.0 (renforcé vague 1)
 **Date** : 2026-02-17
