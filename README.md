@@ -8,9 +8,9 @@
 ![Solidity](https://img.shields.io/badge/solidity-0.8.20-363636.svg)
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
 
-**Bâtir l'archétype de l'entreprise de prestation de services de demain**
+**Cabinet de conseil sans murs, augmenté par l'IA, gouverné comme une coopérative**
 
-*Un nouveau modèle de cabinet de conseil complètement décentralisé, où contributeurs IA, puissance de calcul et humains sont rétribués proportionnellement à leur utilisation.*
+*Réinventer la firme de conseil : IA gratuite pour capter les clients, réputation on-chain portable pour fidéliser les consultants, gouvernance communautaire pour aligner les intérêts.*
 
 [Documentation](./docs/) • [Quick Start](#-quick-start) • [Architecture](#-architecture) • [Roadmap](#-roadmap)
 
@@ -35,11 +35,11 @@ Réviser complètement la **théorie de la firme** en exploitant les protocoles 
 
 ### Principes Fondamentaux
 
-- **🤖 Contributeurs hybrides** : Agents IA, puissance de calcul, experts humains
-- **💰 Rétribution proportionnelle** : Chaque contributeur est payé à hauteur de la qualité de ses contributions
-- **🗳️ Gouvernance On-Chain** : Décisions techniques, stratégiques et commerciales via vote pondéré
-- **🪙 Tokenomics** : Token utilitaire pour les paiements et la gouvernance
-- **🎯 Marché de services** : matching automatique offre/demande
+- **🤖 IA comme infrastructure** : Scoping gratuit pour les clients (entonnoir), outils d'augmentation pour les consultants — pas de remplacement humain
+- **💰 Rétribution juste** : Commissions réduites (0% → 5% progressif, votées par la communauté), réputation portable, anti-captation
+- **🗳️ Gouvernance communautaire** : Les consultants votent les commissions, standards qualité, orientations — pas de décision unilatérale plateforme
+- **💶 Paiement EUR/USDC d'abord** : Stablecoin avant token DAOS — adoption B2B sans friction crypto (ACPR conforme via PSP)
+- **🔍 Réputation vérifiable on-chain** : Historique de missions, notes, badges portables — seul usage blockchain exposé aux clients
 
 ---
 
@@ -82,20 +82,24 @@ Réviser complètement la **théorie de la firme** en exploitant les protocoles 
 - ✅ Verification scripts (post-deployment checks)
 - ✅ Complete documentation (1150+ lignes)
 
-### 🔜 En Développement
+### 🔜 En Développement (Scope MVP revu — 2026-02-18)
 
-#### Marketplace Contracts (Semaine +1)
+#### Réputation On-Chain (contrat MVP prioritaire)
 
-- **ServiceMarketplace.sol** : Mission posting, consultant matching
-- **MissionEscrow.sol** : Milestone-based payments
-- **HybridPaymentSplitter.sol** : IA/humain/compute revenue split
+- **Reputation.sol** : Badges portables, historique missions, notes par les pairs — seul contrat exposé côté clients
+- **Profiles** : Identité vérifiable (KYC SIRET + RC Pro + Onfido)
 
-#### Frontend (Semaine +2)
+#### Intégration PSP (remplace MissionEscrow on-chain)
 
-- **Next.js 15** : Modern React framework
-- **Wallet Integration** : MetaMask, RainbowKit
-- **Governance UI** : Create proposals, vote, execute
-- **Dashboard** : Treasury balance, active proposals, member stats
+- **Mangopay Connect** : Séquestre fonds conforme ACPR, paiement EUR/USDC — pas de MissionEscrow.sol
+- **KYC consultant** : APIs Sirene (INSEE) + URSSAF + prestataire identité
+- **Stripe Connect** (alternative PME) : pour facturation directe
+
+#### Scoping IA Standalone (Phase P0 — 3 mois avant marketplace)
+
+- **Interface scoping gratuite** : Le client formule son problème, l'IA cadre, un consultant convertit
+- **Circuit-breaker** : 3 sessions gratuites/entreprise, puis abonnement outils IA (€49-149/mois)
+- **CSM ambassadeur** : Consultant senior communautaire, rémunéré à l'activation (1ère mission)
 
 ---
 
@@ -276,34 +280,53 @@ See [governance-architecture.md](./docs/07-implementation/governance-architectur
 - ✅ Deployment infrastructure (Paseo testnet)
 - ✅ Complete documentation (1150+ lines)
 
-**🔜 Remaining (30%)**:
-- [ ] Execute tests locally (Foundry required)
-- [ ] Coverage report (target ≥80%)
-- [ ] Deploy to Paseo testnet
-- [ ] ServiceMarketplace.sol (10h)
-- [ ] MissionEscrow.sol (6h)
-- [ ] HybridPaymentSplitter.sol (4h)
-- [ ] Frontend minimal (Next.js)
+**🔜 Remaining (30%) — Scope PMF-validated**:
+- [ ] Coverage report (target ≥80% lignes)
+- [ ] Deploy to Paseo testnet (governance contracts)
+- [ ] **Reputation.sol** : badges portables, notes, historique missions
+- [ ] **DPA RGPD template** : hébergement EU, politique rétention (prérequis J1)
+- [ ] **KYC consultant** : intégration Sirene API + RC Pro upload
+- [ ] **PSP intégration** : Mangopay Connect ou Stripe Connect (remplace MissionEscrow.sol)
+- [ ] ServiceMarketplace.sol (scope réduit : matching sans paiement on-chain)
 
-**Milestone M1** : PoC Core Contracts - Target **2026-02-15**
+> ⚠️ **Décision PMF 2026-02-18** : MissionEscrow.sol et HybridPaymentSplitter.sol **annulés** — remplacés par PSP (ACPR conforme). Token DAOS différé à 12 mois de traction.
 
-### 📅 Phase 4 : Growth (1-3 months)
-**Prerequisites** : MVP Phase 3 deployed and operational
+**Milestone M1** : Governance PoC + Reputation.sol - Target **2026-03-08**
 
-- [ ] AI agent integration (OpenAI API, metering)
-- [ ] Compute marketplace (GPU/CPU on-demand)
-- [ ] Verifiable identity (GitHub OAuth + optional KYC)
-- [ ] First pilot missions (5-10 test missions)
-- [ ] Analytics and monitoring (Grafana, Prometheus)
+### 📅 Phase P0 : Scoping IA Standalone (Mois 1-3)
+**Prérequis** : Reputation.sol + DPA RGPD + PSP setup
 
-### 📅 Phase 5 : Parachain Migration (3-6 months)
-**Trigger** : Validated traction (≥100 missions, ≥50 active consultants)
+- [ ] Interface scoping IA gratuite (client → problème → cadrage → consultant)
+- [ ] Circuit-breaker : 3 sessions gratuites/entreprise puis abonnement
+- [ ] Constitution communauté consultants en parallèle (silencieuse)
+- [ ] KYC consultant (SIRET + RC Pro + identité)
+- [ ] CSM ambassadeur : 1er consultant senior rémunéré à l'activation
 
-- [ ] Substrate runtime with native pallets
-- [ ] Native DAOS token (replaces wrapped token)
-- [ ] XCM cross-chain (interoperability with other parachains)
-- [ ] Security audit (Zellic, Oak Security)
-- [ ] Production deployment (Polkadot mainnet)
+### 📅 Phase 4 : Missions (Mois 4-8)
+**Prérequis** : 10+ consultants onboardés, PSP opérationnel, DPA validé
+
+- [ ] Marketplace missions (0% commission sur 20 premières)
+- [ ] Escrow EUR/USDC via Mangopay (milestones, dispute resolution)
+- [ ] Abonnement outils IA premium (€49-149/mois) — première source de revenus
+- [ ] Commission progressive : 0% → 5% à partir de la 21ème mission (vote communauté)
+- [ ] Cooptation / apporteurs d'affaires : revue pairs indexée grade × secteur
+
+### 📅 Phase 5 : Agents IA & Scale (Mois 9-18)
+**Trigger** : >20 missions actives, abonnements couvrant burn rate
+
+- [ ] Agents IA sectoriels (RAG as a Service pour PME, on-premise pour grands comptes)
+- [ ] Gate "production ready" : validation plateforme avant mise en ligne agent
+- [ ] Monitoring post-déploiement (obsolescence LLM = risque continu)
+- [ ] Grades objectivés : Consultant → Senior → Directeur + CSM track
+- [ ] Token DAOS : gouvernance stock + intéressement flux (si traction >12 mois validée)
+
+### 📅 Phase 6 : Infrastructure (Conditionnel)
+**Trigger** : >1000 missions/jour constant, trésorerie >500K DOT
+
+- [ ] Substrate runtime natif (si ROI confirmé Gate 2)
+- [ ] Parachain (si >1000 missions/jour)
+- [ ] XCM cross-chain
+- [ ] Audit sécurité (Trail of Bits, Oak Security)
 
 ---
 
@@ -323,7 +346,11 @@ See [governance-architecture.md](./docs/07-implementation/governance-architectur
 - [Governance Architecture](./docs/07-implementation/governance-architecture.md) - Complete governance system
 - [Implementation Summary](./docs/07-implementation/IMPLEMENTATION-SUMMARY.md) - Phase 3 progress, metrics, next steps
 
-### Polkadot 2.0 Development Guides (NEW)
+### Décisions stratégiques (PMF 2026-02-18)
+
+- **[ADR — Réorientation MVP](./_docs/analyses/20260218-mvp-reorientation-decisions.md)** — Scope MVP revu après analyse PMF : Reputation.sol, PSP, entonnoir IA, financement
+
+### Polkadot 2.0 Development Guides
 
 - **[Polkadot 2.0 Architecture](./_docs/guides/polkadot-2.0-architecture.md)** - Async Backing, Agile Coretime, Elastic Scaling, XCM v3/v4
 - **[ink! vs Substrate Decision](./_docs/guides/ink-vs-substrate-decision.md)** - Décision stratégique critique : abandon ink!, focus Substrate POC

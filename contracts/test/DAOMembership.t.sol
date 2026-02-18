@@ -379,4 +379,99 @@ contract DAOMembershipTest is Test {
         assertEq(completedMissions, 0);
         assertEq(averageRating, 0);
     }
+
+    // ===== Coverage gaps — T8 (branches non couverts) =====
+
+    function test_AddMemberRevertsIfZeroAddress() public {
+        vm.prank(admin);
+        vm.expectRevert(abi.encodeWithSelector(DAOMembership.InvalidAddress.selector));
+        membership.addMember(address(0), 0, "zero-github");
+    }
+
+    function test_PromoteMemberRevertsIfNotMember() public {
+        vm.prank(admin);
+        vm.expectRevert(abi.encodeWithSelector(DAOMembership.NotAMember.selector, bob));
+        membership.promoteMember(bob);
+    }
+
+    function test_DemoteMemberRevertsIfNotMember() public {
+        vm.prank(admin);
+        vm.expectRevert(abi.encodeWithSelector(DAOMembership.NotAMember.selector, bob));
+        membership.demoteMember(bob);
+    }
+
+    function test_RemoveMemberRevertsIfNotMember() public {
+        vm.prank(admin);
+        vm.expectRevert(abi.encodeWithSelector(DAOMembership.NotAMember.selector, bob));
+        membership.removeMember(bob);
+    }
+
+    function test_SetMemberActiveRevertsIfNotMember() public {
+        vm.prank(admin);
+        vm.expectRevert(abi.encodeWithSelector(DAOMembership.NotAMember.selector, bob));
+        membership.setMemberActive(bob, false);
+    }
+
+    function test_SetMemberActive_Activate() public {
+        vm.startPrank(admin);
+        membership.addMember(alice, 1, "alice-github");
+
+        // Désactiver d'abord
+        membership.setMemberActive(alice, false);
+        DAOMembership.Member memory memberAfterDeactivate = membership.getMemberInfo(alice);
+        assertFalse(memberAfterDeactivate.active);
+
+        // Réactiver — couvre la branche `if (_active)` → emit MemberActivated
+        membership.setMemberActive(alice, true);
+
+        DAOMembership.Member memory memberAfterActivate = membership.getMemberInfo(alice);
+        assertTrue(memberAfterActivate.active);
+        vm.stopPrank();
+    }
+
+    function test_GetActiveMembersByRankRevertsIfInvalidRank() public {
+        vm.prank(admin);
+        vm.expectRevert(abi.encodeWithSelector(DAOMembership.InvalidRank.selector, uint8(5)));
+        membership.getActiveMembersByRank(5);
+    }
+
+    function test_GetMemberInfoRevertsIfNotMember() public {
+        vm.expectRevert(abi.encodeWithSelector(DAOMembership.NotAMember.selector, bob));
+        membership.getMemberInfo(bob);
+    }
+
+    function test_GetPastVotes_NonMember() public {
+        // Non-membre → retourne 0 (pas de revert)
+        uint256 votes = membership.getPastVotes(bob, 0);
+        assertEq(votes, 0);
+    }
+
+    function test_GetPastVotes_InactiveMember() public {
+        vm.startPrank(admin);
+        membership.addMember(alice, 2, "alice-github");
+        membership.setMemberActive(alice, false);
+        vm.stopPrank();
+
+        // Membre inactif → retourne 0 (pas de revert, contrairement à calculateVoteWeight)
+        uint256 votes = membership.getPastVotes(alice, 0);
+        assertEq(votes, 0);
+    }
+
+    function test_UpdateTrackRecordRevertsIfNotMember() public {
+        vm.prank(admin);
+        vm.expectRevert(abi.encodeWithSelector(DAOMembership.NotAMember.selector, bob));
+        membership.updateTrackRecord(bob, 80);
+    }
+
+    function test_CalculateTotalVoteWeightWithNoEligibleMembers() public {
+        vm.startPrank(admin);
+        // Membres de rang 0 et 1 uniquement
+        membership.addMember(alice, 0, "alice-github");
+        membership.addMember(bob, 1, "bob-github");
+        vm.stopPrank();
+
+        // minRank = 3 → aucun membre éligible → retourne 0
+        uint256 totalWeight = membership.calculateTotalVoteWeight(3);
+        assertEq(totalWeight, 0);
+    }
 }

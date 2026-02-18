@@ -330,4 +330,186 @@ contract DAOGovernorTest is Test {
         assertEq(uint(governor.proposalTrack(treasuryProposal)), uint(DAOGovernor.Track.Treasury));
         assertEq(uint(governor.proposalTrack(membershipProposal)), uint(DAOGovernor.Track.Membership));
     }
+
+    // ===== Coverage gaps — T10 (branches non couverts) =====
+
+    function test_ProposeWithTrack_RevertsIfMemberNotActive() public {
+        vm.prank(admin);
+        membership.setMemberActive(proposer2, false);
+
+        vm.prank(proposer2);
+        address[] memory targets = new address[](1);
+        uint256[] memory values = new uint256[](1);
+        bytes[] memory calldatas = new bytes[](1);
+        targets[0] = address(membership);
+
+        vm.expectRevert(DAOGovernor.MemberNotActive.selector);
+        governor.proposeWithTrack(targets, values, calldatas, "Should fail", DAOGovernor.Track.Technical);
+    }
+
+    function test_CastVote_ForVote() public {
+        vm.prank(proposer2);
+        address[] memory targets = new address[](1);
+        uint256[] memory values = new uint256[](1);
+        bytes[] memory calldatas = new bytes[](1);
+        targets[0] = address(membership);
+        uint256 proposalId = governor.proposeWithTrack(
+            targets, values, calldatas, "Vote test", DAOGovernor.Track.Technical
+        );
+
+        vm.roll(block.number + governor.votingDelay() + 1);
+
+        vm.prank(voter2); // Rank 2, eligible for Technical
+        governor.castVote(proposalId, 1); // For
+
+        (uint256 againstVotes, uint256 forVotes, uint256 abstainVotes) = governor.proposalVotes(proposalId);
+        assertGt(forVotes, 0);
+        assertEq(againstVotes, 0);
+        assertEq(abstainVotes, 0);
+    }
+
+    function test_CastVote_AbstainVote() public {
+        vm.prank(proposer2);
+        address[] memory targets = new address[](1);
+        uint256[] memory values = new uint256[](1);
+        bytes[] memory calldatas = new bytes[](1);
+        targets[0] = address(membership);
+        uint256 proposalId = governor.proposeWithTrack(
+            targets, values, calldatas, "Abstain test", DAOGovernor.Track.Technical
+        );
+
+        vm.roll(block.number + governor.votingDelay() + 1);
+
+        vm.prank(voter2);
+        governor.castVote(proposalId, 2); // Abstain
+
+        (uint256 againstVotes, uint256 forVotes, uint256 abstainVotes) = governor.proposalVotes(proposalId);
+        assertGt(abstainVotes, 0);
+        assertEq(forVotes, 0);
+        assertEq(againstVotes, 0);
+    }
+
+    /// @dev Couvre la branche `!active → return 0` dans _getVotes
+    function test_CastVote_InactiveVoterHasZeroWeight() public {
+        vm.prank(proposer2);
+        address[] memory targets = new address[](1);
+        uint256[] memory values = new uint256[](1);
+        bytes[] memory calldatas = new bytes[](1);
+        targets[0] = address(membership);
+        uint256 proposalId = governor.proposeWithTrack(
+            targets, values, calldatas, "Inactive voter", DAOGovernor.Track.Technical
+        );
+
+        // Désactiver voter2 après création (DAOGovernor lit l'état courant dans _getVotes)
+        vm.prank(admin);
+        membership.setMemberActive(voter2, false);
+
+        vm.roll(block.number + governor.votingDelay() + 1);
+
+        vm.prank(voter2);
+        governor.castVote(proposalId, 1); // For, mais poids = 0
+
+        (, uint256 forVotes,) = governor.proposalVotes(proposalId);
+        assertEq(forVotes, 0); // Membre inactif → poids nul
+    }
+
+    /// @dev Couvre proposalQuorum : petite population, quorumNeeded > 5 → /5
+    function test_ProposalQuorum_SmallPopulation_DivFive() public {
+        vm.prank(proposer2);
+        address[] memory targets = new address[](1);
+        uint256[] memory values = new uint256[](1);
+        bytes[] memory calldatas = new bytes[](1);
+        targets[0] = address(membership);
+        uint256 proposalId = governor.proposeWithTrack(
+            targets, values, calldatas, "Quorum small test", DAOGovernor.Track.Technical
+        );
+
+        // Membres éligibles (rank ≥ 2): proposer2(w=3) + proposer3(w=6) + voter2(w=3) = 12 < 20
+        // quorumNeeded = (12*66)/100 = 7 → 7 > 5 → 7/5 = 1
+        uint256 q = governor.proposalQuorum(proposalId);
+        assertEq(q, 1);
+    }
+
+    /// @dev Couvre proposalQuorum : très petite population, quorumNeeded ≤ 5 → retourne 1 (minimum)
+    function test_ProposalQuorum_SmallPopulation_MinimumOne() public {
+        vm.prank(proposer3); // Rank 3 — seul éligible pour Membership
+        address[] memory targets = new address[](1);
+        uint256[] memory values = new uint256[](1);
+        bytes[] memory calldatas = new bytes[](1);
+        targets[0] = address(membership);
+        uint256 proposalId = governor.proposeWithTrack(
+            targets, values, calldatas, "Membership quorum", DAOGovernor.Track.Membership
+        );
+
+        // Seul proposer3 éligible (rank ≥ 3): total weight = 6 < 20
+        // quorumNeeded = (6*75)/100 = 4 ≤ 5 → retourne 1 (minimum)
+        uint256 q = governor.proposalQuorum(proposalId);
+        assertEq(q, 1);
+    }
+
+    /// @dev Couvre proposalQuorum : grande population (≥ 20) → pas d'ajustement
+    function test_ProposalQuorum_LargePopulation() public {
+        vm.startPrank(admin);
+        membership.addMember(address(10), 3, "member10"); // Rank 3, w=6
+        membership.addMember(address(11), 3, "member11"); // Rank 3, w=6
+        membership.addMember(address(12), 3, "member12"); // Rank 3, w=6
+        vm.stopPrank();
+
+        vm.prank(proposer2);
+        address[] memory targets = new address[](1);
+        uint256[] memory values = new uint256[](1);
+        bytes[] memory calldatas = new bytes[](1);
+        targets[0] = address(membership);
+        uint256 proposalId = governor.proposeWithTrack(
+            targets, values, calldatas, "Quorum large test", DAOGovernor.Track.Technical
+        );
+
+        // Total weight: 3+6+3+6+6+6 = 30 ≥ 20 → pas d'ajustement
+        // quorumNeeded = (30*66)/100 = 19
+        uint256 q = governor.proposalQuorum(proposalId);
+        assertEq(q, 19);
+    }
+
+    /// @dev Couvre _quorumReached + _voteSucceeded (forVotes > againstVotes) → Succeeded
+    function test_ProposalLifecycle_Succeeded() public {
+        vm.prank(proposer2);
+        address[] memory targets = new address[](1);
+        uint256[] memory values = new uint256[](1);
+        bytes[] memory calldatas = new bytes[](1);
+        targets[0] = address(membership);
+        uint256 proposalId = governor.proposeWithTrack(
+            targets, values, calldatas, "Lifecycle test", DAOGovernor.Track.Technical
+        );
+
+        vm.roll(block.number + governor.votingDelay() + 1);
+        assertEq(uint(governor.state(proposalId)), uint(IGovernor.ProposalState.Active));
+
+        // quorum = 1 (petite pop), voter2 poids = 3 ≥ 1
+        vm.prank(voter2);
+        governor.castVote(proposalId, 1); // For
+
+        vm.roll(block.number + governor.votingPeriod() + 1);
+        assertEq(uint(governor.state(proposalId)), uint(IGovernor.ProposalState.Succeeded));
+    }
+
+    /// @dev Couvre _quorumReached + _voteSucceeded (forVotes ≤ againstVotes) → Defeated
+    function test_ProposalLifecycle_Defeated() public {
+        vm.prank(proposer2);
+        address[] memory targets = new address[](1);
+        uint256[] memory values = new uint256[](1);
+        bytes[] memory calldatas = new bytes[](1);
+        targets[0] = address(membership);
+        uint256 proposalId = governor.proposeWithTrack(
+            targets, values, calldatas, "Defeat test", DAOGovernor.Track.Technical
+        );
+
+        vm.roll(block.number + governor.votingDelay() + 1);
+
+        // Against vote — quorum atteint (3 ≥ 1), but for(0) ≤ against(3) → Defeated
+        vm.prank(voter2);
+        governor.castVote(proposalId, 0); // Against
+
+        vm.roll(block.number + governor.votingPeriod() + 1);
+        assertEq(uint(governor.state(proposalId)), uint(IGovernor.ProposalState.Defeated));
+    }
 }
