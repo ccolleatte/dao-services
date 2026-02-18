@@ -1,8 +1,9 @@
 // @ts-nocheck
 /**
  * Mission Applications API Routes
- * Version: 1.0.0
+ * Version: 2.0.0
  * Purpose: Consultant application management
+ * ADR 2026-02-18: proposed_budget_daos replaces proposed_budget_eur, PSP handles payments
  */
 
 import { Router } from 'express';
@@ -25,14 +26,14 @@ const CreateApplicationSchema = z.object({
   mission_id: z.string().uuid(),
   proposal_text: z.string().min(100).max(5000),
   proposal_ipfs_hash: z.string().optional(),
-  proposed_budget_daos: z.number().positive(),
+  proposed_budget_eur: z.number().positive(),
   estimated_delivery_days: z.number().int().positive().optional(),
 });
 
 const UpdateApplicationSchema = z.object({
   proposal_text: z.string().min(100).max(5000).optional(),
   proposal_ipfs_hash: z.string().optional(),
-  proposed_budget_daos: z.number().positive().optional(),
+  proposed_budget_eur: z.number().positive().optional(),
   estimated_delivery_days: z.number().int().positive().optional(),
 });
 
@@ -163,7 +164,7 @@ router.post('/', async (req, res) => {
     // Verify mission exists and is active
     const { data: mission } = await supabase
       .from('missions')
-      .select('status, budget_max_daos, min_rank, client_wallet')
+      .select('status, budget_eur, min_rank, client_wallet')
       .eq('id', body.mission_id)
       .single();
 
@@ -188,7 +189,7 @@ router.post('/', async (req, res) => {
       });
     }
 
-    if (body.proposed_budget_daos > mission.budget_max_daos) {
+    if (body.proposed_budget_eur > mission.budget_eur) {
       return res.status(400).json({
         success: false,
         error: 'Proposed budget exceeds mission max budget',
@@ -404,7 +405,7 @@ router.post('/:id/calculate-match-score', async (req, res) => {
 
     const { data: application } = await supabase
       .from('mission_applications')
-      .select('mission_id, consultant_wallet, proposed_budget_daos')
+      .select('mission_id, consultant_wallet, proposed_budget_eur')
       .eq('id', id)
       .single();
 

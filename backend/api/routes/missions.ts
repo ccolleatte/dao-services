@@ -1,8 +1,9 @@
 // @ts-nocheck
 /**
  * Missions API Routes
- * Version: 1.0.0
+ * Version: 2.0.0
  * Purpose: CRUD endpoints for marketplace missions
+ * ADR 2026-02-18: budget_eur replaces budget_max_daos, PSP handles payments
  */
 
 import { Router } from 'express';
@@ -24,11 +25,12 @@ const supabase = createClient(
 const CreateMissionSchema = z.object({
   title: z.string().min(5).max(200),
   description: z.string().min(50).max(5000),
-  budget_max_daos: z.number().positive(),
+  budget_eur: z.number().positive(),
   min_rank: z.number().int().min(0).max(4).default(0),
   required_skills: z.array(z.string()).default([]),
   estimated_duration_days: z.number().int().positive().optional(),
   visibility: z.enum(['public', 'private', 'invite_only']).default('public'),
+  currency: z.enum(['EUR', 'USDC']).default('EUR'),
 });
 
 const UpdateMissionSchema = z.object({
@@ -40,7 +42,7 @@ const UpdateMissionSchema = z.object({
 });
 
 const QueryMissionsSchema = z.object({
-  status: z.enum(['draft', 'active', 'on_hold', 'disputed', 'completed', 'cancelled']).optional(),
+  status: z.enum(['draft', 'active', 'consultant_selected', 'completed', 'cancelled']).optional(),
   skills: z.array(z.string()).optional(),
   min_budget: z.number().positive().optional(),
   max_budget: z.number().positive().optional(),
@@ -76,11 +78,11 @@ router.get('/', async (req, res) => {
     }
 
     if (query.min_budget) {
-      supabaseQuery = supabaseQuery.gte('budget_max_daos', query.min_budget);
+      supabaseQuery = supabaseQuery.gte('budget_eur', query.min_budget);
     }
 
     if (query.max_budget) {
-      supabaseQuery = supabaseQuery.lte('budget_max_daos', query.max_budget);
+      supabaseQuery = supabaseQuery.lte('budget_eur', query.max_budget);
     }
 
     if (query.min_rank !== undefined) {
@@ -395,11 +397,11 @@ router.post('/:id/cancel', async (req, res) => {
 
     if (error) throw error;
 
-    // GitHub issue #19: Create notification for consultant if selected
+    // Notify consultant if already selected (bug fix B13: was 'mission_published')
     if (mission.selected_consultant_wallet) {
       await supabase.from('notifications').insert({
         recipient_wallet: mission.selected_consultant_wallet,
-        notification_type: 'mission_published', // GitHub issue #19: Add 'mission_cancelled' type
+        notification_type: 'mission_cancelled',
         title: 'Mission Cancelled',
         message: `Mission has been cancelled by the client${reason ? ': ' + reason : ''}`,
         link_url: `/missions/${id}`,
@@ -484,6 +486,8 @@ router.get('/:id/applications', async (req, res) => {
 /**
  * POST /api/missions/:id/select-consultant
  * Select consultant for mission (client only)
+ * ADR 2026-02-18: status becomes 'consultant_selected' (was 'on_hold')
+ *                 psp_escrow_id placeholder set — actual escrow created by PSP webhook
  */
 router.post('/:id/select-consultant', async (req, res) => {
   try {
@@ -548,12 +552,13 @@ router.post('/:id/select-consultant', async (req, res) => {
       });
     }
 
-    // Update mission
+    // Update mission — psp_escrow_id will be set by PSP webhook after escrow creation
     const { data, error } = await supabase
       .from('missions')
       .update({
         selected_consultant_wallet: consultant_wallet,
-        status: 'on_hold', // Wait for escrow creation
+        status: 'consultant_selected', // Awaiting PSP contract (no on-chain escrow)
+        psp_escrow_id: null,           // Set by PSP webhook: MILESTONE_APPROVED / escrow created
       })
       .eq('id', id)
       .select()
