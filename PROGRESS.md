@@ -132,70 +132,108 @@
 - ✅ `deploy-paseo.ps1` - Script PowerShell automatisé
 - ✅ `.env.example` - Template configuration
 
-### 🔜 À Faire (30%)
+### 🔜 À Faire — Scope PMF revu (2026-02-18)
 
-**Contrats Marketplace** (Semaine prochaine) :
-- [ ] `ServiceMarketplace.sol` (publications missions, candidatures)
-  - Missions (brief IPFS, budget, deadline, skills requis)
-  - Matching offre/demande
-  - Sélection consultant
-- [ ] `MissionEscrow.sol` (séquestre automatique)
-  - Lock budget client
-  - Release progressif (milestones)
-  - Dispute resolution
-- [ ] `HybridPaymentSplitter.sol` (rétribution hybride)
-  - Split IA/humains/compute
-  - Metering tokens LLM
-  - Royalties IP (si applicable)
-- [ ] Tests unitaires Marketplace (≥30 tests)
+> ⚠️ **Décision PMF** : MissionEscrow.sol et HybridPaymentSplitter.sol **annulés** — remplacés par PSP (Mangopay/Stripe Connect, ACPR conforme). ServiceMarketplace.sol scope réduit. Token DAOS différé.
 
-**Intégration & Déploiement** (Cette semaine) :
-- ✅ ~~Tests intégration (DAOMembership ↔ Governor ↔ Treasury)~~ **COMPLÉTÉ**
-- ✅ ~~Documentation déploiement Paseo~~ **COMPLÉTÉ**
-- [ ] Exécution tests (nécessite Foundry local)
+**Contrats arbitrés — session 2026-02-18 :**
+- ❌ **MilestoneEscrow.sol** — ANNULÉ (même motif que MissionEscrow.sol — escrow ACPR réglementé, remplacé par jalons PSP)
+- ❌ **DisputeResolution.sol** — ANNULÉ par cascade (import direct MilestoneEscrow.sol, qui est annulé — gestion litiges → clause SLA PSP + contrat consultant)
+- ✅ **ComplianceRegistry.sol** — CONSERVÉ standalone (attestations légales KBIS/URSSAF/RC Pro avec expiration + verifier roles sont structurellement distincts des badges mission de ReputationTracker.sol)
+
+**Déploiement governance contracts** (prioritaire) :
+- [ ] Exécution tests locaux (Foundry)
 - [ ] Coverage report + fixes (target ≥80% lignes, ≥70% branches)
 - [ ] Déploiement testnet Paseo (Polkadot Hub)
 - [ ] Vérification contrats on-chain
 
-**Frontend Minimal** :
-- [ ] Setup Next.js 15 + TypeScript
-- [ ] Connexion wallet (MetaMask)
-- [ ] Interface DAOMembership (voir membres, vote weights)
-- [ ] Interface Governor (propositions, votes)
-- [ ] Dashboard basique
+**Nouveau contrat MVP : Reputation.sol** :
+- [ ] Badges portables (missions complétées, notes reçues)
+- [ ] Historique missions vérifiable (hashes IPFS)
+- [ ] Notes par les pairs (consultant ← client, client ← consultant)
+- [ ] Tests unitaires (≥20 tests)
+- [ ] Intégration DAOMembership (rangs ↔ réputation)
+
+**Conformité & Legal (prérequis J1)** :
+- [ ] DPA RGPD template (avocat) + politique rétention + hébergement EU
+- [ ] Constitution SAS
+- [ ] Template contrats consultants
+
+**Intégration PSP** (remplace MissionEscrow.sol) :
+- [ ] Mangopay Connect OU Stripe Connect — séquestre EUR/USDC, milestones
+- [ ] KYC consultant : API Sirene (SIRET) + RC Pro upload + prestataire identité (Onfido/Mangopay)
+
+**ServiceMarketplace.sol (scope réduit)** :
+- [ ] Publications missions (brief + budget + deadline + skills)
+- [ ] Matching basic (sans paiement on-chain — PSP gère)
+- [ ] Sélection consultant
+- [ ] Tests unitaires (≥15 tests)
 
 ---
 
-## 📅 Phases Futures
+## 📅 Phases Futures (replanifiées — PMF 2026-02-18)
 
-### Phase 4 : Croissance (1-3 mois)
+### Phase P0 : Scoping IA Standalone (Mois 1-3)
 
-**Prérequis** : MVP Phase 3 déployé et fonctionnel
+**Prérequis** : Reputation.sol déployé, DPA RGPD en place, PSP configuré
 
 **Objectifs** :
-- Intégration agents IA (OpenAI API, metering)
-- Compute marketplace (GPU/CPU à la demande)
-- Identité vérifiable (GitHub OAuth + KYC optionnel)
-- Premiers services pilotes (5-10 missions test)
-- Analytics et monitoring (Grafana, Prometheus)
+- Interface scoping IA gratuite pour les clients (entonnoir principal)
+- Circuit-breaker : 3 sessions gratuites/entreprise, puis abonnement
+- Constitution silencieuse de la communauté consultants (intercontrat, étudiants fin cycle, salariés)
+- KYC consultant opérationnel (SIRET + RC Pro + identité)
+- CSM ambassadeur : 1er consultant senior, rémunéré à l'activation (1ère mission complétée)
+- 0% commission sur les 20 premières missions
 
-**Risques identifiés** :
-- Adoption : Consultants traditionnels acceptent-ils tokenisation ?
-- Réglementation : Compliance juridique selon juridictions
-- Scalability : Performances Polkadot Hub sous charge
+**Risques à surveiller** :
+- Coût LLM si >2000 sessions/mois → circuit-breaker obligatoire
+- DoD/DoR missions consulting à définir avant escrow (quand déclencher la libération PSP ?)
+- DPA RGPD = prérequis absolu B2B (refus RSSI si absent)
 
 ---
 
-### Phase 5 : Migration Parachain (3-6 mois)
+### Phase 4 : Missions (Mois 4-8)
 
-**Condition déclenchement** : Traction validée (≥100 missions, ≥50 consultants actifs)
+**Prérequis** : 10+ consultants KYC'd, PSP live, DPA validé
 
 **Objectifs** :
-- Runtime Substrate avec pallets natifs (ranked_collective, referenda, treasury)
-- Token natif DAOS (remplace wrapped token)
-- XCM cross-chain (interopérabilité avec autres parachains)
-- Audit sécurité (Zellic, Oak Security)
-- Déploiement production Polkadot mainnet
+- Marketplace missions actif (0% → 5% commission progressive après mission 21)
+- Escrow EUR/USDC via PSP (milestones, dispute resolution)
+- Abonnement outils IA premium (€49-149/mois) — 1ère source de revenus
+- Cooptation / apporteurs d'affaires : revue pairs indexée grade × secteur
+- Objectif revenu M5-M8 : €2500/mois (abonnements + commissions)
+
+**Financement (décision à prendre)** :
+- Scénario A (fondateurs sans salaire) : ~€26K net — bootstrap épargne
+- Scénario B (+ dev part-time) : ~€51K — love money €50-60K
+- Scénario C (≥1 salarié) : ~€97K — pré-seed si +1 recrutement
+
+---
+
+### Phase 5 : Agents IA & Scale (Mois 9-18)
+
+**Trigger** : >20 missions actives, abonnements couvrent burn mensuel
+
+**Objectifs** :
+- Agents IA sectoriels : RAG as a Service (PME) OU on-premise (grands comptes)
+- Gate "production ready" agents + monitoring post-déploiement
+- Grades objectivés : Consultant → Senior → Directeur + CSM track (2 niveaux)
+- Token DAOS : gouvernance stock + intéressement flux annuel (si >12 mois traction)
+- Quadratic scoring communauté (viable >50 membres actifs)
+
+---
+
+### Phase 6 : Infrastructure (Conditionnel)
+
+**Trigger** : >1000 missions/jour constant (Gate 3)
+
+**Objectifs** :
+- Substrate runtime natif (si ROI +2× vs Solidity confirmé Gate 2)
+- Parachain (si >1000 missions/jour)
+- XCM cross-chain
+- Audit sécurité (Trail of Bits, Oak Security) — $35-60K
+
+**Note** : Ces objectifs ne se déclenchent qu'à traction validée, pas de timeline fixe.
 
 **Coût estimé** :
 - Slot parachain : $50k-100k (lease 12-24 mois)
@@ -220,12 +258,12 @@
 
 | Type | Fichiers | Lignes | Tests |
 |------|----------|--------|-------|
-| Smart contracts | 3 | 940 | 59 (100%) |
-| Tests | 4 | 1080 | - |
-| Scripts | 4 | 540 | - |
-| Config | 5 | 120 | - |
-| Documentation | 2 | 1150 | - |
-| **Total** | **18** | **3830** | **59** |
+| Smart contracts | 10 (4 conservés, 4 annulés, 1 à décider, 1 scope réduit) | ~2500 | À vérifier avec Foundry |
+| Tests | 11 | ~2000 | — |
+| Scripts | 4 | 540 | — |
+| Config | 5 | 120 | — |
+| Documentation | 2 | 1150 | — |
+| **Total** | **32** | **~6310** | **(à recompter post-archivage)** |
 
 ### Prochaines Étapes Immédiates
 
@@ -239,17 +277,13 @@
 7. Coverage report + fixes (2h)
 8. Déploiement testnet Paseo (1h avec script automatisé)
 
-**Semaine prochaine (estimation 20-25h)** :
-1. Implémenter `ServiceMarketplace.sol` (10h)
-2. Implémenter `MissionEscrow.sol` (6h)
-3. Implémenter `HybridPaymentSplitter.sol` (4h)
-4. Tests unitaires Marketplace + Escrow + Splitter (10h)
-
-**Semaine +2 (estimation 15-20h)** :
-1. Frontend Next.js setup (8h)
-2. Interface DAOMembership + Governor + Treasury (8h)
-3. Dashboard basique (4h)
-4. Documentation utilisateur (2h)
+**Prochaines étapes (post-ADR 2026-02-18, estimation 8-12h)** :
+1. ⚠️ Arbitrer ComplianceRegistry.sol : standalone ou fusionner dans ReputationTracker.sol (décision requise)
+2. Exécuter tests Foundry sur les 4 contrats conservés (DAOMembership, DAOGovernor, DAOTreasury, ReputationTracker)
+3. Coverage report + fixes (cible ≥80% lignes, ≥70% branches)
+4. Archiver contrats annulés (MissionEscrow, HybridPaymentSplitter, MilestoneEscrow, DisputeResolution) — git tag avant suppression
+5. Déploiement testnet Paseo (gouvernance core)
+6. DPA RGPD template + hébergement EU (prérequis J1 — non bloquant pour Paseo)
 
 ---
 

@@ -433,7 +433,7 @@ contract DAOMembership is AccessControl {
      * @notice Mettre à jour le track record après une mission complétée
      * @param _member Adresse du membre
      * @param _missionRating Rating de la mission (0-100)
-     * @dev Appelé par le contract MissionEscrow après completion
+     * @dev Appelé par l'intégration PSP après completion de mission (rôle MEMBER_MANAGER_ROLE)
      */
     function updateTrackRecord(address _member, uint256 _missionRating)
         external
